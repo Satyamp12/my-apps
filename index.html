@@ -15,10 +15,9 @@
         }
 
         body {
-            /* Premium Green Gradient Background */
             background: linear-gradient(135deg, #0b3d2e 0%, #115e43 50%, #062b20 100%);
             min-height: 100vh;
-            padding: 24px 16px 40px;
+            padding: 30px 16px 40px;
             color: #ffffff;
             display: flex;
             flex-direction: column;
@@ -30,106 +29,52 @@
             max-width: 480px;
         }
 
-        /* Profile Header Section */
-        .profile-header {
+        /* Clean Header without Photo */
+        .store-header {
             text-align: center;
-            margin-bottom: 28px;
+            margin-bottom: 30px;
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 24px 16px;
+            padding: 28px 18px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
         }
 
-        .avatar-wrap {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 12px;
-        }
-
-        .avatar-wrap img {
-            width: 105px;
-            height: 105px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3.5px solid #2ecc71;
-            box-shadow: 0 0 18px rgba(46, 204, 113, 0.5);
-        }
-
-        .verified-badge {
-            position: absolute;
-            bottom: 4px;
-            right: 4px;
-            background: #2ecc71;
-            color: #062b20;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: bold;
-            border: 2px solid #0b3d2e;
-        }
-
-        .profile-header h1 {
-            font-size: 22px;
+        .store-header h1 {
+            font-size: 24px;
             font-weight: 700;
-            letter-spacing: 0.5px;
             color: #ffffff;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
         }
 
-        .profile-header p {
+        .store-header p {
             font-size: 13px;
             color: #d1fae5;
-            margin-bottom: 14px;
             opacity: 0.9;
-        }
-
-        .btn-profile-dl {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(46, 204, 113, 0.2);
-            color: #a7f3d0;
-            border: 1px solid #2ecc71;
-            padding: 8px 16px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 500;
-            transition: 0.2s all ease;
-        }
-
-        .btn-profile-dl:active {
-            transform: scale(0.96);
-            background: #2ecc71;
-            color: #062b20;
         }
 
         /* Section Title */
         .section-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             color: #a7f3d0;
             margin-bottom: 14px;
             padding-left: 6px;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
         }
 
-        /* Play Store Style App Cards */
-        .app-list {
+        /* Play Store Style Cards */
+        .items-list {
             display: flex;
             flex-direction: column;
             gap: 14px;
         }
 
-        .app-card {
+        .store-card {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -143,26 +88,26 @@
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .app-card:hover {
+        .store-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
         }
 
-        .app-info-left {
+        .item-info {
             display: flex;
             align-items: center;
             gap: 14px;
         }
 
-        /* App Icon */
-        .app-icon {
-            width: 58px;
-            height: 58px;
+        /* Card Icons */
+        .item-icon {
+            width: 56px;
+            height: 56px;
             border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 700;
             color: white;
             box-shadow: 0 4px 10px rgba(0,0,0,0.25);
@@ -177,21 +122,25 @@
             background: linear-gradient(135deg, #0077b5, #004182);
         }
 
-        /* App Details */
-        .app-details h3 {
+        .icon-image {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        /* Details */
+        .item-details h3 {
             font-size: 16px;
             font-weight: 600;
             color: #ffffff;
             margin-bottom: 2px;
         }
 
-        .app-details .developer {
+        .item-details .subtitle {
             font-size: 12px;
             color: #a7f3d0;
             margin-bottom: 4px;
         }
 
-        .app-meta {
+        .item-meta {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -199,14 +148,14 @@
             color: #e2e8f0;
         }
 
-        .app-meta span {
+        .item-meta span {
             background: rgba(255, 255, 255, 0.12);
             padding: 2px 7px;
             border-radius: 6px;
         }
 
-        /* Play Store Style Download Button */
-        .btn-download {
+        /* Buttons */
+        .btn-action {
             background: #2ecc71;
             color: #062b20;
             text-decoration: none;
@@ -219,14 +168,13 @@
             transition: 0.2s all ease;
         }
 
-        .btn-download:active {
+        .btn-action:active {
             transform: scale(0.94);
             background: #27ae60;
         }
 
-        /* Footer */
         footer {
-            margin-top: 30px;
+            margin-top: 35px;
             text-align: center;
             font-size: 12px;
             color: #6ee7b7;
@@ -237,55 +185,64 @@
 <body>
 
     <div class="container">
-        <!-- Profile / Header Card -->
-        <div class="profile-header">
-            <div class="avatar-wrap">
-                <img src="Patel.jpg.png" alt="Profile Picture">
-                <div class="verified-badge">✓</div>
-            </div>
+        <!-- Header (Photo Removed) -->
+        <div class="store-header">
             <h1>Welcome to Satyam Store</h1>
-            <p>Download verified apps & profile assets</p>
-            <a href="Patel.jpg.png" download="Satyam_Profile.png" class="btn-profile-dl">
-                ⬇ Download Photo
-            </a>
+            <p>Download verified apps & files below</p>
         </div>
 
-        <!-- Section Heading -->
-        <div class="section-title">Available Applications</div>
+        <!-- Section Title -->
+        <div class="section-title">Available Downloads</div>
 
-        <!-- Apps List (Play Store Layout) -->
-        <div class="app-list">
+        <!-- List -->
+        <div class="items-list">
             
             <!-- App 1: Find Hub -->
-            <div class="app-card">
-                <div class="app-info-left">
-                    <div class="app-icon icon-findhub">🔍</div>
-                    <div class="app-details">
+            <div class="store-card">
+                <div class="item-info">
+                    <div class="item-icon icon-findhub">🔍</div>
+                    <div class="item-details">
                         <h3>Find Hub</h3>
-                        <div class="developer">Satyam Apps • Utility</div>
-                        <div class="app-meta">
+                        <div class="subtitle">Satyam Apps • Utility</div>
+                        <div class="item-meta">
                             <span>4.8 ★</span>
                             <span>APK</span>
                         </div>
                     </div>
                 </div>
-                <a href="FindHub.apk" download class="btn-download">Install</a>
+                <a href="FindHub.apk" download class="btn-action">Install</a>
             </div>
 
             <!-- App 2: LinkedIn Android -->
-            <div class="app-card">
-                <div class="app-info-left">
-                    <div class="app-icon icon-linkedin">in</div>
-                    <div class="app-details">
+            <div class="store-card">
+                <div class="item-info">
+                    <div class="item-icon icon-linkedin">in</div>
+                    <div class="item-details">
                         <h3>LinkedIn Android</h3>
-                        <div class="developer">Professional Network</div>
-                        <div class="app-meta">
+                        <div class="subtitle">Professional Network</div>
+                        <div class="item-meta">
                             <span>4.5 ★</span>
                             <span>APK</span>
                         </div>
                     </div>
                 </div>
-                <a href="Linkdinandroid.apk" download class="btn-download">Install</a>
+                <a href="Linkdinandroid.apk" download class="btn-action">Install</a>
+            </div>
+
+            <!-- Item 3: Profile Image Download (No Photo Shown) -->
+            <div class="store-card">
+                <div class="item-info">
+                    <div class="item-icon icon-image">🖼️</div>
+                    <div class="item-details">
+                        <h3>Image Download</h3>
+                        <div class="subtitle">Profile Asset • Media</div>
+                        <div class="item-meta">
+                            <span>HD</span>
+                            <span>PNG</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="Patel.jpg.png" download="Profile_Image.png" class="btn-action">Download</a>
             </div>
 
         </div>
