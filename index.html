@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Satyam Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -24,8 +26,8 @@
             justify-content: center;
         }
 
-        /* --- Login Overlay --- */
-        #login-overlay {
+        /* --- Auth Cards (Login / Forgot) --- */
+        .auth-card {
             width: 100%;
             max-width: 380px;
             background: rgba(255, 255, 255, 0.08);
@@ -38,22 +40,22 @@
             text-align: center;
         }
 
-        .lock-icon {
+        .auth-icon {
             font-size: 38px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
-        #login-overlay h2 {
+        .auth-card h2 {
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 6px;
             color: #ffffff;
         }
 
-        #login-overlay p {
+        .auth-card p {
             font-size: 12px;
             color: #d1fae5;
-            margin-bottom: 22px;
+            margin-bottom: 20px;
             opacity: 0.85;
         }
 
@@ -89,7 +91,7 @@
             box-shadow: 0 0 8px rgba(46, 204, 113, 0.3);
         }
 
-        .btn-login {
+        .btn-main {
             width: 100%;
             background: linear-gradient(135deg, #2ecc71, #27ae60);
             color: #032b18;
@@ -101,22 +103,35 @@
             cursor: pointer;
             box-shadow: 0 4px 14px rgba(46, 204, 113, 0.4);
             transition: 0.2s transform;
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
-        .btn-login:active {
+        .btn-main:active {
             transform: scale(0.97);
         }
 
-        #error-msg {
-            color: #ff6b6b;
+        .btn-link {
+            background: none;
+            border: none;
+            color: #6ee7b7;
+            font-size: 12px;
+            margin-top: 14px;
+            cursor: pointer;
+            text-decoration: underline;
+            display: inline-block;
+        }
+
+        .status-msg {
             font-size: 12px;
             margin-top: 14px;
             font-weight: 500;
             display: none;
         }
 
-        /* --- Main Store Content (Hidden initially) --- */
+        .error { color: #ff6b6b; }
+        .success { color: #2ecc71; }
+
+        /* --- Store Content --- */
         #store-content {
             display: none;
             width: 100%;
@@ -132,7 +147,7 @@
             border: 1.5px solid rgba(46, 204, 113, 0.35);
             padding: 30px 20px;
             border-radius: 24px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35), inset 0 0 15px rgba(46, 204, 113, 0.1);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
         }
 
         .store-tag {
@@ -154,7 +169,6 @@
             font-weight: 700;
             color: #ffffff;
             margin-bottom: 6px;
-            letter-spacing: 0.3px;
         }
 
         .store-header p {
@@ -200,7 +214,6 @@
             align-items: center;
             justify-content: space-between;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
-            transition: all 0.25s ease;
         }
 
         .item-info {
@@ -223,17 +236,9 @@
             flex-shrink: 0;
         }
 
-        .icon-findhub {
-            background: linear-gradient(135deg, #059669, #10b981);
-        }
-
-        .icon-linkedin {
-            background: linear-gradient(135deg, #0284c7, #0369a1);
-        }
-
-        .icon-image {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-        }
+        .icon-findhub { background: linear-gradient(135deg, #059669, #10b981); }
+        .icon-linkedin { background: linear-gradient(135deg, #0284c7, #0369a1); }
+        .icon-image { background: linear-gradient(135deg, #f59e0b, #d97706); }
 
         .item-details h3 {
             font-size: 16px;
@@ -272,10 +277,7 @@
             border-radius: 22px;
             font-size: 13px;
             font-weight: 700;
-            letter-spacing: 0.3px;
-            white-space: nowrap;
             box-shadow: 0 4px 14px rgba(46, 204, 113, 0.45);
-            transition: all 0.2s ease;
         }
 
         .btn-action:active {
@@ -288,17 +290,16 @@
             font-size: 12px;
             color: #6ee7b7;
             opacity: 0.85;
-            letter-spacing: 0.5px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Security Login Box -->
-    <div id="login-overlay">
-        <div class="lock-icon">🔒</div>
+    <!-- 1. LOGIN SCREEN -->
+    <div id="login-box" class="auth-card">
+        <div class="auth-icon">🔒</div>
         <h2>Access Required</h2>
-        <p>Satyam Store me aage badhne ke liye credentials enter karein</p>
+        <p>Satyam Store me enter karne ke liye credentials dalein</p>
         
         <div class="input-group">
             <label>User ID</label>
@@ -310,11 +311,40 @@
             <input type="password" id="password" placeholder="Enter Password">
         </div>
 
-        <button class="btn-login" onclick="validateLogin()">Unlock Store</button>
-        <div id="error-msg">Galat User ID ya Password!</div>
+        <button class="btn-main" onclick="validateLogin()">Unlock Store</button>
+        <button class="btn-link" onclick="showForgotBox()">Forgot Password?</button>
+        <div id="login-error" class="status-msg error">Galat User ID ya Password!</div>
     </div>
 
-    <!-- Main Store Content -->
+    <!-- 2. FORGOT PASSWORD / OTP SCREEN -->
+    <div id="forgot-box" class="auth-card" style="display: none;">
+        <div class="auth-icon">✉️</div>
+        <h2>Reset Password</h2>
+        <p>sp9291054@gmail.com par OTP bheja jayega</p>
+
+        <div id="step-send-otp">
+            <button class="btn-main" id="btn-send-code" onclick="sendOtpToEmail()">Send OTP Code</button>
+        </div>
+
+        <div id="step-verify-otp" style="display: none;">
+            <div class="input-group">
+                <label>Verification OTP</label>
+                <input type="text" id="otp-input" placeholder="4-digit OTP enter karein">
+            </div>
+
+            <div class="input-group">
+                <label>New Password</label>
+                <input type="password" id="new-password" placeholder="Enter new password">
+            </div>
+
+            <button class="btn-main" onclick="verifyAndResetPassword()">Set New Password</button>
+        </div>
+
+        <button class="btn-link" onclick="showLoginBox()">Back to Login</button>
+        <div id="forgot-status" class="status-msg"></div>
+    </div>
+
+    <!-- 3. MAIN STORE CONTENT -->
     <div id="store-content">
         <div class="store-header">
             <span class="store-tag">Official Portal</span>
@@ -383,23 +413,116 @@
     </div>
 
     <script>
-        function validateLogin() {
-            const uId = document.getElementById('userid').value;
-            const pass = document.getElementById('password').value;
-            const error = document.getElementById('error-msg');
+        // EmailJS Configuration
+        const EMAILJS_PUBLIC_KEY = "vJYmBU6suMx_YVA1f";
+        const EMAILJS_SERVICE_ID = "service_tbnax2k";
+        const EMAILJS_TEMPLATE_ID = "template_z1m23z7";
 
-            // Exact match validation (Case-Sensitive)
-            if (uId === 'SAT93350' && pass === 'PATEL@#') {
-                document.getElementById('login-overlay').style.display = 'none';
+        // Init EmailJS
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+
+        // Credentials
+        const DEFAULT_USER_ID = "SAT93350";
+        const DEFAULT_PASS = "PATEL@#";
+        let generatedOtp = null;
+
+        function getCurrentPassword() {
+            return localStorage.getItem('satyam_store_pass') || DEFAULT_PASS;
+        }
+
+        // Login Check
+        function validateLogin() {
+            const uId = document.getElementById('userid').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            const err = document.getElementById('login-error');
+
+            if (uId === DEFAULT_USER_ID && pass === getCurrentPassword()) {
+                document.getElementById('login-box').style.display = 'none';
                 document.getElementById('store-content').style.display = 'block';
                 document.body.style.justifyContent = 'flex-start';
                 fetchFileSizes();
             } else {
-                error.style.display = 'block';
+                err.style.display = 'block';
             }
         }
 
-        // Automatic Size Fetcher
+        function showForgotBox() {
+            document.getElementById('login-box').style.display = 'none';
+            document.getElementById('forgot-box').style.display = 'block';
+            document.getElementById('forgot-status').style.display = 'none';
+            document.getElementById('step-send-otp').style.display = 'block';
+            document.getElementById('step-verify-otp').style.display = 'none';
+        }
+
+        function showLoginBox() {
+            document.getElementById('forgot-box').style.display = 'none';
+            document.getElementById('login-box').style.display = 'block';
+        }
+
+        // Send OTP via EmailJS
+        function sendOtpToEmail() {
+            const status = document.getElementById('forgot-status');
+            const btn = document.getElementById('btn-send-code');
+            generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
+
+            btn.disabled = true;
+            btn.textContent = "Sending OTP...";
+            status.className = "status-msg";
+            status.style.color = "#a7f3d0";
+            status.textContent = "OTP sp9291054@gmail.com par bheja ja raha hai...";
+            status.style.display = "block";
+
+            const templateParams = {
+                email: "sp9291054@gmail.com",
+                passcode: generatedOtp
+            };
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+                .then(function() {
+                    status.className = "status-msg success";
+                    status.textContent = "OTP aapki Gmail par bhej diya gaya hai!";
+                    document.getElementById('step-send-otp').style.display = 'none';
+                    document.getElementById('step-verify-otp').style.display = 'block';
+                }, function(error) {
+                    btn.disabled = false;
+                    btn.textContent = "Send OTP Code";
+                    status.className = "status-msg error";
+                    status.textContent = "OTP bhejne me error aayi. Please check karein.";
+                });
+        }
+
+        // Verify OTP and Reset
+        function verifyAndResetPassword() {
+            const inputOtp = document.getElementById('otp-input').value.trim();
+            const newPass = document.getElementById('new-password').value.trim();
+            const status = document.getElementById('forgot-status');
+
+            if (inputOtp !== generatedOtp) {
+                status.className = "status-msg error";
+                status.textContent = "Galat OTP! Kripya sahi OTP enter karein.";
+                status.style.display = "block";
+                return;
+            }
+
+            if (!newPass) {
+                status.className = "status-msg error";
+                status.textContent = "Naya password khali nahi ho sakta.";
+                status.style.display = "block";
+                return;
+            }
+
+            localStorage.setItem('satyam_store_pass', newPass);
+            status.className = "status-msg success";
+            status.textContent = "Password safaltapoorvak badal gaya! Login page khul raha hai...";
+            status.style.display = "block";
+
+            setTimeout(() => {
+                showLoginBox();
+                document.getElementById('password').value = "";
+            }, 1800);
+        }
+
+        // File Size Fetcher
         function fetchFileSizes() {
             document.querySelectorAll('.auto-size').forEach(elem => {
                 const fileName = elem.getAttribute('data-file');
@@ -425,12 +548,15 @@
             });
         }
 
-        // Allow 'Enter' key to login
+        // Enter Key Listener
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                validateLogin();
+                if (document.getElementById('login-box').style.display !== 'none') {
+                    validateLogin();
+                }
             }
         });
     </script>
 </body>
-</html>
+                    </html>
+                                                                                                    
