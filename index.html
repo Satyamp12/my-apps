@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Satyam Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
     <style>
         * {
             margin: 0;
@@ -110,6 +116,29 @@
             transform: scale(0.97);
         }
 
+        .btn-main:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+            padding: 12px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.2s all;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(46, 204, 113, 0.2);
+        }
+
         .btn-link {
             background: none;
             border: none;
@@ -130,6 +159,13 @@
 
         .error { color: #ff6b6b; }
         .success { color: #2ecc71; }
+
+        /* reCAPTCHA responsive container */
+        #recaptcha-container {
+            display: flex;
+            justify-content: center;
+            margin: 14px 0;
+        }
 
         /* --- Store Content --- */
         #store-content {
@@ -316,20 +352,43 @@
         <div id="login-error" class="status-msg error">Galat User ID ya Password!</div>
     </div>
 
-    <!-- 2. FORGOT PASSWORD / OTP SCREEN -->
+    <!-- 2. FORGOT PASSWORD SCREEN (CHOICE -> PHONE/EMAIL -> VERIFY) -->
     <div id="forgot-box" class="auth-card" style="display: none;">
-        <div class="auth-icon">✉️</div>
-        <h2>Reset Password</h2>
-        <p>sp9291054@gmail.com par OTP bheja jayega</p>
+        <div class="auth-icon" id="forgot-icon">🔑</div>
+        <h2 id="forgot-title">Reset Password</h2>
+        <p id="forgot-desc">OTP prapt karne ke liye madhyam chunein</p>
 
-        <div id="step-send-otp">
-            <button class="btn-main" id="btn-send-code" onclick="sendOtpToEmail()">Send OTP Code</button>
+        <!-- STEP 1: METHOD SELECTION -->
+        <div id="step-choose-method">
+            <button class="btn-main" onclick="chooseMethod('sms')">📱 Via Mobile SMS OTP</button>
+            <button class="btn-secondary" onclick="chooseMethod('email')">✉️ Via Email (Gmail) OTP</button>
         </div>
 
+        <!-- STEP 2A: PHONE INPUT & RECAPTCHA (SMS) -->
+        <div id="step-phone-input" style="display: none;">
+            <div class="input-group">
+                <label>Mobile Number (+91 ke sath)</label>
+                <input type="tel" id="userPhone" value="+91" placeholder="+919876543210">
+            </div>
+            <div id="recaptcha-container"></div>
+            <button class="btn-main" id="btn-send-phone" onclick="sendOtpToPhone()">Send SMS OTP</button>
+            <button class="btn-link" onclick="backToMethodSelection()">← Dusra method chunein</button>
+        </div>
+
+        <!-- STEP 2B: EMAIL SENDER (GMAIL) -->
+        <div id="step-email-input" style="display: none;">
+            <p style="font-size:13px; color:#a7f3d0; margin-bottom:15px;">
+                OTP aapki registered email <b>sp9291054@gmail.com</b> par bheja jayega.
+            </p>
+            <button class="btn-main" id="btn-send-email" onclick="sendOtpToEmail()">Send OTP Code</button>
+            <button class="btn-link" onclick="backToMethodSelection()">← Dusra method chunein</button>
+        </div>
+
+        <!-- STEP 3: OTP VERIFICATION & NEW PASSWORD -->
         <div id="step-verify-otp" style="display: none;">
             <div class="input-group">
-                <label>Verification OTP</label>
-                <input type="text" id="otp-input" placeholder="4-digit OTP enter karein">
+                <label id="otp-label">Enter OTP</label>
+                <input type="text" id="otp-input" placeholder="OTP yahan enter karein">
             </div>
 
             <div class="input-group">
@@ -337,7 +396,7 @@
                 <input type="password" id="new-password" placeholder="Enter new password">
             </div>
 
-            <button class="btn-main" onclick="verifyAndResetPassword()">Set New Password</button>
+            <button class="btn-main" id="btn-verify-submit" onclick="verifyAndResetPassword()">Set New Password</button>
         </div>
 
         <button class="btn-link" onclick="showLoginBox()">Back to Login</button>
@@ -413,24 +472,40 @@
     </div>
 
     <script>
-        // EmailJS Configuration
+        // --- EmailJS Setup ---
         const EMAILJS_PUBLIC_KEY = "vJYmBU6suMx_YVA1f";
         const EMAILJS_SERVICE_ID = "service_tbnax2k";
         const EMAILJS_TEMPLATE_ID = "template_z1m23z7";
-
-        // Init EmailJS
         emailjs.init(EMAILJS_PUBLIC_KEY);
+
+        // --- Firebase Setup ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyAexoUO9KNzm0rEpoI0RNyN9yOFJ-BfvN0",
+            authDomain: "satyam-store-4e40c.firebaseapp.com",
+            projectId: "satyam-store-4e40c",
+            storageBucket: "satyam-store-4e40c.firebasestorage.app",
+            messagingSenderId: "969093441522",
+            appId: "1:969093441522:web:a093aac73a2850061d2d6b",
+            measurementId: "G-G3P0PL014P"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
 
         // Credentials
         const DEFAULT_USER_ID = "SAT93350";
         const DEFAULT_PASS = "PATEL@#";
-        let generatedOtp = null;
+        
+        let currentMethod = null; // 'sms' or 'email'
+        let emailOtpGenerated = null;
+        let confirmationResult = null;
 
         function getCurrentPassword() {
             return localStorage.getItem('satyam_store_pass') || DEFAULT_PASS;
         }
 
-        // Login Check
+        // --- LOGIN LOGIC ---
         function validateLogin() {
             const uId = document.getElementById('userid').value.trim();
             const pass = document.getElementById('password').value.trim();
@@ -449,9 +524,7 @@
         function showForgotBox() {
             document.getElementById('login-box').style.display = 'none';
             document.getElementById('forgot-box').style.display = 'block';
-            document.getElementById('forgot-status').style.display = 'none';
-            document.getElementById('step-send-otp').style.display = 'block';
-            document.getElementById('step-verify-otp').style.display = 'none';
+            backToMethodSelection();
         }
 
         function showLoginBox() {
@@ -459,104 +532,49 @@
             document.getElementById('login-box').style.display = 'block';
         }
 
-        // Send OTP via EmailJS
-        function sendOtpToEmail() {
-            const status = document.getElementById('forgot-status');
-            const btn = document.getElementById('btn-send-code');
-            generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
+        function backToMethodSelection() {
+            document.getElementById('forgot-icon').textContent = "🔑";
+            document.getElementById('forgot-title').textContent = "Reset Password";
+            document.getElementById('forgot-desc').textContent = "OTP prapt karne ke liye madhyam chunein";
 
-            btn.disabled = true;
-            btn.textContent = "Sending OTP...";
-            status.className = "status-msg";
-            status.style.color = "#a7f3d0";
-            status.textContent = "OTP sp9291054@gmail.com par bheja ja raha hai...";
-            status.style.display = "block";
+            document.getElementById('step-choose-method').style.display = 'block';
+            document.getElementById('step-phone-input').style.display = 'none';
+            document.getElementById('step-email-input').style.display = 'none';
+            document.getElementById('step-verify-otp').style.display = 'none';
+            document.getElementById('forgot-status').style.display = 'none';
+        }
 
-            const templateParams = {
-                email: "sp9291054@gmail.com",
-                passcode: generatedOtp
-            };
+        function chooseMethod(method) {
+            currentMethod = method;
+            document.getElementById('step-choose-method').style.display = 'none';
+            document.getElementById('forgot-status').style.display = 'none';
 
-            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-                .then(function() {
-                    status.className = "status-msg success";
-                    status.textContent = "OTP aapki Gmail par bhej diya gaya hai!";
-                    document.getElementById('step-send-otp').style.display = 'none';
-                    document.getElementById('step-verify-otp').style.display = 'block';
-                }, function(error) {
-                    btn.disabled = false;
-                    btn.textContent = "Send OTP Code";
-                    status.className = "status-msg error";
-                    status.textContent = "OTP bhejne me error aayi. Please check karein.";
+            if (method === 'sms') {
+                document.getElementById('forgot-icon').textContent = "📱";
+                document.getElementById('forgot-title').textContent = "SMS Verification";
+                document.getElementById('forgot-desc').textContent = "Mobile number enter karein";
+                document.getElementById('step-phone-input').style.display = 'block';
+                initRecaptcha();
+            } else if (method === 'email') {
+                document.getElementById('forgot-icon').textContent = "✉️";
+                document.getElementById('forgot-title').textContent = "Email Verification";
+                document.getElementById('forgot-desc').textContent = "Gmail par OTP mangwayein";
+                document.getElementById('step-email-input').style.display = 'block';
+            }
+        }
+
+        // --- FIREBASE reCAPTCHA ---
+        function initRecaptcha() {
+            if (!window.recaptchaVerifier) {
+                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                    'size': 'normal'
                 });
+                window.recaptchaVerifier.render();
+            }
         }
 
-        // Verify OTP and Reset
-        function verifyAndResetPassword() {
-            const inputOtp = document.getElementById('otp-input').value.trim();
-            const newPass = document.getElementById('new-password').value.trim();
+        // --- SEND OTP VIA SMS ---
+        function sendOtpToPhone() {
+            const phoneInput = document.getElementById('userPhone').value.trim();
             const status = document.getElementById('forgot-status');
-
-            if (inputOtp !== generatedOtp) {
-                status.className = "status-msg error";
-                status.textContent = "Galat OTP! Kripya sahi OTP enter karein.";
-                status.style.display = "block";
-                return;
-            }
-
-            if (!newPass) {
-                status.className = "status-msg error";
-                status.textContent = "Naya password khali nahi ho sakta.";
-                status.style.display = "block";
-                return;
-            }
-
-            localStorage.setItem('satyam_store_pass', newPass);
-            status.className = "status-msg success";
-            status.textContent = "Password safaltapoorvak badal gaya! Login page khul raha hai...";
-            status.style.display = "block";
-
-            setTimeout(() => {
-                showLoginBox();
-                document.getElementById('password').value = "";
-            }, 1800);
-        }
-
-        // File Size Fetcher
-        function fetchFileSizes() {
-            document.querySelectorAll('.auto-size').forEach(elem => {
-                const fileName = elem.getAttribute('data-file');
-                if (fileName) {
-                    fetch(fileName, { method: 'HEAD' })
-                        .then(response => {
-                            const size = response.headers.get('content-length');
-                            if (size) {
-                                const bytes = parseInt(size, 10);
-                                if (bytes >= 1048576) {
-                                    elem.textContent = (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-                                } else {
-                                    elem.textContent = (bytes / 1024).toFixed(0) + ' KB';
-                                }
-                            } else {
-                                elem.textContent = 'APK';
-                            }
-                        })
-                        .catch(() => {
-                            elem.textContent = 'APK';
-                        });
-                }
-            });
-        }
-
-        // Enter Key Listener
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                if (document.getElementById('login-box').style.display !== 'none') {
-                    validateLogin();
-                }
-            }
-        });
-    </script>
-</body>
-                    </html>
-                                                                                                    
+            const btn = document.getElementById('bt
