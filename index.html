@@ -577,4 +577,182 @@
         function sendOtpToPhone() {
             const phoneInput = document.getElementById('userPhone').value.trim();
             const status = document.getElementById('forgot-status');
-            const btn = document.getElementById('bt
+            const btn = document.getElementById('btn-send-phone');
+
+            if (!phoneInput.startsWith('+91') || phoneInput.length < 13) {
+                status.className = "status-msg error";
+                status.textContent = "Kripya sahi number (+91 ke sath 10 digit) dalein!";
+                status.style.display = "block";
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = "Sending OTP...";
+            status.className = "status-msg";
+            status.style.color = "#a7f3d0";
+            status.textContent = "SMS OTP bheja ja raha hai...";
+            status.style.display = "block";
+
+            const appVerifier = window.recaptchaVerifier;
+
+            firebase.auth().signInWithPhoneNumber(phoneInput, appVerifier)
+                .then(function(result) {
+                    confirmationResult = result;
+                    status.className = "status-msg success";
+                    status.textContent = "OTP aapke phone par SMS dwara bhej diya gaya hai!";
+                    
+                    document.getElementById('step-phone-input').style.display = 'none';
+                    document.getElementById('step-verify-otp').style.display = 'block';
+                    document.getElementById('otp-label').textContent = "6-Digit SMS OTP";
+                    document.getElementById('otp-input').placeholder = "Enter 6-digit OTP";
+                })
+                .catch(function(error) {
+                    btn.disabled = false;
+                    btn.textContent = "Send SMS OTP";
+                    status.className = "status-msg error";
+                    status.textContent = "Error: " + error.message;
+                    if (window.grecaptcha) {
+                        grecaptcha.reset();
+                    }
+                });
+        }
+
+        // --- SEND OTP VIA EMAIL ---
+        function sendOtpToEmail() {
+            const status = document.getElementById('forgot-status');
+            const btn = document.getElementById('btn-send-email');
+            emailOtpGenerated = Math.floor(1000 + Math.random() * 9000).toString();
+
+            btn.disabled = true;
+            btn.textContent = "Sending OTP...";
+            status.className = "status-msg";
+            status.style.color = "#a7f3d0";
+            status.textContent = "OTP sp9291054@gmail.com par bheja ja raha hai...";
+            status.style.display = "block";
+
+            const templateParams = {
+                email: "sp9291054@gmail.com",
+                passcode: emailOtpGenerated
+            };
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+                .then(function() {
+                    status.className = "status-msg success";
+                    status.textContent = "OTP aapki Gmail par bhej diya gaya hai!";
+                    document.getElementById('step-email-input').style.display = 'none';
+                    document.getElementById('step-verify-otp').style.display = 'block';
+                    document.getElementById('otp-label').textContent = "4-Digit Email OTP";
+                    document.getElementById('otp-input').placeholder = "Enter 4-digit OTP";
+                }, function(error) {
+                    btn.disabled = false;
+                    btn.textContent = "Send OTP Code";
+                    status.className = "status-msg error";
+                    status.textContent = "OTP bhejne me error aayi. Please check karein.";
+                });
+        }
+
+        // --- VERIFY & RESET PASSWORD ---
+        function verifyAndResetPassword() {
+            const inputOtp = document.getElementById('otp-input').value.trim();
+            const newPass = document.getElementById('new-password').value.trim();
+            const status = document.getElementById('forgot-status');
+            const verifyBtn = document.getElementById('btn-verify-submit');
+
+            if (!newPass) {
+                status.className = "status-msg error";
+                status.textContent = "Naya password khali nahi ho sakta.";
+                status.style.display = "block";
+                return;
+            }
+
+            if (currentMethod === 'email') {
+                // Verify Email OTP
+                if (inputOtp !== emailOtpGenerated) {
+                    status.className = "status-msg error";
+                    status.textContent = "Galat OTP! Kripya sahi OTP enter karein.";
+                    status.style.display = "block";
+                    return;
+                }
+                savePasswordAndRedirect(newPass);
+
+            } else if (currentMethod === 'sms') {
+                // Verify Firebase SMS OTP
+                if (inputOtp.length !== 6) {
+                    status.className = "status-msg error";
+                    status.textContent = "Kripya 6-digit ka sahi OTP enter karein.";
+                    status.style.display = "block";
+                    return;
+                }
+
+                verifyBtn.disabled = true;
+                verifyBtn.textContent = "Verifying...";
+
+                confirmationResult.confirm(inputOtp)
+                    .then(function() {
+                        savePasswordAndRedirect(newPass);
+                    })
+                    .catch(function(error) {
+                        verifyBtn.disabled = false;
+                        verifyBtn.textContent = "Set New Password";
+                        status.className = "status-msg error";
+                        status.textContent = "Galat OTP ya expire ho chuka hai: " + error.message;
+                        status.style.display = "block";
+                    });
+            }
+        }
+
+        function savePasswordAndRedirect(newPass) {
+            const status = document.getElementById('forgot-status');
+            localStorage.setItem('satyam_store_pass', newPass);
+            status.className = "status-msg success";
+            status.textContent = "Password safaltapoorvak badal gaya! Login page khul raha hai...";
+            status.style.display = "block";
+
+            setTimeout(() => {
+                showLoginBox();
+                document.getElementById('password').value = "";
+                const verifyBtn = document.getElementById('btn-verify-submit');
+                if (verifyBtn) {
+                    verifyBtn.disabled = false;
+                    verifyBtn.textContent = "Set New Password";
+                }
+            }, 1800);
+        }
+
+        // File Size Fetcher
+        function fetchFileSizes() {
+            document.querySelectorAll('.auto-size').forEach(elem => {
+                const fileName = elem.getAttribute('data-file');
+                if (fileName) {
+                    fetch(fileName, { method: 'HEAD' })
+                        .then(response => {
+                            const size = response.headers.get('content-length');
+                            if (size) {
+                                const bytes = parseInt(size, 10);
+                                if (bytes >= 1048576) {
+                                    elem.textContent = (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+                                } else {
+                                    elem.textContent = (bytes / 1024).toFixed(0) + ' KB';
+                                }
+                            } else {
+                                elem.textContent = 'APK';
+                            }
+                        })
+                        .catch(() => {
+                            elem.textContent = 'APK';
+                        });
+                }
+            });
+        }
+
+        // Enter Key Listener
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (document.getElementById('login-box').style.display !== 'none') {
+                    validateLogin();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
