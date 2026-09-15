@@ -111,14 +111,12 @@
         .error { color: #ff6b6b; }
         .success { color: #2ecc71; }
 
-        /* Blocked Screen */
         #blocked-box {
             display: none;
             border-color: rgba(239, 68, 68, 0.6);
             box-shadow: 0 15px 35px rgba(239, 68, 68, 0.2);
         }
 
-        /* Store Content */
         #store-content {
             display: none;
             width: 100%;
@@ -160,7 +158,7 @@
             }
         }
 
-        /* 1. APPS SECTION (GREEN) */
+        /* 1. LEFT SIDE: APPS */
         .section-apps {
             background: rgba(46, 204, 113, 0.05);
             border: 1px solid rgba(46, 204, 113, 0.3);
@@ -228,7 +226,7 @@
             font-weight: 700;
         }
 
-        /* 2. HINDI LIVE NEWS (GOLDEN) */
+        /* 2. RIGHT SIDE: LIVE NEWS */
         .section-news {
             background: rgba(245, 158, 11, 0.06);
             border: 1px solid rgba(245, 158, 11, 0.35);
@@ -264,6 +262,10 @@
             gap: 4px;
         }
 
+        .btn-refresh:active {
+            transform: scale(0.95);
+        }
+
         .news-container {
             display: flex;
             flex-direction: column;
@@ -276,6 +278,10 @@
             border-radius: 14px;
             padding: 12px 14px;
             text-align: left;
+        }
+
+        .news-card:hover {
+            border-color: rgba(245, 158, 11, 0.45);
         }
 
         .news-card h4 {
@@ -293,136 +299,8 @@
             font-weight: 600;
         }
 
-        /* 3. WORKING DIRECT AUDIO PLAYER */
-        .bottom-audio-section {
-            margin-top: 28px;
-            width: 100%;
-            max-width: 650px;
-            background: #111827;
-            border: 1.5px solid #10b981;
-            border-radius: 24px;
-            padding: 22px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-            text-align: center;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .audio-header {
-            font-size: 15px;
-            font-weight: 700;
-            color: #34d399;
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .audio-search-box {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 14px;
-        }
-
-        .audio-search-input {
-            flex: 1;
-            padding: 10px 14px;
-            background: #1f2937;
-            border: 1px solid #10b981;
-            border-radius: 14px;
-            color: #ffffff;
-            font-size: 13px;
-            outline: none;
-        }
-
-        .btn-audio-search {
-            background: #10b981;
-            color: #032b18;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 14px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .audio-display-card {
-            background: #1f2937;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 12px;
-        }
-
-        .audio-album-art {
-            width: 52px;
-            height: 52px;
-            border-radius: 10px;
-            background: #064e3b;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            flex-shrink: 0;
-            overflow: hidden;
-        }
-
-        .audio-track-info {
-            flex: 1;
-            text-align: left;
-            overflow: hidden;
-        }
-
-        .audio-track-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #ffffff;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .audio-track-artist {
-            font-size: 11px;
-            color: #9ca3af;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        audio {
-            width: 100%;
-            height: 44px;
-            outline: none;
-            border-radius: 10px;
-        }
-
-        .audio-chips {
-            display: flex;
-            gap: 6px;
-            margin-top: 14px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .audio-chip-btn {
-            background: #1f2937;
-            border: 1px solid #10b981;
-            color: #ffffff;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 11.5px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        .audio-chip-btn:hover {
-            background: #10b981;
-            color: #032b18;
+        .news-card a:hover {
+            text-decoration: underline;
         }
 
         footer {
@@ -518,11 +396,11 @@
         <div class="store-header">
             <span class="store-tag">Official Portal</span>
             <h1>Welcome to Satyam Store</h1>
-            <p>Verified Apps Download, Daily News & Full Music Player</p>
+            <p>Verified Apps Download & Dainik Taza Samachar</p>
         </div>
 
         <div class="store-grid-layout">
-            <!-- LEFT COLUMN: APPS (GREEN) -->
+            <!-- LEFT COLUMN: APPS -->
             <div class="section-apps">
                 <div class="apps-header">
                     <span>📲 Apps & Downloads</span>
@@ -563,7 +441,7 @@
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: HINDI LIVE NEWS (GOLDEN) -->
+            <!-- RIGHT COLUMN: LIVE NEWS -->
             <div class="section-news">
                 <div class="news-header">
                     <span>📰 दैनिक ताज़ा समाचार (Live)</span>
@@ -574,40 +452,6 @@
                         ख़बरें लोड हो रही हैं...
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- 4. BOTTOM CENTER: DIRECT NATIVE AUDIO PLAYER (ZERO ERROR) -->
-        <div class="bottom-audio-section">
-            <div class="audio-header">
-                <span>🎵 ऑडियो म्यूजिक प्लेयर (Full Audio Tracks)</span>
-            </div>
-
-            <!-- Search Bar -->
-            <div class="audio-search-box">
-                <input type="text" id="audio-search-input" class="audio-search-input" placeholder="गाना लिखें (उदा. Tum Hi Ho, Kesariya, Hame Yaad Karke)..." onkeypress="handleAudioSearchKey(event)">
-                <button class="btn-audio-search" onclick="searchAudioTrack()">Play</button>
-            </div>
-
-            <!-- Display Info Card -->
-            <div class="audio-display-card">
-                <div class="audio-album-art" id="audio-art">🎵</div>
-                <div class="audio-track-info">
-                    <div class="audio-track-title" id="audio-title">गाना सेलेक्ट करें या सर्च करें</div>
-                    <div class="audio-track-artist" id="audio-artist">Direct Audio Stream (Archive CDN)</div>
-                </div>
-            </div>
-
-            <!-- Native HTML5 Audio Controller -->
-            <audio id="main-audio-player" controls preload="auto"></audio>
-
-            <!-- 1-Click Working Verified Direct Tracks -->
-            <div class="audio-chips">
-                <button class="audio-chip-btn" onclick="playSong('Kesariya - Brahmāstra', 'Arijit Singh', 'https://archive.org/download/kesariya_202207/Kesariya.mp3')">Kesariya</button>
-                <button class="audio-chip-btn" onclick="playSong('Tum Hi Ho - Aashiqui 2', 'Arijit Singh', 'https://archive.org/download/tum-hi-ho-aashiqui-2-128-kbps/Tum%20Hi%20Ho%20-%20Aashiqui%202%20-%20128%20Kbps.mp3')">Tum Hi Ho</button>
-                <button class="audio-chip-btn" onclick="playSong('Tujh Mein Rab Dikhta Hai', 'Roop Kumar Rathod', 'https://archive.org/download/TujhMeinRabDikhtaHai_201708/Tujh%20Mein%20Rab%20Dikhta%20Hai.mp3')">तुझ में रब दिखता है</button>
-                <button class="audio-chip-btn" onclick="playSong('Hame Yaad Karke Tera Bhul Jana', 'Attaullah Khan', 'https://archive.org/download/AttaullahKhanEsakhelvi/Hamein%20Yaad%20Karke%20Tera%20Bhool%20Jana.mp3')">Hame Yaad Karke</button>
-                <button class="audio-chip-btn" onclick="playSong('Chaleya - Jawan', 'Arijit Singh', 'https://archive.org/download/chaleya-jawan/Chaleya.mp3')">Chaleya</button>
             </div>
         </div>
 
@@ -723,7 +567,7 @@
                 .catch(err => console.log("Alert sending failed: ", err));
         }
 
-        // GOOGLE NEWS HINDI
+        // GOOGLE NEWS HINDI (WITH TOPIC ROTATION)
         const newsFeeds = [
             { topic: "प्रमुख खबरें", url: "https://news.google.com/rss?hl=hi&gl=IN&ceid=IN:hi" },
             { topic: "टेक न्यूज़", url: "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=hi&gl=IN&ceid=IN:hi" },
@@ -804,54 +648,6 @@
                 }
             } finally {
                 if (refBtn) refBtn.innerText = "🔄 ताज़ा करें";
-            }
-        }
-
-        // ================= DIRECT AUDIO STREAM LOGIC =================
-        function handleAudioSearchKey(e) {
-            if (e.key === 'Enter') searchAudioTrack();
-        }
-
-        function playSong(title, artist, streamUrl) {
-            const titleEl = document.getElementById('audio-title');
-            const artistEl = document.getElementById('audio-artist');
-            const audioPlayer = document.getElementById('main-audio-player');
-
-            titleEl.innerText = title;
-            artistEl.innerText = artist + " • (Playing Now)";
-            
-            audioPlayer.pause();
-            audioPlayer.src = streamUrl;
-            audioPlayer.load();
-            
-            // Explicit Play Call
-            const playPromise = audioPlayer.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {
-                    // Browser policy handled
-                });
-            }
-        }
-
-        function searchAudioTrack() {
-            const query = document.getElementById('audio-search-input').value.trim();
-            if (!query) return;
-
-            const q = query.toLowerCase();
-
-            if (q.includes("kesariya") || q.includes("केसरिया")) {
-                playSong('Kesariya - Brahmāstra', 'Arijit Singh', 'https://archive.org/download/kesariya_202207/Kesariya.mp3');
-            } else if (q.includes("tum hi ho") || q.includes("तुम ही हो") || q.includes("aashiqui")) {
-                playSong('Tum Hi Ho - Aashiqui 2', 'Arijit Singh', 'https://archive.org/download/tum-hi-ho-aashiqui-2-128-kbps/Tum%20Hi%20Ho%20-%20Aashiqui%202%20-%20128%20Kbps.mp3');
-            } else if (q.includes("tujh me") || q.includes("तुझ में") || q.includes("rab dikhta")) {
-                playSong('Tujh Mein Rab Dikhta Hai', 'Roop Kumar Rathod', 'https://archive.org/download/TujhMeinRabDikhtaHai_201708/Tujh%20Mein%20Rab%20Dikhta%20Hai.mp3');
-            } else if (q.includes("hame yaad") || q.includes("याद करके") || q.includes("bhul jana")) {
-                playSong('Hame Yaad Karke Tera Bhul Jana', 'Attaullah Khan', 'https://archive.org/download/AttaullahKhanEsakhelvi/Hamein%20Yaad%20Karke%20Tera%20Bhool%20Jana.mp3');
-            } else if (q.includes("chaleya") || q.includes("चलेया") || q.includes("jawan")) {
-                playSong('Chaleya - Jawan', 'Arijit Singh', 'https://archive.org/download/chaleya-jawan/Chaleya.mp3');
-            } else {
-                // Universal fallback track
-                playSong(query, 'Universal Hit Track', 'https://archive.org/download/tum-hi-ho-aashiqui-2-128-kbps/Tum%20Hi%20Ho%20-%20Aashiqui%202%20-%20128%20Kbps.mp3');
             }
         }
 
