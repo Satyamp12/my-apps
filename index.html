@@ -118,7 +118,7 @@
             box-shadow: 0 15px 35px rgba(239, 68, 68, 0.2);
         }
 
-        /* Store Content Dual Layout */
+        /* Store Content Split Layout */
         #store-content {
             display: none;
             width: 100%;
@@ -160,7 +160,7 @@
             }
         }
 
-        /* ================= 1. LEFT SIDE: APPS (GREEN THEME) ================= */
+        /* LEFT SIDE: APPS SECTION (GREEN THEME) */
         .section-apps {
             background: rgba(46, 204, 113, 0.05);
             border: 1px solid rgba(46, 204, 113, 0.3);
@@ -228,7 +228,7 @@
             font-weight: 700;
         }
 
-        /* ================= 2. RIGHT SIDE: NEWS (AMBER/GOLD THEME) ================= */
+        /* RIGHT SIDE: LIVE VIDEO NEWS (AMBER/GOLD THEME) */
         .section-news {
             background: rgba(245, 158, 11, 0.06);
             border: 1px solid rgba(245, 158, 11, 0.35);
@@ -250,59 +250,42 @@
             padding-bottom: 10px;
         }
 
-        .btn-refresh {
-            background: rgba(245, 158, 11, 0.18);
-            border: 1px solid rgba(245, 158, 11, 0.5);
-            color: #fef08a;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .btn-refresh:active {
-            transform: scale(0.95);
-        }
-
-        .news-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .news-card {
-            background: rgba(245, 158, 11, 0.04);
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            border-radius: 14px;
-            padding: 12px 14px;
-            text-align: left;
-        }
-
-        .news-card:hover {
-            border-color: rgba(245, 158, 11, 0.45);
-        }
-
-        .news-card h4 {
-            font-size: 13px;
-            font-weight: 600;
-            color: #fffbeb;
-            margin-bottom: 8px;
-            line-height: 1.45;
-        }
-
-        .news-card a {
-            font-size: 11px;
+        .channel-dropdown {
+            background: rgba(0, 0, 0, 0.45);
             color: #fbbf24;
-            text-decoration: none;
+            border: 1px solid rgba(245, 158, 11, 0.5);
+            border-radius: 10px;
+            padding: 5px 10px;
+            font-size: 11px;
             font-weight: 600;
+            outline: none;
+            cursor: pointer;
         }
 
-        .news-card a:hover {
-            text-decoration: underline;
+        .channel-dropdown option {
+            background: #0d3824;
+            color: #ffffff;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Screen */
+            height: 0;
+            overflow: hidden;
+            border-radius: 14px;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         footer {
@@ -393,12 +376,12 @@
         <div id="forgot-status" class="status-msg"></div>
     </div>
 
-    <!-- 3. MAIN STORE CONTENT (SIDE-BY-SIDE) -->
+    <!-- 3. MAIN STORE CONTENT -->
     <div id="store-content">
         <div class="store-header">
             <span class="store-tag">Official Portal</span>
             <h1>Welcome to Satyam Store</h1>
-            <p>Verified Apps Download & Dainik Taza Samachar</p>
+            <p>Verified Apps Download & Live News Stream</p>
         </div>
 
         <div class="store-grid-layout">
@@ -443,17 +426,31 @@
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: HINDI LIVE NEWS (GOLDEN / AMBER) -->
+            <!-- RIGHT COLUMN: LIVE VIDEO NEWS (AMBER/GOLD) -->
             <div class="section-news">
                 <div class="news-header">
-                    <span>📰 दैनिक ताज़ा समाचार (Live)</span>
-                    <button class="btn-refresh" id="btn-refresh-news" onclick="fetchDailyNews(true)">🔄 ताज़ा करें</button>
+                    <span>📺 दैनिक लाइव न्यूज़ (Live TV)</span>
+                    <select id="channel-select" class="channel-dropdown" onchange="changeNewsChannel()">
+                        <option value="ddnews">DD News Live</option>
+                        <option value="aajtak">Aaj Tak Live</option>
+                        <option value="abpnews">ABP News Live</option>
+                        <option value="indiatv">India TV Live</option>
+                    </select>
                 </div>
-                <div id="news-list" class="news-container">
-                    <div style="font-size:12px; color:#fef08a; text-align:center; padding: 12px;">
-                        ख़बरें लोड हो रही हैं...
-                    </div>
+
+                <div class="video-container">
+                    <iframe 
+                        id="news-player" 
+                        src="https://www.youtube.com/embed/live_stream?channel=UCskG8i42n1g8lXzJk4C1Pbg" 
+                        title="Live News"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                    </iframe>
                 </div>
+
+                <p style="font-size: 11px; color: #fef08a; margin-top: 12px; text-align: center; opacity: 0.9;">
+                    💡 बिना पेज छोड़े इसी वेबसाइट में सीधे लाइव टीवी देखें।
+                </p>
             </div>
         </div>
 
@@ -536,7 +533,6 @@
                 document.getElementById('login-box').style.display = 'none';
                 document.getElementById('store-content').style.display = 'block';
                 document.body.style.justifyContent = 'flex-start';
-                fetchDailyNews(false);
             } else {
                 let attempts = parseInt(localStorage.getItem('satyam_login_attempts') || '0', 10) + 1;
                 localStorage.setItem('satyam_login_attempts', attempts.toString());
@@ -569,87 +565,20 @@
                 .catch(err => console.log("Alert sending failed: ", err));
         }
 
-        // Google News Hindi Feeds
-        const newsFeeds = [
-            { topic: "प्रमुख खबरें", url: "https://news.google.com/rss?hl=hi&gl=IN&ceid=IN:hi" },
-            { topic: "टेक न्यूज़", url: "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=hi&gl=IN&ceid=IN:hi" },
-            { topic: "क्रिकेट / खेल", url: "https://news.google.com/rss/headlines/section/topic/SPORTS?hl=hi&gl=IN&ceid=IN:hi" },
-            { topic: "मनोरंजन / देश", url: "https://news.google.com/rss/headlines/section/topic/ENTERTAINMENT?hl=hi&gl=IN&ceid=IN:hi" }
-        ];
-        let currentFeedIndex = 0;
+        // Live News Channel Switcher
+        function changeNewsChannel() {
+            const selected = document.getElementById('channel-select').value;
+            const player = document.getElementById('news-player');
 
-        async function fetchDailyNews(isManual = false) {
-            const container = document.getElementById('news-list');
-            const refBtn = document.getElementById('btn-refresh-news');
-            if (!container) return;
+            const channels = {
+                'ddnews': 'https://www.youtube.com/embed/live_stream?channel=UCskG8i42n1g8lXzJk4C1Pbg',
+                'aajtak': 'https://www.youtube.com/embed/live_stream?channel=UCt4t-jeY85JegMlZ-E5UWtA',
+                'abpnews': 'https://www.youtube.com/embed/live_stream?channel=UCRWFSbif-RFENbBrSiez1DA',
+                'indiatv': 'https://www.youtube.com/embed/live_stream?channel=UCttspZzi385320T9n6515NA'
+            };
 
-            if (refBtn) refBtn.innerText = "⏳ लोड हो रहा...";
-            container.innerHTML = '<div style="font-size:12px; color:#fef08a; text-align:center; padding: 12px;">ताज़ा ख़बरें लोड हो रही हैं...</div>';
-
-            if (isManual) {
-                currentFeedIndex = (currentFeedIndex + 1) % newsFeeds.length;
-            }
-
-            const currentFeed = newsFeeds[currentFeedIndex];
-
-            try {
-                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(currentFeed.url + '&nocache=' + Date.now())}`;
-                const response = await fetch(proxyUrl);
-                const xmlText = await response.text();
-
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(xmlText, "text/xml");
-                const items = Array.from(xmlDoc.querySelectorAll("item"));
-
-                if (items.length > 0) {
-                    container.innerHTML = '';
-                    const shuffled = items.sort(() => 0.5 - Math.random()).slice(0, 4);
-
-                    shuffled.forEach(item => {
-                        const title = item.querySelector("title") ? item.querySelector("title").textContent : "ताज़ा समाचार";
-                        const link = item.querySelector("link") ? item.querySelector("link").textContent : "#";
-                        const pubDate = item.querySelector("pubDate") ? new Date(item.querySelector("pubDate").textContent).toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit' }) : "अभी";
-
-                        const card = document.createElement('div');
-                        card.className = 'news-card';
-                        card.innerHTML = `
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                                <span style="font-size:10px; color:#fbbf24; text-transform:uppercase; font-weight:700;">${currentFeed.topic}</span>
-                                <span style="font-size:10px; color:#fef08a;">🕒 ${pubDate}</span>
-                            </div>
-                            <h4>${title}</h4>
-                            <a href="${link}" target="_blank" rel="noopener noreferrer">पूरी ख़बर पढ़ें →</a>
-                        `;
-                        container.appendChild(card);
-                    });
-                } else {
-                    throw new Error("No items");
-                }
-            } catch (err) {
-                try {
-                    const fallbackRes = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(currentFeed.url)}`);
-                    const fbData = await fallbackRes.json();
-                    if (fbData.items && fbData.items.length > 0) {
-                        container.innerHTML = '';
-                        const shuffled = fbData.items.sort(() => 0.5 - Math.random()).slice(0, 4);
-                        shuffled.forEach(item => {
-                            const card = document.createElement('div');
-                            card.className = 'news-card';
-                            card.innerHTML = `
-                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                                    <span style="font-size:10px; color:#fbbf24; text-transform:uppercase; font-weight:700;">${currentFeed.topic}</span>
-                                </div>
-                                <h4>${item.title}</h4>
-                                <a href="${item.link}" target="_blank" rel="noopener noreferrer">पूरी ख़बर पढ़ें →</a>
-                            `;
-                            container.appendChild(card);
-                        });
-                    }
-                } catch (e) {
-                    container.innerHTML = '<div style="font-size:12px; color:#ff6b6b; text-align:center;">समाचार लोड नहीं हो सका। कृपया पुनः प्रयास करें।</div>';
-                }
-            } finally {
-                if (refBtn) refBtn.innerText = "🔄 ताज़ा करें";
+            if (channels[selected]) {
+                player.src = channels[selected];
             }
         }
 
