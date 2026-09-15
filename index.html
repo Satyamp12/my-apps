@@ -160,7 +160,7 @@
             }
         }
 
-        /* LEFT SIDE: APPS SECTION (GREEN THEME) */
+        /* LEFT SIDE: APPS SECTION (GREEN) */
         .section-apps {
             background: rgba(46, 204, 113, 0.05);
             border: 1px solid rgba(46, 204, 113, 0.3);
@@ -251,7 +251,7 @@
         }
 
         .channel-dropdown {
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0, 0, 0, 0.5);
             color: #fbbf24;
             border: 1px solid rgba(245, 158, 11, 0.5);
             border-radius: 10px;
@@ -263,14 +263,14 @@
         }
 
         .channel-dropdown option {
-            background: #0d3824;
-            color: #ffffff;
+            background: #111827;
+            color: #fbbf24;
         }
 
         .video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* 16:9 Screen */
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
             height: 0;
             overflow: hidden;
             border-radius: 14px;
@@ -286,6 +286,30 @@
             width: 100%;
             height: 100%;
             border: none;
+        }
+
+        .channel-links {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-ch-link {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #fef08a;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-ch-link:hover {
+            background: rgba(245, 158, 11, 0.35);
         }
 
         footer {
@@ -426,30 +450,36 @@
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: LIVE VIDEO NEWS (AMBER/GOLD) -->
+            <!-- RIGHT COLUMN: LIVE VIDEO NEWS (EMBEDDABLE CHANNELS) -->
             <div class="section-news">
                 <div class="news-header">
-                    <span>📺 दैनिक लाइव न्यूज़ (Live TV)</span>
+                    <span>📺 दैनिक लाइव न्यूज़ (Live Stream)</span>
                     <select id="channel-select" class="channel-dropdown" onchange="changeNewsChannel()">
-                        <option value="ddnews">DD News Live</option>
-                        <option value="aajtak">Aaj Tak Live</option>
-                        <option value="abpnews">ABP News Live</option>
-                        <option value="indiatv">India TV Live</option>
+                        <option value="ddnews">DD News (National Live)</option>
+                        <option value="sansad">Sansad TV (Official Live)</option>
+                        <option value="wion">WION Live (News)</option>
                     </select>
                 </div>
 
+                <!-- Video Frame with 100% embeddable Live Streams -->
                 <div class="video-container">
                     <iframe 
                         id="news-player" 
-                        src="https://www.youtube.com/embed/live_stream?channel=UCskG8i42n1g8lXzJk4C1Pbg" 
-                        title="Live News"
+                        src="https://www.youtube-nocookie.com/embed/live_stream?channel=UCKwucPzHZ7zCUIf7If-Wo1g" 
+                        title="Live News Player"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                         allowfullscreen>
                     </iframe>
                 </div>
 
-                <p style="font-size: 11px; color: #fef08a; margin-top: 12px; text-align: center; opacity: 0.9;">
-                    💡 बिना पेज छोड़े इसी वेबसाइट में सीधे लाइव टीवी देखें।
+                <div class="channel-links">
+                    <a href="https://www.youtube.com/@aajtak/live" target="_blank" class="btn-ch-link">🔴 Aaj Tak Live</a>
+                    <a href="https://www.youtube.com/@abpnews/live" target="_blank" class="btn-ch-link">🔴 ABP News Live</a>
+                    <a href="https://www.youtube.com/@indiatv/live" target="_blank" class="btn-ch-link">🔴 India TV Live</a>
+                </div>
+
+                <p style="font-size: 11px; color: #fef08a; margin-top: 10px; text-align: center; opacity: 0.9;">
+                    💡 अगर किसी प्राइवेट चैनल का लाइव स्ट्रीम YouTube एम्बेड में ब्लॉक हो, तो ऊपर दिए गए बटन से सीधे लाइव देखें।
                 </p>
             </div>
         </div>
@@ -565,16 +595,15 @@
                 .catch(err => console.log("Alert sending failed: ", err));
         }
 
-        // Live News Channel Switcher
+        // Live Channel Switcher (Embed Friendly Official Stream IDs)
         function changeNewsChannel() {
             const selected = document.getElementById('channel-select').value;
             const player = document.getElementById('news-player');
 
             const channels = {
-                'ddnews': 'https://www.youtube.com/embed/live_stream?channel=UCskG8i42n1g8lXzJk4C1Pbg',
-                'aajtak': 'https://www.youtube.com/embed/live_stream?channel=UCt4t-jeY85JegMlZ-E5UWtA',
-                'abpnews': 'https://www.youtube.com/embed/live_stream?channel=UCRWFSbif-RFENbBrSiez1DA',
-                'indiatv': 'https://www.youtube.com/embed/live_stream?channel=UCttspZzi385320T9n6515NA'
+                'ddnews': 'https://www.youtube-nocookie.com/embed/live_stream?channel=UCKwucPzHZ7zCUIf7If-Wo1g',
+                'sansad': 'https://www.youtube-nocookie.com/embed/live_stream?channel=UC8_Gg1_P3n7fLd4a8uS4C5w',
+                'wion': 'https://www.youtube-nocookie.com/embed/live_stream?channel=UC_gUM8rL-Lzy6ZOfQeiNxAA'
             };
 
             if (channels[selected]) {
