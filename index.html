@@ -118,7 +118,7 @@
             box-shadow: 0 15px 35px rgba(239, 68, 68, 0.2);
         }
 
-        /* Store Content Dual Layout */
+        /* Store Content */
         #store-content {
             display: none;
             width: 100%;
@@ -282,10 +282,6 @@
             text-align: left;
         }
 
-        .news-card:hover {
-            border-color: rgba(245, 158, 11, 0.45);
-        }
-
         .news-card h4 {
             font-size: 13px;
             font-weight: 600;
@@ -301,8 +297,146 @@
             font-weight: 600;
         }
 
-        .news-card a:hover {
-            text-decoration: underline;
+        /* 3. BOTTOM CENTER AUDIO MUSIC PLAYER */
+        .bottom-audio-section {
+            margin-top: 28px;
+            width: 100%;
+            max-width: 650px;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1.5px solid rgba(46, 204, 113, 0.4);
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .audio-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: #6ee7b7;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .audio-search-box {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .audio-search-input {
+            flex: 1;
+            padding: 10px 14px;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(46, 204, 113, 0.35);
+            border-radius: 14px;
+            color: #ffffff;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .audio-search-input:focus {
+            border-color: #2ecc71;
+        }
+
+        .btn-audio-search {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: #032b18;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .audio-display-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(46, 204, 113, 0.2);
+            border-radius: 16px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+
+        .audio-album-art {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #059669, #10b981);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .audio-album-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .audio-track-info {
+            flex: 1;
+            text-align: left;
+            overflow: hidden;
+        }
+
+        .audio-track-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .audio-track-artist {
+            font-size: 11px;
+            color: #a7f3d0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        audio {
+            width: 100%;
+            height: 40px;
+            outline: none;
+            border-radius: 10px;
+        }
+
+        .audio-chips {
+            display: flex;
+            gap: 6px;
+            margin-top: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .audio-chip-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            color: #a7f3d0;
+            padding: 5px 12px;
+            border-radius: 10px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .audio-chip-btn:hover {
+            background: rgba(46, 204, 113, 0.2);
         }
 
         footer {
@@ -398,7 +532,7 @@
         <div class="store-header">
             <span class="store-tag">Official Portal</span>
             <h1>Welcome to Satyam Store</h1>
-            <p>Verified Apps Download & Dainik Taza Samachar</p>
+            <p>Verified Apps Download, Daily News & Universal Audio Music</p>
         </div>
 
         <div class="store-grid-layout">
@@ -454,6 +588,39 @@
                         ख़बरें लोड हो रही हैं...
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- 4. BOTTOM CENTER: UNIVERSAL AUDIO PLAYER -->
+        <div class="bottom-audio-section">
+            <div class="audio-header">
+                <span>🎵 ऑडियो म्यूजिक प्लेयर (Audio Player)</span>
+            </div>
+
+            <!-- Audio Search Box -->
+            <div class="audio-search-box">
+                <input type="text" id="audio-search-input" class="audio-search-input" placeholder="गाना लिखें (उदा. Hame yaad karke, Kesariya, तुझ में रब दिखता है)..." onkeypress="handleAudioSearchKey(event)">
+                <button class="btn-audio-search" onclick="searchAndPlayAudio()">Play</button>
+            </div>
+
+            <!-- Track Info Card -->
+            <div class="audio-display-card">
+                <div class="audio-album-art" id="audio-art">🎧</div>
+                <div class="audio-track-info">
+                    <div class="audio-track-title" id="audio-title">कोई भी गाना सर्च करके प्ले करें</div>
+                    <div class="audio-track-artist" id="audio-artist">Official HD Audio Stream</div>
+                </div>
+            </div>
+
+            <!-- HTML5 Audio Controller -->
+            <audio id="main-audio-player" controls autoplay></audio>
+
+            <!-- Quick Play Chips -->
+            <div class="audio-chips">
+                <button class="audio-chip-btn" onclick="quickAudioSearch('Hame yaad karke tera bhul jana')">Hame Yaad Karke</button>
+                <button class="audio-chip-btn" onclick="quickAudioSearch('Tujh Mein Rab Dikhta Hai')">तुझ में रब दिखता है</button>
+                <button class="audio-chip-btn" onclick="quickAudioSearch('Kesariya')">Kesariya</button>
+                <button class="audio-chip-btn" onclick="quickAudioSearch('Arijit Singh')">Arijit Singh Hits</button>
             </div>
         </div>
 
@@ -593,7 +760,6 @@
             const currentFeed = newsFeeds[currentFeedIndex];
 
             try {
-                // Realtime XML proxy with cache buster
                 const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(currentFeed.url + '&nocache=' + Date.now())}`;
                 const response = await fetch(proxyUrl);
                 const xmlText = await response.text();
@@ -627,7 +793,6 @@
                     throw new Error("No items");
                 }
             } catch (err) {
-                // Fallback to rss2json
                 try {
                     const fallbackRes = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(currentFeed.url)}`);
                     const fbData = await fallbackRes.json();
@@ -653,6 +818,73 @@
             } finally {
                 if (refBtn) refBtn.innerText = "🔄 ताज़ा करें";
             }
+        }
+
+        // ================= UNIVERSAL AUDIO MUSIC ENGINE =================
+        function handleAudioSearchKey(e) {
+            if (e.key === 'Enter') searchAndPlayAudio();
+        }
+
+        function quickAudioSearch(songName) {
+            document.getElementById('audio-search-input').value = songName;
+            searchAndPlayAudio();
+        }
+
+        async function searchAndPlayAudio() {
+            const query = document.getElementById('audio-search-input').value.trim();
+            if (!query) return;
+
+            const titleEl = document.getElementById('audio-title');
+            const artistEl = document.getElementById('audio-artist');
+            const artEl = document.getElementById('audio-art');
+            const audioPlayer = document.getElementById('main-audio-player');
+
+            titleEl.innerText = `खोजा जा रहा है: "${query}"...`;
+            artistEl.innerText = "कृपया प्रतीक्षा करें...";
+
+            // 1. Try Free Saavn / Jiosaavn Open API Endpoint
+            try {
+                const saavnRes = await fetch(`https://saavn.me/search/songs?query=${encodeURIComponent(query)}&page=1&limit=1`);
+                const saavnData = await saavnRes.json();
+
+                if (saavnData.status === "SUCCESS" && saavnData.data && saavnData.data.results.length > 0) {
+                    const song = saavnData.data.results[0];
+                    const audioUrl = song.downloadUrl.find(u => u.quality === "160kbps" || u.quality === "320kbps")?.link || song.downloadUrl[0].link;
+                    const poster = song.image.find(img => img.quality === "150x150")?.link || song.image[0].link;
+
+                    titleEl.innerText = song.name.replace(/&quot;/g, '"').replace(/&#039;/g, "'");
+                    artistEl.innerText = song.primaryArtists || "Unknown Artist";
+                    artEl.innerHTML = `<img src="${poster}" alt="art">`;
+                    
+                    audioPlayer.src = audioUrl;
+                    audioPlayer.play();
+                    return;
+                }
+            } catch (err) {
+                console.log("Saavn API skipped, trying iTunes backup...");
+            }
+
+            // 2. High Reliability Fallback (iTunes Music Search)
+            try {
+                const itunesRes = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=1`);
+                const itunesData = await itunesRes.json();
+
+                if (itunesData.results && itunesData.results.length > 0) {
+                    const track = itunesData.results[0];
+                    titleEl.innerText = track.trackName;
+                    artistEl.innerText = track.artistName + " • " + track.collectionName;
+                    artEl.innerHTML = `<img src="${track.artworkUrl100}" alt="art">`;
+
+                    audioPlayer.src = track.previewUrl;
+                    audioPlayer.play();
+                    return;
+                }
+            } catch (e) {
+                console.log("iTunes API error");
+            }
+
+            titleEl.innerText = "गाना नहीं मिला!";
+            artistEl.innerText = "कृपया सही नाम लिखें या दूसरा गाना खोजें";
         }
 
         // Forgot Password Logic
