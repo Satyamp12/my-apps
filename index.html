@@ -147,13 +147,7 @@
             margin: 22px 0 14px;
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: rgba(110, 231, 183, 0.25);
+            justify-content: space-between;
         }
         .items-list { display: flex; flex-direction: column; gap: 15px; }
         .store-card {
@@ -190,6 +184,27 @@
         }
 
         /* News Section */
+        .news-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-refresh {
+            background: rgba(46, 204, 113, 0.15);
+            border: 1px solid rgba(46, 204, 113, 0.4);
+            color: #a7f3d0;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-refresh:active {
+            transform: scale(0.95);
+        }
         .news-container {
             display: flex;
             flex-direction: column;
@@ -313,7 +328,9 @@
         </div>
 
         <!-- Downloads Section -->
-        <div class="section-title">Available Downloads</div>
+        <div class="section-title">
+            <span>Available Downloads</span>
+        </div>
         <div class="items-list">
             <div class="store-card">
                 <div class="item-info">
@@ -349,8 +366,13 @@
             </div>
         </div>
 
-        <!-- Daily News Section -->
-        <div class="section-title">Daily Tech & India News</div>
+        <!-- Daily News Section With Refresh Button -->
+        <div class="section-title">
+            <span>Daily Live News</span>
+            <div class="news-header-actions">
+                <button class="btn-refresh" id="btn-refresh-news" onclick="fetchDailyNews(true)">🔄 Refresh</button>
+            </div>
+        </div>
         <div id="news-list" class="news-container">
             <div style="font-size:12px; color:#a7f3d0; text-align:center; padding: 12px;">
                 Loading latest news...
@@ -436,7 +458,7 @@
                 document.getElementById('login-box').style.display = 'none';
                 document.getElementById('store-content').style.display = 'block';
                 document.body.style.justifyContent = 'flex-start';
-                fetchDailyNews(); // Login hote hi daily news load karega
+                fetchDailyNews(false);
             } else {
                 let attempts = parseInt(localStorage.getItem('satyam_login_attempts') || '0', 10) + 1;
                 localStorage.setItem('satyam_login_attempts', attempts.toString());
@@ -469,18 +491,28 @@
                 .catch(err => console.log("Alert sending failed: ", err));
         }
 
-        // News Fetching Function
-        async function fetchDailyNews() {
+        // Live News Fetch Function with Cache-Buster & Refresh
+        async function fetchDailyNews(isManual = false) {
             const container = document.getElementById('news-list');
+            const refBtn = document.getElementById('btn-refresh-news');
             if (!container) return;
 
+            if (refBtn) refBtn.innerText = "⏳ Loading...";
+            container.innerHTML = '<div style="font-size:12px; color:#a7f3d0; text-align:center; padding: 12px;">Fetching fresh headlines...</div>';
+
             try {
-                const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss?hl=en-IN&gl=IN&ceid=IN:en');
+                // Random timestamp added to completely avoid browser cache
+                const timestamp = new Date().getTime();
+                const feedUrl = encodeURIComponent(`https://news.google.com/rss?hl=en-IN&gl=IN&ceid=IN:en&timestamp=${timestamp}`);
+                const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${feedUrl}&_t=${timestamp}`);
                 const data = await res.json();
 
                 if (data.status === 'ok' && data.items && data.items.length > 0) {
                     container.innerHTML = '';
-                    data.items.slice(0, 4).forEach(item => {
+                    
+                    // Shuffle / Pick latest 5 stories
+                    const newsList = data.items.slice(0, 5);
+                    newsList.forEach(item => {
                         const card = document.createElement('div');
                         card.className = 'news-card';
                         card.innerHTML = `
@@ -491,10 +523,12 @@
                         container.appendChild(card);
                     });
                 } else {
-                    container.innerHTML = '<div style="font-size:12px; color:#a7f3d0;">News feed update ho raha hai...</div>';
+                    container.innerHTML = '<div style="font-size:12px; color:#a7f3d0; text-align:center;">News feed update ho raha hai. Thodi der me Refresh karein.</div>';
                 }
             } catch (err) {
-                container.innerHTML = '<div style="font-size:12px; color:#a7f3d0;">Headlines load nahi ho payi.</div>';
+                container.innerHTML = '<div style="font-size:12px; color:#ff6b6b; text-align:center;">Headlines fetch nahi ho saki. Internet connection check karein.</div>';
+            } finally {
+                if (refBtn) refBtn.innerText = "🔄 Refresh";
             }
         }
 
