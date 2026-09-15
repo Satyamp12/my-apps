@@ -144,7 +144,7 @@
             font-size: 14px;
             font-weight: 700;
             color: #6ee7b7;
-            margin-bottom: 14px;
+            margin: 22px 0 14px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -188,6 +188,40 @@
             font-size: 13px;
             font-weight: 700;
         }
+
+        /* News Section */
+        .news-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .news-card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(46, 204, 113, 0.22);
+            border-radius: 16px;
+            padding: 14px 16px;
+            text-align: left;
+        }
+        .news-card h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+        .news-card p {
+            font-size: 11px;
+            color: #a7f3d0;
+            margin-bottom: 8px;
+            opacity: 0.85;
+        }
+        .news-card a {
+            font-size: 11px;
+            color: #2ecc71;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
         footer { margin-top: 36px; text-align: center; font-size: 12px; color: #6ee7b7; }
     </style>
 </head>
@@ -278,8 +312,8 @@
             <p>Download verified apps & profile assets</p>
         </div>
 
+        <!-- Downloads Section -->
         <div class="section-title">Available Downloads</div>
-
         <div class="items-list">
             <div class="store-card">
                 <div class="item-info">
@@ -315,6 +349,14 @@
             </div>
         </div>
 
+        <!-- Daily News Section -->
+        <div class="section-title">Daily Tech & India News</div>
+        <div id="news-list" class="news-container">
+            <div style="font-size:12px; color:#a7f3d0; text-align:center; padding: 12px;">
+                Loading latest news...
+            </div>
+        </div>
+
         <footer>© Satyam Store • All Rights Reserved</footer>
     </div>
 
@@ -322,7 +364,7 @@
         const EMAILJS_PUBLIC_KEY = "vJYmBU6suMx_YVA1f";
         const EMAILJS_SERVICE_ID = "service_tbnax2k";
         const EMAILJS_OTP_TEMPLATE = "template_z1m23z7";
-        const EMAILJS_ALERT_TEMPLATE = "template_w2uju39"; // Aapki nayi alert template ID
+        const EMAILJS_ALERT_TEMPLATE = "template_w2uju39";
 
         emailjs.init(EMAILJS_PUBLIC_KEY);
 
@@ -342,7 +384,6 @@
         const DEFAULT_PASS = "PATEL@#";
         const MAX_ATTEMPTS = 5;
 
-        // Device Management
         function getDeviceId() {
             let devId = localStorage.getItem('satyam_device_id');
             if (!devId) {
@@ -352,7 +393,6 @@
             return devId;
         }
 
-        // Check Unlock Query Parameter in URL
         (function checkUnlockUrl() {
             const params = new URLSearchParams(window.location.search);
             const unlockId = params.get('unlock');
@@ -367,7 +407,6 @@
             }
         })();
 
-        // Check if device is already blocked
         function verifyDeviceStatus() {
             if (localStorage.getItem('satyam_device_blocked') === 'true') {
                 document.getElementById('login-box').style.display = 'none';
@@ -397,6 +436,7 @@
                 document.getElementById('login-box').style.display = 'none';
                 document.getElementById('store-content').style.display = 'block';
                 document.body.style.justifyContent = 'flex-start';
+                fetchDailyNews(); // Login hote hi daily news load karega
             } else {
                 let attempts = parseInt(localStorage.getItem('satyam_login_attempts') || '0', 10) + 1;
                 localStorage.setItem('satyam_login_attempts', attempts.toString());
@@ -427,6 +467,35 @@
 
             emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ALERT_TEMPLATE, alertParams)
                 .catch(err => console.log("Alert sending failed: ", err));
+        }
+
+        // News Fetching Function
+        async function fetchDailyNews() {
+            const container = document.getElementById('news-list');
+            if (!container) return;
+
+            try {
+                const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss?hl=en-IN&gl=IN&ceid=IN:en');
+                const data = await res.json();
+
+                if (data.status === 'ok' && data.items && data.items.length > 0) {
+                    container.innerHTML = '';
+                    data.items.slice(0, 4).forEach(item => {
+                        const card = document.createElement('div');
+                        card.className = 'news-card';
+                        card.innerHTML = `
+                            <h4>${item.title}</h4>
+                            <p>🕒 ${new Date(item.pubDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
+                            <a href="${item.link}" target="_blank" rel="noopener noreferrer">Read Full Story →</a>
+                        `;
+                        container.appendChild(card);
+                    });
+                } else {
+                    container.innerHTML = '<div style="font-size:12px; color:#a7f3d0;">News feed update ho raha hai...</div>';
+                }
+            } catch (err) {
+                container.innerHTML = '<div style="font-size:12px; color:#a7f3d0;">Headlines load nahi ho payi.</div>';
+            }
         }
 
         // Forgot Password Logic
