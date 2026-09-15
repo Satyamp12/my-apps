@@ -228,7 +228,7 @@
             font-weight: 700;
         }
 
-        /* RIGHT: UNIVERSAL VIDEO & LIVE MEDIA (AMBER/GOLD THEME) */
+        /* RIGHT: UNIVERSAL MULTI-LANGUAGE PLAYER (GOLD THEME) */
         .section-news {
             background: rgba(245, 158, 11, 0.06);
             border: 1px solid rgba(245, 158, 11, 0.35);
@@ -268,7 +268,7 @@
             transform: scale(0.95);
         }
 
-        /* Search Box */
+        /* Multi-Language Search Box */
         .search-box {
             display: flex;
             gap: 8px;
@@ -304,7 +304,7 @@
         .video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
             border-radius: 14px;
@@ -328,6 +328,9 @@
             margin-top: 10px;
             text-align: center;
             font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .quick-chips {
@@ -446,7 +449,7 @@
         <div class="store-header">
             <span class="store-tag">Official Portal</span>
             <h1>Welcome to Satyam Store</h1>
-            <p>Verified Apps Download & All-In-One Video Media Player</p>
+            <p>Verified Apps Download & Universal Music/Video Player</p>
         </div>
 
         <div class="store-grid-layout">
@@ -491,37 +494,37 @@
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: UNIVERSAL SEARCH & UNBLOCKED MEDIA PLAYER (GOLD) -->
+            <!-- RIGHT COLUMN: HINDI & ENGLISH UNIVERSAL SONG/VIDEO PLAYER (GOLD) -->
             <div class="section-news">
                 <div class="news-header">
-                    <span>🎬 वीडियो / सोंग्स / लाइव प्लेयर</span>
-                    <button class="btn-refresh" id="btn-refresh-news" onclick="rotateLiveStream()">🔄 न्यूज़ बदलें (Refresh)</button>
+                    <span>🎬 गाने / वीडियो / लाइव टीवी</span>
+                    <button class="btn-refresh" id="btn-refresh-news" onclick="rotateLiveStream()">🔄 चैनल बदलें</button>
                 </div>
 
-                <!-- Universal Search: Songs, Videos, Movies, News -->
+                <!-- Universal Search: Works for Hindi (हिन्दी) & English (Hinglish) -->
                 <div class="search-box">
-                    <input type="text" id="news-search-input" class="search-input" placeholder="कोई भी गाना, वीडियो या न्यूज़ सर्च करें..." onkeypress="handleSearchKey(event)">
-                    <button class="btn-search" onclick="searchUniversalVideo()">Search</button>
+                    <input type="text" id="news-search-input" class="search-input" placeholder="गाना लिखें: जैसे 'तुझ में रब दिखता है' या 'Kesariya'..." onkeypress="handleSearchKey(event)">
+                    <button class="btn-search" onclick="searchUniversalSong()">Play</button>
                 </div>
 
-                <!-- Unrestricted Embedded Player -->
+                <!-- Universal Unrestricted Player -->
                 <div class="video-container">
                     <iframe 
                         id="news-player" 
                         src="https://www.dailymotion.com/embed/video/x7tgad0?autoplay=1" 
-                        title="Universal Video Player"
+                        title="Universal Media Player"
                         allow="autoplay; fullscreen; picture-in-picture" 
                         allowfullscreen>
                     </iframe>
                 </div>
 
-                <div id="channel-title" class="channel-indicator">🔴 लाइव स्ट्रीम: Aaj Tak Live News</div>
+                <div id="channel-title" class="channel-indicator">🔴 लाइव: Aaj Tak Hindi Live</div>
 
-                <!-- Quick Categories -->
+                <!-- Quick Buttons for Hindi & English Songs -->
                 <div class="quick-chips">
-                    <button class="chip-btn" onclick="quickSearch('Bollywood Hit Songs 2026')">🎵 Trending Songs</button>
-                    <button class="chip-btn" onclick="quickSearch('Arijit Singh Top Songs')">🎤 Arijit Singh</button>
-                    <button class="chip-btn" onclick="quickSearch('Bhojpuri Song Superhit')">📻 Bhojpuri Songs</button>
+                    <button class="chip-btn" onclick="quickSearch('तुझ में रब दिखता है')">तुझ में रब दिखता है</button>
+                    <button class="chip-btn" onclick="quickSearch('Kesariya Brahmastra')">Kesariya</button>
+                    <button class="chip-btn" onclick="quickSearch('Arijit Singh All Songs')">Arijit Singh</button>
                     <button class="chip-btn" onclick="setDirectStream(0)">🔴 Live TV</button>
                 </div>
             </div>
@@ -660,54 +663,61 @@
         }
 
         function handleSearchKey(e) {
-            if (e.key === 'Enter') searchUniversalVideo();
+            if (e.key === 'Enter') searchUniversalSong();
         }
 
         function quickSearch(term) {
             document.getElementById('news-search-input').value = term;
-            searchUniversalVideo();
+            searchUniversalSong();
         }
 
-        // UNIVERSAL SEARCH (Songs, Videos, Trending, etc.)
-        async function searchUniversalVideo() {
-            const query = document.getElementById('news-search-input').value.trim();
-            if (!query) return;
+        // DUAL HINDI / ENGLISH UNIVERSAL SEARCH
+        async function searchUniversalSong() {
+            const rawQuery = document.getElementById('news-search-input').value.trim();
+            if (!rawQuery) return;
 
             const player = document.getElementById('news-player');
             const title = document.getElementById('channel-title');
-            title.innerText = "⏳ खोजा जा रहा है: " + query + "...";
+            title.innerText = `⏳ खोजा जा रहा है: "${rawQuery}"...`;
 
-            // If user pasted direct YouTube Link / Video ID
-            if (query.includes("youtube.com") || query.includes("youtu.be")) {
+            // If direct YouTube link/id is entered
+            if (rawQuery.includes("youtube.com") || rawQuery.includes("youtu.be")) {
                 let vid = "";
-                if (query.includes("youtu.be/")) {
-                    vid = query.split("youtu.be/")[1].split("?")[0];
-                } else if (query.includes("watch?v=")) {
-                    vid = query.split("watch?v=")[1].split("&")[0];
+                if (rawQuery.includes("youtu.be/")) {
+                    vid = rawQuery.split("youtu.be/")[1].split("?")[0];
+                } else if (rawQuery.includes("watch?v=")) {
+                    vid = rawQuery.split("watch?v=")[1].split("&")[0];
                 }
                 player.src = `https://piped.video/embed/${vid}?autoplay=1`;
-                title.innerText = "🎵 वीडियो चल रहा है!";
+                title.innerText = "▶️ आपका वीडियो प्ले हो रहा है!";
                 return;
             }
 
-            // Universal Open Search via Dailymotion API (100% playable music/video)
+            // Dual search query (auto-appends 'song' if not present for accurate music results)
+            let searchQuery = rawQuery;
+            if (!searchQuery.toLowerCase().includes("song") && !searchQuery.includes("गाना") && !searchQuery.toLowerCase().includes("news")) {
+                searchQuery += " song";
+            }
+
             try {
-                const res = await fetch(`https://api.dailymotion.com/videos?search=${encodeURIComponent(query)}&fields=id,title&limit=1`);
-                const data = await res.json();
-                
+                // Fetch top match using universal Dailymotion API (handles Hindi Devanagari & English perfectly)
+                const apiUrl = `https://api.dailymotion.com/videos?search=${encodeURIComponent(searchQuery)}&fields=id,title&limit=1`;
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
                 if (data.list && data.list.length > 0) {
-                    const topVideo = data.list[0];
-                    player.src = `https://www.dailymotion.com/embed/video/${topVideo.id}?autoplay=1`;
-                    title.innerText = "▶️ चल रहा है: " + topVideo.title;
+                    const matchedVideo = data.list[0];
+                    player.src = `https://www.dailymotion.com/embed/video/${matchedVideo.id}?autoplay=1`;
+                    title.innerText = "🎵 " + matchedVideo.title;
                 } else {
                     // Fallback to in-player search
-                    player.src = `https://www.dailymotion.com/embed/search?query=${encodeURIComponent(query)}&autoplay=1`;
-                    title.innerText = `🔍 परिणाम: "${query}" का वीडियो प्ले हो रहा है`;
+                    player.src = `https://www.dailymotion.com/embed/search?query=${encodeURIComponent(rawQuery)}&autoplay=1`;
+                    title.innerText = `🔍 परिणाम: "${rawQuery}" चल रहा है`;
                 }
-            } catch (err) {
-                // Direct fallback
-                player.src = `https://www.dailymotion.com/embed/search?query=${encodeURIComponent(query)}&autoplay=1`;
-                title.innerText = `🔍 "${query}" सर्च किया गया`;
+            } catch (e) {
+                // If API blocked by browser, direct fallback search
+                player.src = `https://www.dailymotion.com/embed/search?query=${encodeURIComponent(rawQuery)}&autoplay=1`;
+                title.innerText = `🔍 परिणाम: "${rawQuery}" लोड हो रहा है`;
             }
         }
 
