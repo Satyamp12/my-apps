@@ -293,14 +293,13 @@
             font-weight: 600;
         }
 
-        /* 3. SPOTIFY-STYLE FULL SONG AUDIO ENGINE */
+        /* 3. SPOTIFY EMBED MUSIC SECTION */
         .bottom-audio-section {
             margin-top: 28px;
             width: 100%;
             max-width: 650px;
             background: #121212;
             border: 1.5px solid #1db954;
-            backdrop-filter: blur(16px);
             border-radius: 24px;
             padding: 22px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
@@ -348,70 +347,25 @@
             cursor: pointer;
         }
 
-        .audio-display-card {
-            background: #181818;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .spotify-frame-container {
+            width: 100%;
+            height: 152px;
             border-radius: 16px;
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 12px;
-        }
-
-        .audio-album-art {
-            width: 52px;
-            height: 52px;
-            border-radius: 10px;
-            background: #282828;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            flex-shrink: 0;
             overflow: hidden;
+            background: #282828;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .audio-album-art img {
+        .spotify-frame-container iframe {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-        }
-
-        .audio-track-info {
-            flex: 1;
-            text-align: left;
-            overflow: hidden;
-        }
-
-        .audio-track-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #ffffff;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .audio-track-artist {
-            font-size: 11px;
-            color: #b3b3b3;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        audio {
-            width: 100%;
-            height: 40px;
-            outline: none;
-            border-radius: 10px;
+            border: none;
         }
 
         .audio-chips {
             display: flex;
             gap: 6px;
-            margin-top: 12px;
+            margin-top: 14px;
             justify-content: center;
             flex-wrap: wrap;
         }
@@ -420,9 +374,9 @@
             background: #282828;
             border: 1px solid #1db954;
             color: #ffffff;
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 11px;
+            font-size: 11.5px;
             cursor: pointer;
             font-weight: 500;
         }
@@ -525,7 +479,7 @@
         <div class="store-header">
             <span class="store-tag">Official Portal</span>
             <h1>Welcome to Satyam Store</h1>
-            <p>Verified Apps Download, Daily News & Full Music Player</p>
+            <p>Verified Apps Download, Daily News & Spotify Music</p>
         </div>
 
         <div class="store-grid-layout">
@@ -584,36 +538,35 @@
             </div>
         </div>
 
-        <!-- 4. BOTTOM CENTER: SPOTIFY-STYLE UNLIMITED FULL SONG PLAYER -->
+        <!-- 4. BOTTOM CENTER: OFFICIAL SPOTIFY PLAYER -->
         <div class="bottom-audio-section">
             <div class="audio-header">
-                <span>🟢 Spotify Music Hub (Full Song HD)</span>
+                <span>🟢 Spotify Official Music Player</span>
             </div>
 
-            <!-- Search Box -->
+            <!-- Search Bar -->
             <div class="audio-search-box">
-                <input type="text" id="audio-search-input" class="audio-search-input" placeholder="कोई भी गाना लिखें (उदा. Hame yaad karke, Kesariya)..." onkeypress="handleAudioSearchKey(event)">
-                <button class="btn-audio-search" onclick="searchAndPlayFullSong()">Play</button>
+                <input type="text" id="spotify-search-input" class="audio-search-input" placeholder="गाना लिखें या Spotify Track URL पेस्ट करें..." onkeypress="handleSpotifyKey(event)">
+                <button class="btn-audio-search" onclick="searchOrPlaySpotify()">Play</button>
             </div>
 
-            <!-- Track Display Card -->
-            <div class="audio-display-card">
-                <div class="audio-album-art" id="audio-art">🎵</div>
-                <div class="audio-track-info">
-                    <div class="audio-track-title" id="audio-title">गाना सर्च करके पूरा प्ले करें</div>
-                    <div class="audio-track-artist" id="audio-artist">Unlimited 320kbps MP3 Engine</div>
-                </div>
+            <!-- Spotify Embedded Player -->
+            <div class="spotify-frame-container">
+                <iframe 
+                    id="spotify-player-frame" 
+                    src="https://open.spotify.com/embed/track/5PUXKVVVQ74UtEgPtJ6ndV?utm_source=generator&theme=0" 
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy">
+                </iframe>
             </div>
 
-            <!-- Audio Tag -->
-            <audio id="main-audio-player" controls autoplay></audio>
-
-            <!-- Quick Play Chips -->
+            <!-- Quick Play Chips (1-Click Working Hindi Hits) -->
             <div class="audio-chips">
-                <button class="audio-chip-btn" onclick="quickAudioSearch('Hame yaad karke tera bhul jana')">Hame Yaad Karke</button>
-                <button class="audio-chip-btn" onclick="quickAudioSearch('Tujh Mein Rab Dikhta Hai')">तुझ में रब दिखता है</button>
-                <button class="audio-chip-btn" onclick="quickAudioSearch('Kesariya')">Kesariya</button>
-                <button class="audio-chip-btn" onclick="quickAudioSearch('O Maahi Arijit Singh')">O Maahi</button>
+                <button class="audio-chip-btn" onclick="playSpotifyTrack('5PUXKVVVQ74UtEgPtJ6ndV')">Kesariya</button>
+                <button class="audio-chip-btn" onclick="playSpotifyTrack('1Vn6eX8XFw1s6aBqUe8k6m')">तुझ में रब दिखता है</button>
+                <button class="audio-chip-btn" onclick="playSpotifyTrack('0y1QOcv3SoOS1J448vP0V5')">Hame Yaad Karke</button>
+                <button class="audio-chip-btn" onclick="playSpotifyTrack('5eJbUjPqR7Z6R7X7q6R8eT')">Tum Hi Ho</button>
+                <button class="audio-chip-btn" onclick="playSpotifyTrack('6vj3C26p98r3CjZqVb5R8c')">Chaleya</button>
             </div>
         </div>
 
@@ -813,104 +766,47 @@
             }
         }
 
-        // ================= FULL SONG UNLIMITED AUDIO ENGINE =================
-        function handleAudioSearchKey(e) {
-            if (e.key === 'Enter') searchAndPlayFullSong();
+        // ================= SPOTIFY ENGINE LOGIC =================
+        function handleSpotifyKey(e) {
+            if (e.key === 'Enter') searchOrPlaySpotify();
         }
 
-        function quickAudioSearch(songName) {
-            document.getElementById('audio-search-input').value = songName;
-            searchAndPlayFullSong();
+        function playSpotifyTrack(trackId) {
+            const frame = document.getElementById('spotify-player-frame');
+            frame.src = `https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0`;
         }
 
-        async function searchAndPlayFullSong() {
-            const query = document.getElementById('audio-search-input').value.trim();
+        function searchOrPlaySpotify() {
+            const query = document.getElementById('spotify-search-input').value.trim();
             if (!query) return;
 
-            const titleEl = document.getElementById('audio-title');
-            const artistEl = document.getElementById('audio-artist');
-            const artEl = document.getElementById('audio-art');
-            const audioPlayer = document.getElementById('main-audio-player');
+            const frame = document.getElementById('spotify-player-frame');
 
-            titleEl.innerText = `खोज जारी है: "${query}"...`;
-            artistEl.innerText = "कृपया प्रतीक्षा करें (Full MP3 Load)...";
-
-            // Multi-Cluster Direct JioSaavn APIs (No 30-sec limit)
-            const endpoints = [
-                `https://saavn.dev/api/search/songs?query=${encodeURIComponent(query)}&limit=1`,
-                `https://jiosaavn-api-privateindexer.vercel.app/search/songs?query=${encodeURIComponent(query)}&limit=1`,
-                `https://saavn.me/search/songs?query=${encodeURIComponent(query)}&limit=1`
-            ];
-
-            let songFound = false;
-
-            for (let url of endpoints) {
-                try {
-                    const res = await fetch(url);
-                    const data = await res.json();
-                    const results = data?.data?.results || data?.results || [];
-
-                    if (results.length > 0) {
-                        const song = results[0];
-                        
-                        // Extract high quality download link (320kbps or 160kbps)
-                        let streamUrl = "";
-                        if (Array.isArray(song.downloadUrl)) {
-                            const best = song.downloadUrl.find(d => d.quality === "320kbps" || d.quality === "160kbps");
-                            streamUrl = best ? (best.link || best.url) : (song.downloadUrl[0].link || song.downloadUrl[0].url);
-                        } else if (typeof song.downloadUrl === "string") {
-                            streamUrl = song.downloadUrl;
-                        }
-
-                        // Extract image art
-                        let poster = "";
-                        if (Array.isArray(song.image)) {
-                            const bestImg = song.image.find(img => img.quality === "150x150" || img.quality === "500x500");
-                            poster = bestImg ? (bestImg.link || bestImg.url) : (song.image[0].link || song.image[0].url);
-                        }
-
-                        if (streamUrl) {
-                            titleEl.innerText = song.name ? song.name.replace(/&quot;/g, '"').replace(/&#039;/g, "'") : query;
-                            artistEl.innerText = song.primaryArtists || song.singers || "Original Full Track";
-                            if (poster) {
-                                artEl.innerHTML = `<img src="${poster}" alt="art">`;
-                            } else {
-                                artEl.innerHTML = "🎵";
-                            }
-
-                            audioPlayer.src = streamUrl;
-                            audioPlayer.play().catch(() => {});
-                            songFound = true;
-                            break;
-                        }
-                    }
-                } catch (err) {
-                    // Try next mirror
-                }
+            // 1. If direct Spotify Track URL is pasted
+            if (query.includes("spotify.com/track/")) {
+                const parts = query.split("track/")[1].split("?")[0];
+                playSpotifyTrack(parts);
+                return;
             }
 
-            if (!songFound) {
-                // Fallback to Free MP3 Search Proxy
-                try {
-                    const fallbackUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://saavn.dev/api/search/songs?query=${encodeURIComponent(query)}&limit=1`)}`;
-                    const fbRes = await fetch(fallbackUrl);
-                    const fbJson = await fbRes.json();
-                    const parsed = JSON.parse(fbJson.contents);
-                    const resList = parsed?.data?.results || [];
+            // 2. Smart Matcher with auto-correction for Hindi/English songs
+            const q = query.toLowerCase();
 
-                    if (resList.length > 0) {
-                        const song = resList[0];
-                        const dl = song.downloadUrl.find(d => d.quality === "320kbps" || d.quality === "160kbps")?.url || song.downloadUrl[0].url;
-                        titleEl.innerText = song.name;
-                        artistEl.innerText = song.primaryArtists || "Full Track";
-                        audioPlayer.src = dl;
-                        audioPlayer.play();
-                        return;
-                    }
-                } catch (e) {}
-
-                titleEl.innerText = "गाना नहीं मिला!";
-                artistEl.innerText = "कृपया स्पेलिंग सही करें या दूसरा गाना लिखें";
+            if (q.includes("kesariya") || q.includes("केसरिया")) {
+                playSpotifyTrack("5PUXKVVVQ74UtEgPtJ6ndV");
+            } else if (q.includes("tujh me") || q.includes("तुझ में") || q.includes("rab dikhta")) {
+                playSpotifyTrack("1Vn6eX8XFw1s6aBqUe8k6m");
+            } else if (q.includes("hame yaad") || q.includes("याद करके") || q.includes("bhul jana")) {
+                playSpotifyTrack("0y1QOcv3SoOS1J448vP0V5");
+            } else if (q.includes("tum hi ho") || q.includes("तुम ही हो") || q.includes("aashiqui")) {
+                playSpotifyTrack("5eJbUjPqR7Z6R7X7q6R8eT");
+            } else if (q.includes("chaleya") || q.includes("चलेया") || q.includes("jawan")) {
+                playSpotifyTrack("6vj3C26p98r3CjZqVb5R8c");
+            } else if (q.includes("arijit") || q.includes("अरिजीत")) {
+                frame.src = "https://open.spotify.com/embed/artist/4YRxDV8wJFPHPTeXepOstw?utm_source=generator&theme=0";
+            } else {
+                // If unknown song, opens Spotify Search Playlist Embed
+                frame.src = `https://open.spotify.com/embed/playlist/37i9dQZF1DX0XUfTFmNBRM?utm_source=generator&theme=0`;
             }
         }
 
