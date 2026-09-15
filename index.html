@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -118,7 +118,7 @@
             box-shadow: 0 15px 35px rgba(239, 68, 68, 0.2);
         }
 
-        /* Store Content - 2 Column Layout */
+        /* Store Content Dual Layout */
         #store-content {
             display: none;
             width: 100%;
@@ -147,7 +147,6 @@
             margin-bottom: 10px;
         }
 
-        /* Dual Column Wrapper */
         .store-grid-layout {
             display: grid;
             grid-template-columns: 1.1fr 1fr;
@@ -161,27 +160,27 @@
             }
         }
 
-        .section-box {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(46, 204, 113, 0.25);
-            backdrop-filter: blur(12px);
+        /* ================= 1. LEFT SIDE: APPS (GREEN THEME) ================= */
+        .section-apps {
+            background: rgba(46, 204, 113, 0.05);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            backdrop-filter: blur(14px);
             border-radius: 22px;
             padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
-        .section-header {
+        .apps-header {
             font-size: 15px;
             font-weight: 700;
-            color: #6ee7b7;
+            color: #2ecc71;
             margin-bottom: 16px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(110, 231, 183, 0.2);
+            border-bottom: 1px solid rgba(46, 204, 113, 0.25);
             padding-bottom: 10px;
         }
 
-        /* Left Side: Items */
         .items-list {
             display: flex;
             flex-direction: column;
@@ -190,7 +189,7 @@
 
         .store-card {
             background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(46, 204, 113, 0.25);
+            border: 1px solid rgba(46, 204, 113, 0.22);
             border-radius: 18px;
             padding: 14px 16px;
             display: flex;
@@ -229,12 +228,33 @@
             font-weight: 700;
         }
 
-        /* Right Side: News */
+        /* ================= 2. RIGHT SIDE: NEWS (AMBER/GOLD THEME) ================= */
+        .section-news {
+            background: rgba(245, 158, 11, 0.06);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            backdrop-filter: blur(14px);
+            border-radius: 22px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .news-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(245, 158, 11, 0.25);
+            padding-bottom: 10px;
+        }
+
         .btn-refresh {
-            background: rgba(46, 204, 113, 0.15);
-            border: 1px solid rgba(46, 204, 113, 0.4);
-            color: #a7f3d0;
-            padding: 4px 10px;
+            background: rgba(245, 158, 11, 0.18);
+            border: 1px solid rgba(245, 158, 11, 0.5);
+            color: #fef08a;
+            padding: 4px 12px;
             border-radius: 12px;
             font-size: 11px;
             font-weight: 600;
@@ -255,26 +275,34 @@
         }
 
         .news-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(46, 204, 113, 0.2);
+            background: rgba(245, 158, 11, 0.04);
+            border: 1px solid rgba(245, 158, 11, 0.2);
             border-radius: 14px;
             padding: 12px 14px;
             text-align: left;
         }
 
+        .news-card:hover {
+            border-color: rgba(245, 158, 11, 0.45);
+        }
+
         .news-card h4 {
-            font-size: 12.5px;
+            font-size: 13px;
             font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 6px;
-            line-height: 1.4;
+            color: #fffbeb;
+            margin-bottom: 8px;
+            line-height: 1.45;
         }
 
         .news-card a {
             font-size: 11px;
-            color: #2ecc71;
+            color: #fbbf24;
             text-decoration: none;
             font-weight: 600;
+        }
+
+        .news-card a:hover {
+            text-decoration: underline;
         }
 
         footer {
@@ -365,19 +393,19 @@
         <div id="forgot-status" class="status-msg"></div>
     </div>
 
-    <!-- 3. MAIN STORE CONTENT (SPLIT LAYOUT) -->
+    <!-- 3. MAIN STORE CONTENT (SIDE-BY-SIDE) -->
     <div id="store-content">
         <div class="store-header">
             <span class="store-tag">Official Portal</span>
             <h1>Welcome to Satyam Store</h1>
-            <p>Download verified apps & live daily updates</p>
+            <p>Verified Apps Download & Dainik Taza Samachar</p>
         </div>
 
         <div class="store-grid-layout">
-            <!-- LEFT COLUMN: DOWNLOADS -->
-            <div class="section-box">
-                <div class="section-header">
-                    <span>📥 Available Downloads</span>
+            <!-- LEFT COLUMN: APPS (GREEN) -->
+            <div class="section-apps">
+                <div class="apps-header">
+                    <span>📲 Apps & Downloads</span>
                 </div>
                 <div class="items-list">
                     <div class="store-card">
@@ -415,15 +443,15 @@
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: LIVE NEWS -->
-            <div class="section-box">
-                <div class="section-header">
-                    <span>📰 Daily Live News</span>
-                    <button class="btn-refresh" id="btn-refresh-news" onclick="fetchDailyNews(true)">🔄 Refresh</button>
+            <!-- RIGHT COLUMN: HINDI LIVE NEWS (GOLDEN / AMBER) -->
+            <div class="section-news">
+                <div class="news-header">
+                    <span>📰 दैनिक ताज़ा समाचार (Live)</span>
+                    <button class="btn-refresh" id="btn-refresh-news" onclick="fetchDailyNews(true)">🔄 ताज़ा करें</button>
                 </div>
                 <div id="news-list" class="news-container">
-                    <div style="font-size:12px; color:#a7f3d0; text-align:center; padding: 12px;">
-                        Loading latest news...
+                    <div style="font-size:12px; color:#fef08a; text-align:center; padding: 12px;">
+                        ख़बरें लोड हो रही हैं...
                     </div>
                 </div>
             </div>
@@ -541,12 +569,12 @@
                 .catch(err => console.log("Alert sending failed: ", err));
         }
 
-        // News Feeds & Dynamic Category Rotation
+        // Google News Hindi Feeds
         const newsFeeds = [
-            { topic: "Top Stories", url: "https://news.google.com/rss?hl=en-IN&gl=IN&ceid=IN:en" },
-            { topic: "Technology", url: "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-IN&gl=IN&ceid=IN:en" },
-            { topic: "Sports / Cricket", url: "https://news.google.com/rss/headlines/section/topic/SPORTS?hl=en-IN&gl=IN&ceid=IN:en" },
-            { topic: "Business", url: "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-IN&gl=IN&ceid=IN:en" }
+            { topic: "प्रमुख खबरें", url: "https://news.google.com/rss?hl=hi&gl=IN&ceid=IN:hi" },
+            { topic: "टेक न्यूज़", url: "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=hi&gl=IN&ceid=IN:hi" },
+            { topic: "क्रिकेट / खेल", url: "https://news.google.com/rss/headlines/section/topic/SPORTS?hl=hi&gl=IN&ceid=IN:hi" },
+            { topic: "मनोरंजन / देश", url: "https://news.google.com/rss/headlines/section/topic/ENTERTAINMENT?hl=hi&gl=IN&ceid=IN:hi" }
         ];
         let currentFeedIndex = 0;
 
@@ -555,8 +583,8 @@
             const refBtn = document.getElementById('btn-refresh-news');
             if (!container) return;
 
-            if (refBtn) refBtn.innerText = "⏳ Loading...";
-            container.innerHTML = '<div style="font-size:12px; color:#a7f3d0; text-align:center; padding: 12px;">Fetching fresh stories...</div>';
+            if (refBtn) refBtn.innerText = "⏳ लोड हो रहा...";
+            container.innerHTML = '<div style="font-size:12px; color:#fef08a; text-align:center; padding: 12px;">ताज़ा ख़बरें लोड हो रही हैं...</div>';
 
             if (isManual) {
                 currentFeedIndex = (currentFeedIndex + 1) % newsFeeds.length;
@@ -578,24 +606,24 @@
                     const shuffled = items.sort(() => 0.5 - Math.random()).slice(0, 4);
 
                     shuffled.forEach(item => {
-                        const title = item.querySelector("title") ? item.querySelector("title").textContent : "News Headline";
+                        const title = item.querySelector("title") ? item.querySelector("title").textContent : "ताज़ा समाचार";
                         const link = item.querySelector("link") ? item.querySelector("link").textContent : "#";
-                        const pubDate = item.querySelector("pubDate") ? new Date(item.querySelector("pubDate").textContent).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) : "Just now";
+                        const pubDate = item.querySelector("pubDate") ? new Date(item.querySelector("pubDate").textContent).toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit' }) : "अभी";
 
                         const card = document.createElement('div');
                         card.className = 'news-card';
                         card.innerHTML = `
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                                <span style="font-size:10px; color:#6ee7b7; text-transform:uppercase; font-weight:700;">${currentFeed.topic}</span>
-                                <span style="font-size:10px; color:#a7f3d0;">🕒 ${pubDate}</span>
+                                <span style="font-size:10px; color:#fbbf24; text-transform:uppercase; font-weight:700;">${currentFeed.topic}</span>
+                                <span style="font-size:10px; color:#fef08a;">🕒 ${pubDate}</span>
                             </div>
                             <h4>${title}</h4>
-                            <a href="${link}" target="_blank" rel="noopener noreferrer">Read Full Story →</a>
+                            <a href="${link}" target="_blank" rel="noopener noreferrer">पूरी ख़बर पढ़ें →</a>
                         `;
                         container.appendChild(card);
                     });
                 } else {
-                    throw new Error("No items found");
+                    throw new Error("No items");
                 }
             } catch (err) {
                 try {
@@ -608,18 +636,20 @@
                             const card = document.createElement('div');
                             card.className = 'news-card';
                             card.innerHTML = `
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                                    <span style="font-size:10px; color:#fbbf24; text-transform:uppercase; font-weight:700;">${currentFeed.topic}</span>
+                                </div>
                                 <h4>${item.title}</h4>
-                                <p style="font-size:11px; color:#a7f3d0; margin-bottom:8px;">🕒 ${new Date(item.pubDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
-                                <a href="${item.link}" target="_blank" rel="noopener noreferrer">Read Full Story →</a>
+                                <a href="${item.link}" target="_blank" rel="noopener noreferrer">पूरी ख़बर पढ़ें →</a>
                             `;
                             container.appendChild(card);
                         });
                     }
                 } catch (e) {
-                    container.innerHTML = '<div style="font-size:12px; color:#ff6b6b; text-align:center;">News fetch failed. Please try again!</div>';
+                    container.innerHTML = '<div style="font-size:12px; color:#ff6b6b; text-align:center;">समाचार लोड नहीं हो सका। कृपया पुनः प्रयास करें।</div>';
                 }
             } finally {
-                if (refBtn) refBtn.innerText = "🔄 Refresh";
+                if (refBtn) refBtn.innerText = "🔄 ताज़ा करें";
             }
         }
 
