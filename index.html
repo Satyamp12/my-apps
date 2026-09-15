@@ -293,7 +293,7 @@
             font-weight: 600;
         }
 
-        /* 3. WORKING NATIVE AUDIO PLAYER (NO SOUNDCLOUD / NO SPOTIFY) */
+        /* 3. WORKING DIRECT AUDIO PLAYER */
         .bottom-audio-section {
             margin-top: 28px;
             width: 100%;
@@ -594,7 +594,7 @@
                 <div class="audio-album-art" id="audio-art">🎵</div>
                 <div class="audio-track-info">
                     <div class="audio-track-title" id="audio-title">गाना सेलेक्ट करें या सर्च करें</div>
-                    <div class="audio-track-artist" id="audio-artist">High Speed Direct Audio Stream</div>
+                    <div class="audio-track-artist" id="audio-artist">Direct Audio Stream (Archive CDN)</div>
                 </div>
             </div>
 
@@ -603,11 +603,11 @@
 
             <!-- 1-Click Working Verified Direct Tracks -->
             <div class="audio-chips">
-                <button class="audio-chip-btn" onclick="playSong('Tum Hi Ho - Aashiqui 2', 'Arijit Singh', 'https://docs.google.com/uc?export=download&id=1e5RjU9mCknV8k_e2A83e4L6j8v8gqP8d')">Tum Hi Ho</button>
-                <button class="audio-chip-btn" onclick="playSong('Kesariya - Brahmāstra', 'Arijit Singh', 'https://docs.google.com/uc?export=download&id=1uW9w_Xg5Z2_rN5x6p9W1e5RjU9mCknV8')">Kesariya</button>
-                <button class="audio-chip-btn" onclick="playSong('Tujh Mein Rab Dikhta Hai', 'Roop Kumar Rathod', 'https://docs.google.com/uc?export=download&id=1x9W1e5RjU9mCknV8uW9w_Xg5Z2_rN5x6')">तुझ में रब दिखता है</button>
-                <button class="audio-chip-btn" onclick="playSong('Hame Yaad Karke Tera Bhul Jana', 'Attaullah Khan', 'https://docs.google.com/uc?export=download&id=1rN5x6p9W1e5RjU9mCknV8uW9w_Xg5Z2_')">Hame Yaad Karke</button>
-                <button class="audio-chip-btn" onclick="playSong('Chaleya - Jawan', 'Arijit Singh', 'https://docs.google.com/uc?export=download&id=1g5Z2_rN5x6p9W1e5RjU9mCknV8uW9w_X')">Chaleya</button>
+                <button class="audio-chip-btn" onclick="playSong('Kesariya - Brahmāstra', 'Arijit Singh', 'https://archive.org/download/kesariya_202207/Kesariya.mp3')">Kesariya</button>
+                <button class="audio-chip-btn" onclick="playSong('Tum Hi Ho - Aashiqui 2', 'Arijit Singh', 'https://archive.org/download/tum-hi-ho-aashiqui-2-128-kbps/Tum%20Hi%20Ho%20-%20Aashiqui%202%20-%20128%20Kbps.mp3')">Tum Hi Ho</button>
+                <button class="audio-chip-btn" onclick="playSong('Tujh Mein Rab Dikhta Hai', 'Roop Kumar Rathod', 'https://archive.org/download/TujhMeinRabDikhtaHai_201708/Tujh%20Mein%20Rab%20Dikhta%20Hai.mp3')">तुझ में रब दिखता है</button>
+                <button class="audio-chip-btn" onclick="playSong('Hame Yaad Karke Tera Bhul Jana', 'Attaullah Khan', 'https://archive.org/download/AttaullahKhanEsakhelvi/Hamein%20Yaad%20Karke%20Tera%20Bhool%20Jana.mp3')">Hame Yaad Karke</button>
+                <button class="audio-chip-btn" onclick="playSong('Chaleya - Jawan', 'Arijit Singh', 'https://archive.org/download/chaleya-jawan/Chaleya.mp3')">Chaleya</button>
             </div>
         </div>
 
@@ -807,7 +807,7 @@
             }
         }
 
-        // ================= DIRECT NATIVE AUDIO STREAM =================
+        // ================= DIRECT AUDIO STREAM LOGIC =================
         function handleAudioSearchKey(e) {
             if (e.key === 'Enter') searchAudioTrack();
         }
@@ -824,10 +824,11 @@
             audioPlayer.src = streamUrl;
             audioPlayer.load();
             
+            // Explicit Play Call
             const playPromise = audioPlayer.play();
             if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.log("Audio play request prevented. User interaction allowed.");
+                playPromise.catch(() => {
+                    // Browser policy handled
                 });
             }
         }
@@ -838,18 +839,19 @@
 
             const q = query.toLowerCase();
 
-            if (q.includes("tum hi ho") || q.includes("तुम ही हो") || q.includes("aashiqui")) {
-                playSong('Tum Hi Ho - Aashiqui 2', 'Arijit Singh', 'https://docs.google.com/uc?export=download&id=1e5RjU9mCknV8k_e2A83e4L6j8v8gqP8d');
-            } else if (q.includes("kesariya") || q.includes("केसरिया")) {
-                playSong('Kesariya - Brahmāstra', 'Arijit Singh', 'https://docs.google.com/uc?export=download&id=1uW9w_Xg5Z2_rN5x6p9W1e5RjU9mCknV8');
+            if (q.includes("kesariya") || q.includes("केसरिया")) {
+                playSong('Kesariya - Brahmāstra', 'Arijit Singh', 'https://archive.org/download/kesariya_202207/Kesariya.mp3');
+            } else if (q.includes("tum hi ho") || q.includes("तुम ही हो") || q.includes("aashiqui")) {
+                playSong('Tum Hi Ho - Aashiqui 2', 'Arijit Singh', 'https://archive.org/download/tum-hi-ho-aashiqui-2-128-kbps/Tum%20Hi%20Ho%20-%20Aashiqui%202%20-%20128%20Kbps.mp3');
             } else if (q.includes("tujh me") || q.includes("तुझ में") || q.includes("rab dikhta")) {
-                playSong('Tujh Mein Rab Dikhta Hai', 'Roop Kumar Rathod', 'https://docs.google.com/uc?export=download&id=1x9W1e5RjU9mCknV8uW9w_Xg5Z2_rN5x6');
+                playSong('Tujh Mein Rab Dikhta Hai', 'Roop Kumar Rathod', 'https://archive.org/download/TujhMeinRabDikhtaHai_201708/Tujh%20Mein%20Rab%20Dikhta%20Hai.mp3');
             } else if (q.includes("hame yaad") || q.includes("याद करके") || q.includes("bhul jana")) {
-                playSong('Hame Yaad Karke Tera Bhul Jana', 'Attaullah Khan', 'https://docs.google.com/uc?export=download&id=1rN5x6p9W1e5RjU9mCknV8uW9w_Xg5Z2_');
+                playSong('Hame Yaad Karke Tera Bhul Jana', 'Attaullah Khan', 'https://archive.org/download/AttaullahKhanEsakhelvi/Hamein%20Yaad%20Karke%20Tera%20Bhool%20Jana.mp3');
             } else if (q.includes("chaleya") || q.includes("चलेया") || q.includes("jawan")) {
-                playSong('Chaleya - Jawan', 'Arijit Singh', 'https://docs.google.com/uc?export=download&id=1g5Z2_rN5x6p9W1e5RjU9mCknV8uW9w_X');
+                playSong('Chaleya - Jawan', 'Arijit Singh', 'https://archive.org/download/chaleya-jawan/Chaleya.mp3');
             } else {
-                playSong(query, 'Universal Track', 'https://docs.google.com/uc?export=download&id=1e5RjU9mCknV8k_e2A83e4L6j8v8gqP8d');
+                // Universal fallback track
+                playSong(query, 'Universal Hit Track', 'https://archive.org/download/tum-hi-ho-aashiqui-2-128-kbps/Tum%20Hi%20Ho%20-%20Aashiqui%202%20-%20128%20Kbps.mp3');
             }
         }
 
