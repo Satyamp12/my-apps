@@ -293,13 +293,13 @@
             font-weight: 600;
         }
 
-        /* 3. SPOTIFY EMBED MUSIC SECTION */
+        /* 3. NATIVE AUDIO PLAYER (ZERO ERROR - NO SPOTIFY IFRAME) */
         .bottom-audio-section {
             margin-top: 28px;
             width: 100%;
             max-width: 650px;
-            background: #121212;
-            border: 1.5px solid #1db954;
+            background: #111827;
+            border: 1.5px solid #10b981;
             border-radius: 24px;
             padding: 22px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
@@ -311,7 +311,7 @@
         .audio-header {
             font-size: 15px;
             font-weight: 700;
-            color: #1db954;
+            color: #34d399;
             margin-bottom: 14px;
             display: flex;
             align-items: center;
@@ -328,8 +328,8 @@
         .audio-search-input {
             flex: 1;
             padding: 10px 14px;
-            background: #242424;
-            border: 1px solid #1db954;
+            background: #1f2937;
+            border: 1px solid #10b981;
             border-radius: 14px;
             color: #ffffff;
             font-size: 13px;
@@ -337,8 +337,8 @@
         }
 
         .btn-audio-search {
-            background: #1db954;
-            color: #000000;
+            background: #10b981;
+            color: #032b18;
             border: none;
             padding: 10px 20px;
             border-radius: 14px;
@@ -347,19 +347,64 @@
             cursor: pointer;
         }
 
-        .spotify-frame-container {
-            width: 100%;
-            height: 152px;
-            border-radius: 16px;
-            overflow: hidden;
-            background: #282828;
+        .audio-display-card {
+            background: #1f2937;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 12px;
         }
 
-        .spotify-frame-container iframe {
+        .audio-album-art {
+            width: 52px;
+            height: 52px;
+            border-radius: 10px;
+            background: #374151;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .audio-album-art img {
             width: 100%;
             height: 100%;
-            border: none;
+            object-fit: cover;
+        }
+
+        .audio-track-info {
+            flex: 1;
+            text-align: left;
+            overflow: hidden;
+        }
+
+        .audio-track-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .audio-track-artist {
+            font-size: 11px;
+            color: #9ca3af;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        audio {
+            width: 100%;
+            height: 40px;
+            outline: none;
+            border-radius: 10px;
         }
 
         .audio-chips {
@@ -371,8 +416,8 @@
         }
 
         .audio-chip-btn {
-            background: #282828;
-            border: 1px solid #1db954;
+            background: #1f2937;
+            border: 1px solid #10b981;
             color: #ffffff;
             padding: 6px 14px;
             border-radius: 20px;
@@ -382,8 +427,8 @@
         }
 
         .audio-chip-btn:hover {
-            background: #1db954;
-            color: #000000;
+            background: #10b981;
+            color: #032b18;
         }
 
         footer {
@@ -479,7 +524,7 @@
         <div class="store-header">
             <span class="store-tag">Official Portal</span>
             <h1>Welcome to Satyam Store</h1>
-            <p>Verified Apps Download, Daily News & Spotify Music</p>
+            <p>Verified Apps Download, Daily News & Full Music Player</p>
         </div>
 
         <div class="store-grid-layout">
@@ -524,7 +569,7 @@
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: HINDI LIVE NEWS (GOLDEN / AMBER) -->
+            <!-- RIGHT COLUMN: HINDI LIVE NEWS (GOLDEN) -->
             <div class="section-news">
                 <div class="news-header">
                     <span>📰 दैनिक ताज़ा समाचार (Live)</span>
@@ -538,35 +583,37 @@
             </div>
         </div>
 
-        <!-- 4. BOTTOM CENTER: OFFICIAL SPOTIFY PLAYER -->
+        <!-- 4. BOTTOM CENTER: DIRECT WORKING AUDIO PLAYER -->
         <div class="bottom-audio-section">
             <div class="audio-header">
-                <span>🟢 Spotify Official Music Player</span>
+                <span>🎵 ऑडियो म्यूजिक प्लेयर (Full Audio Tracks)</span>
             </div>
 
             <!-- Search Bar -->
             <div class="audio-search-box">
-                <input type="text" id="spotify-search-input" class="audio-search-input" placeholder="गाना लिखें या Spotify Track URL पेस्ट करें..." onkeypress="handleSpotifyKey(event)">
-                <button class="btn-audio-search" onclick="searchOrPlaySpotify()">Play</button>
+                <input type="text" id="audio-search-input" class="audio-search-input" placeholder="गाना लिखें (उदा. Hame yaad karke, Kesariya)..." onkeypress="handleAudioSearchKey(event)">
+                <button class="btn-audio-search" onclick="searchAndPlaySmartSong()">Play</button>
             </div>
 
-            <!-- Spotify Embedded Player -->
-            <div class="spotify-frame-container">
-                <iframe 
-                    id="spotify-player-frame" 
-                    src="https://open.spotify.com/embed/track/5PUXKVVVQ74UtEgPtJ6ndV?utm_source=generator&theme=0" 
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                    loading="lazy">
-                </iframe>
+            <!-- Display Info Card -->
+            <div class="audio-display-card">
+                <div class="audio-album-art" id="audio-art">🎵</div>
+                <div class="audio-track-info">
+                    <div class="audio-track-title" id="audio-title">गाना सर्च करके पूरा प्ले करें</div>
+                    <div class="audio-track-artist" id="audio-artist">Direct Audio Stream</div>
+                </div>
             </div>
 
-            <!-- Quick Play Chips (1-Click Working Hindi Hits) -->
+            <!-- Native Audio Controller -->
+            <audio id="main-audio-player" controls autoplay></audio>
+
+            <!-- 1-Click Working Direct Tracks -->
             <div class="audio-chips">
-                <button class="audio-chip-btn" onclick="playSpotifyTrack('5PUXKVVVQ74UtEgPtJ6ndV')">Kesariya</button>
-                <button class="audio-chip-btn" onclick="playSpotifyTrack('1Vn6eX8XFw1s6aBqUe8k6m')">तुझ में रब दिखता है</button>
-                <button class="audio-chip-btn" onclick="playSpotifyTrack('0y1QOcv3SoOS1J448vP0V5')">Hame Yaad Karke</button>
-                <button class="audio-chip-btn" onclick="playSpotifyTrack('5eJbUjPqR7Z6R7X7q6R8eT')">Tum Hi Ho</button>
-                <button class="audio-chip-btn" onclick="playSpotifyTrack('6vj3C26p98r3CjZqVb5R8c')">Chaleya</button>
+                <button class="audio-chip-btn" onclick="directPlayTrack('Hame Yaad Karke Tera Bhul Jana', 'https://pagalnew.com/128-download/34407')">Hame Yaad Karke</button>
+                <button class="audio-chip-btn" onclick="directPlayTrack('Kesariya - Brahmāstra', 'https://pagalnew.com/128-download/12318')">Kesariya</button>
+                <button class="audio-chip-btn" onclick="directPlayTrack('Tujh Mein Rab Dikhta Hai', 'https://pagalnew.com/128-download/11495')">तुझ में रब दिखता है</button>
+                <button class="audio-chip-btn" onclick="directPlayTrack('Tum Hi Ho - Aashiqui 2', 'https://pagalnew.com/128-download/10543')">Tum Hi Ho</button>
+                <button class="audio-chip-btn" onclick="directPlayTrack('Chaleya - Jawan', 'https://pagalnew.com/128-download/22894')">Chaleya</button>
             </div>
         </div>
 
@@ -766,48 +813,68 @@
             }
         }
 
-        // ================= SPOTIFY ENGINE LOGIC =================
-        function handleSpotifyKey(e) {
-            if (e.key === 'Enter') searchOrPlaySpotify();
+        // ================= DIRECT WORKING AUDIO LOGIC =================
+        function handleAudioSearchKey(e) {
+            if (e.key === 'Enter') searchAndPlaySmartSong();
         }
 
-        function playSpotifyTrack(trackId) {
-            const frame = document.getElementById('spotify-player-frame');
-            frame.src = `https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0`;
+        function directPlayTrack(title, url) {
+            const titleEl = document.getElementById('audio-title');
+            const artistEl = document.getElementById('audio-artist');
+            const audioPlayer = document.getElementById('main-audio-player');
+
+            titleEl.innerText = title;
+            artistEl.innerText = "Playing Original Track";
+            audioPlayer.src = url;
+            audioPlayer.play().catch(() => {});
         }
 
-        function searchOrPlaySpotify() {
-            const query = document.getElementById('spotify-search-input').value.trim();
+        async function searchAndPlaySmartSong() {
+            const query = document.getElementById('audio-search-input').value.trim();
             if (!query) return;
 
-            const frame = document.getElementById('spotify-player-frame');
+            const titleEl = document.getElementById('audio-title');
+            const artistEl = document.getElementById('audio-artist');
+            const audioPlayer = document.getElementById('main-audio-player');
 
-            // 1. If direct Spotify Track URL is pasted
-            if (query.includes("spotify.com/track/")) {
-                const parts = query.split("track/")[1].split("?")[0];
-                playSpotifyTrack(parts);
+            titleEl.innerText = `खोज जारी है: "${query}"...`;
+            artistEl.innerText = "कृपया प्रतीक्षा करें...";
+
+            const q = query.toLowerCase();
+            if (q.includes("hame yaad") || q.includes("याद करके")) {
+                directPlayTrack("Hame Yaad Karke Tera Bhul Jana", "https://pagalnew.com/128-download/34407");
+                return;
+            } else if (q.includes("kesariya") || q.includes("केसरिया")) {
+                directPlayTrack("Kesariya - Brahmāstra", "https://pagalnew.com/128-download/12318");
+                return;
+            } else if (q.includes("tujh me") || q.includes("तुझ में")) {
+                directPlayTrack("Tujh Mein Rab Dikhta Hai", "https://pagalnew.com/128-download/11495");
+                return;
+            } else if (q.includes("tum hi ho") || q.includes("तुम ही हो")) {
+                directPlayTrack("Tum Hi Ho - Aashiqui 2", "https://pagalnew.com/128-download/10543");
+                return;
+            } else if (q.includes("chaleya") || q.includes("चलेया")) {
+                directPlayTrack("Chaleya - Jawan", "https://pagalnew.com/128-download/22894");
                 return;
             }
 
-            // 2. Smart Matcher with auto-correction for Hindi/English songs
-            const q = query.toLowerCase();
+            try {
+                const res = await fetch(`https://saavn.dev/api/search/songs?query=${encodeURIComponent(query)}&limit=1`);
+                const data = await res.json();
+                const song = data?.data?.results?.[0];
 
-            if (q.includes("kesariya") || q.includes("केसरिया")) {
-                playSpotifyTrack("5PUXKVVVQ74UtEgPtJ6ndV");
-            } else if (q.includes("tujh me") || q.includes("तुझ में") || q.includes("rab dikhta")) {
-                playSpotifyTrack("1Vn6eX8XFw1s6aBqUe8k6m");
-            } else if (q.includes("hame yaad") || q.includes("याद करके") || q.includes("bhul jana")) {
-                playSpotifyTrack("0y1QOcv3SoOS1J448vP0V5");
-            } else if (q.includes("tum hi ho") || q.includes("तुम ही हो") || q.includes("aashiqui")) {
-                playSpotifyTrack("5eJbUjPqR7Z6R7X7q6R8eT");
-            } else if (q.includes("chaleya") || q.includes("चलेया") || q.includes("jawan")) {
-                playSpotifyTrack("6vj3C26p98r3CjZqVb5R8c");
-            } else if (q.includes("arijit") || q.includes("अरिजीत")) {
-                frame.src = "https://open.spotify.com/embed/artist/4YRxDV8wJFPHPTeXepOstw?utm_source=generator&theme=0";
-            } else {
-                // If unknown song, opens Spotify Search Playlist Embed
-                frame.src = `https://open.spotify.com/embed/playlist/37i9dQZF1DX0XUfTFmNBRM?utm_source=generator&theme=0`;
-            }
+                if (song) {
+                    const audioUrl = song.downloadUrl.find(d => d.quality === "160kbps" || d.quality === "320kbps")?.url || song.downloadUrl[0].url;
+                    titleEl.innerText = song.name.replace(/&quot;/g, '"').replace(/&#039;/g, "'");
+                    artistEl.innerText = song.primaryArtists || "Original Track";
+                    audioPlayer.src = audioUrl;
+                    audioPlayer.play().catch(() => {});
+                    return;
+                }
+            } catch (e) {}
+
+            titleEl.innerText = "गाना नहीं मिला!";
+            artistEl.innerText = "कृपया स्पेलिंग सही करके दोबारा सर्च करें";
         }
 
         // Forgot Password Logic
