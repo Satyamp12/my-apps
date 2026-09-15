@@ -160,7 +160,7 @@
             }
         }
 
-        /* LEFT: APPS (GREEN THEME) */
+        /* LEFT: APPS SECTION (GREEN) */
         .section-apps {
             background: rgba(46, 204, 113, 0.05);
             border: 1px solid rgba(46, 204, 113, 0.3);
@@ -341,10 +341,11 @@
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(245, 158, 11, 0.3);
             color: #fbbf24;
-            padding: 4px 9px;
+            padding: 5px 11px;
             border-radius: 10px;
-            font-size: 10.5px;
+            font-size: 11px;
             cursor: pointer;
+            font-weight: 500;
         }
 
         .chip-btn:hover {
@@ -489,7 +490,7 @@
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: 100% UNBLOCKED LIVE VIDEO & SEARCH (GOLD) -->
+            <!-- RIGHT COLUMN: 100% WORKING LIVE VIDEO & SEARCH (GOLD) -->
             <div class="section-news">
                 <div class="news-header">
                     <span>📺 दैनिक न्यूज़ वीडियो (Live TV)</span>
@@ -502,7 +503,7 @@
                     <button class="btn-search" onclick="searchOrPlayVideo()">Play</button>
                 </div>
 
-                <!-- 100% Working Unblocked Live Player -->
+                <!-- Active 24x7 Embed Stream Player -->
                 <div class="video-container">
                     <iframe 
                         id="news-player" 
@@ -513,14 +514,14 @@
                     </iframe>
                 </div>
 
-                <div id="channel-title" class="channel-indicator">🔴 लाइव स्ट्रीम: Aaj Tak Hindi Live</div>
+                <div id="channel-title" class="channel-indicator">🔴 लाइव: Aaj Tak Live News</div>
 
-                <!-- Quick Channels -->
+                <!-- Working Quick Channels -->
                 <div class="quick-chips">
                     <button class="chip-btn" onclick="setDirectStream(0)">Aaj Tak</button>
                     <button class="chip-btn" onclick="setDirectStream(1)">India TV</button>
                     <button class="chip-btn" onclick="setDirectStream(2)">News 24</button>
-                    <button class="chip-btn" onclick="setDirectStream(3)">NDTV India</button>
+                    <button class="chip-btn" onclick="setDirectStream(3)">DD News</button>
                 </div>
             </div>
         </div>
@@ -636,12 +637,12 @@
                 .catch(err => console.log("Alert sending failed: ", err));
         }
 
-        // 100% Guaranteed Unblocked Live News Streams
+        // Active 24x7 Hindi News Live Streams
         const liveStreams = [
-            { name: "Aaj Tak Live (National)", url: "https://www.dailymotion.com/embed/video/x7tgad0?autoplay=1" },
-            { name: "India TV Live", url: "https://www.dailymotion.com/embed/video/x5x2r78?autoplay=1" },
-            { name: "News 24 Live", url: "https://www.dailymotion.com/embed/video/x82b2i6?autoplay=1" },
-            { name: "NDTV India Live", url: "https://www.dailymotion.com/embed/video/x6iqt1g?autoplay=1" }
+            { name: "Aaj Tak Live News", url: "https://www.dailymotion.com/embed/video/x7tgad0?autoplay=1" },
+            { name: "India TV Official Live", url: "https://www.dailymotion.com/embed/video/x8o0p2c?autoplay=1" },
+            { name: "News 24 Live 24x7", url: "https://www.dailymotion.com/embed/video/x82l10v?autoplay=1" },
+            { name: "DD News Live National", url: "https://www.dailymotion.com/embed/video/x80q48l?autoplay=1" }
         ];
         let currentStreamIdx = 0;
 
@@ -649,7 +650,7 @@
             currentStreamIdx = index;
             const item = liveStreams[index];
             document.getElementById('news-player').src = item.url;
-            document.getElementById('channel-title').innerText = "🔴 लाइव स्ट्रीम: " + item.name;
+            document.getElementById('channel-title').innerText = "🔴 लाइव: " + item.name;
         }
 
         function rotateLiveStream() {
@@ -661,7 +662,6 @@
             if (e.key === 'Enter') searchOrPlayVideo();
         }
 
-        // Play user's searched video or specific link
         function searchOrPlayVideo() {
             const query = document.getElementById('news-search-input').value.trim();
             if (!query) return;
@@ -669,7 +669,6 @@
             const player = document.getElementById('news-player');
             const title = document.getElementById('channel-title');
 
-            // If user pasted a YouTube Link or Video ID
             if (query.includes("youtube.com") || query.includes("youtu.be")) {
                 let videoId = "";
                 if (query.includes("youtu.be/")) {
@@ -678,9 +677,8 @@
                     videoId = query.split("watch?v=")[1].split("&")[0];
                 }
                 player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-                title.innerText = "🎬 आपका वीडियो लोड हो गया!";
+                title.innerText = "🎬 कस्टम वीडियो लोड हो गया!";
             } else {
-                // Search on Dailymotion embed (Doesn't block web embedding!)
                 player.src = `https://www.dailymotion.com/embed/search?query=${encodeURIComponent(query)}&autoplay=1`;
                 title.innerText = `🔍 परिणाम: "${query}" का वीडियो चल रहा है`;
             }
