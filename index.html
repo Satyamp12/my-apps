@@ -160,7 +160,7 @@
             }
         }
 
-        /* LEFT: APPS SECTION (GREEN) */
+        /* LEFT: APPS (GREEN THEME) */
         .section-apps {
             background: rgba(46, 204, 113, 0.05);
             border: 1px solid rgba(46, 204, 113, 0.3);
@@ -228,7 +228,7 @@
             font-weight: 700;
         }
 
-        /* RIGHT: LIVE NEWS & VIDEO SEARCH (AMBER/GOLD) */
+        /* RIGHT: UNIVERSAL VIDEO & LIVE MEDIA (AMBER/GOLD THEME) */
         .section-news {
             background: rgba(245, 158, 11, 0.06);
             border: 1px solid rgba(245, 158, 11, 0.35);
@@ -268,20 +268,21 @@
             transform: scale(0.95);
         }
 
+        /* Search Box */
         .search-box {
             display: flex;
             gap: 8px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .search-input {
             flex: 1;
-            padding: 9px 12px;
-            background: rgba(0, 0, 0, 0.45);
-            border: 1px solid rgba(245, 158, 11, 0.35);
+            padding: 10px 14px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(245, 158, 11, 0.4);
             border-radius: 12px;
             color: #fff;
-            font-size: 12px;
+            font-size: 13px;
             outline: none;
         }
 
@@ -291,11 +292,11 @@
 
         .btn-search {
             background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: #000;
+            color: #032b18;
             border: none;
-            padding: 8px 14px;
+            padding: 10px 16px;
             border-radius: 12px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 700;
             cursor: pointer;
         }
@@ -303,7 +304,7 @@
         .video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
             height: 0;
             overflow: hidden;
             border-radius: 14px;
@@ -445,7 +446,7 @@
         <div class="store-header">
             <span class="store-tag">Official Portal</span>
             <h1>Welcome to Satyam Store</h1>
-            <p>Verified Apps Download & Live News Stream</p>
+            <p>Verified Apps Download & All-In-One Video Media Player</p>
         </div>
 
         <div class="store-grid-layout">
@@ -490,38 +491,38 @@
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: 100% WORKING LIVE VIDEO & SEARCH (GOLD) -->
+            <!-- RIGHT COLUMN: UNIVERSAL SEARCH & UNBLOCKED MEDIA PLAYER (GOLD) -->
             <div class="section-news">
                 <div class="news-header">
-                    <span>📺 दैनिक न्यूज़ वीडियो (Live TV)</span>
-                    <button class="btn-refresh" id="btn-refresh-news" onclick="rotateLiveStream()">🔄 अगली न्यूज़ (Refresh)</button>
+                    <span>🎬 वीडियो / सोंग्स / लाइव प्लेयर</span>
+                    <button class="btn-refresh" id="btn-refresh-news" onclick="rotateLiveStream()">🔄 न्यूज़ बदलें (Refresh)</button>
                 </div>
 
-                <!-- Video Search / URL Box -->
+                <!-- Universal Search: Songs, Videos, Movies, News -->
                 <div class="search-box">
-                    <input type="text" id="news-search-input" class="search-input" placeholder="YouTube Video Link / ID या टॉपिक लिखें..." onkeypress="handleSearchKey(event)">
-                    <button class="btn-search" onclick="searchOrPlayVideo()">Play</button>
+                    <input type="text" id="news-search-input" class="search-input" placeholder="कोई भी गाना, वीडियो या न्यूज़ सर्च करें..." onkeypress="handleSearchKey(event)">
+                    <button class="btn-search" onclick="searchUniversalVideo()">Search</button>
                 </div>
 
-                <!-- Active 24x7 Embed Stream Player -->
+                <!-- Unrestricted Embedded Player -->
                 <div class="video-container">
                     <iframe 
                         id="news-player" 
                         src="https://www.dailymotion.com/embed/video/x7tgad0?autoplay=1" 
-                        title="Live Hindi News Player"
+                        title="Universal Video Player"
                         allow="autoplay; fullscreen; picture-in-picture" 
                         allowfullscreen>
                     </iframe>
                 </div>
 
-                <div id="channel-title" class="channel-indicator">🔴 लाइव: Aaj Tak Live News</div>
+                <div id="channel-title" class="channel-indicator">🔴 लाइव स्ट्रीम: Aaj Tak Live News</div>
 
-                <!-- Working Quick Channels -->
+                <!-- Quick Categories -->
                 <div class="quick-chips">
-                    <button class="chip-btn" onclick="setDirectStream(0)">Aaj Tak</button>
-                    <button class="chip-btn" onclick="setDirectStream(1)">India TV</button>
-                    <button class="chip-btn" onclick="setDirectStream(2)">News 24</button>
-                    <button class="chip-btn" onclick="setDirectStream(3)">DD News</button>
+                    <button class="chip-btn" onclick="quickSearch('Bollywood Hit Songs 2026')">🎵 Trending Songs</button>
+                    <button class="chip-btn" onclick="quickSearch('Arijit Singh Top Songs')">🎤 Arijit Singh</button>
+                    <button class="chip-btn" onclick="quickSearch('Bhojpuri Song Superhit')">📻 Bhojpuri Songs</button>
+                    <button class="chip-btn" onclick="setDirectStream(0)">🔴 Live TV</button>
                 </div>
             </div>
         </div>
@@ -637,7 +638,7 @@
                 .catch(err => console.log("Alert sending failed: ", err));
         }
 
-        // Active 24x7 Hindi News Live Streams
+        // Live News Channels
         const liveStreams = [
             { name: "Aaj Tak Live News", url: "https://www.dailymotion.com/embed/video/x7tgad0?autoplay=1" },
             { name: "India TV Official Live", url: "https://www.dailymotion.com/embed/video/x8o0p2c?autoplay=1" },
@@ -650,7 +651,7 @@
             currentStreamIdx = index;
             const item = liveStreams[index];
             document.getElementById('news-player').src = item.url;
-            document.getElementById('channel-title').innerText = "🔴 लाइव: " + item.name;
+            document.getElementById('channel-title').innerText = "🔴 लाइव स्ट्रीम: " + item.name;
         }
 
         function rotateLiveStream() {
@@ -659,28 +660,54 @@
         }
 
         function handleSearchKey(e) {
-            if (e.key === 'Enter') searchOrPlayVideo();
+            if (e.key === 'Enter') searchUniversalVideo();
         }
 
-        function searchOrPlayVideo() {
+        function quickSearch(term) {
+            document.getElementById('news-search-input').value = term;
+            searchUniversalVideo();
+        }
+
+        // UNIVERSAL SEARCH (Songs, Videos, Trending, etc.)
+        async function searchUniversalVideo() {
             const query = document.getElementById('news-search-input').value.trim();
             if (!query) return;
 
             const player = document.getElementById('news-player');
             const title = document.getElementById('channel-title');
+            title.innerText = "⏳ खोजा जा रहा है: " + query + "...";
 
+            // If user pasted direct YouTube Link / Video ID
             if (query.includes("youtube.com") || query.includes("youtu.be")) {
-                let videoId = "";
+                let vid = "";
                 if (query.includes("youtu.be/")) {
-                    videoId = query.split("youtu.be/")[1].split("?")[0];
+                    vid = query.split("youtu.be/")[1].split("?")[0];
                 } else if (query.includes("watch?v=")) {
-                    videoId = query.split("watch?v=")[1].split("&")[0];
+                    vid = query.split("watch?v=")[1].split("&")[0];
                 }
-                player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-                title.innerText = "🎬 कस्टम वीडियो लोड हो गया!";
-            } else {
+                player.src = `https://piped.video/embed/${vid}?autoplay=1`;
+                title.innerText = "🎵 वीडियो चल रहा है!";
+                return;
+            }
+
+            // Universal Open Search via Dailymotion API (100% playable music/video)
+            try {
+                const res = await fetch(`https://api.dailymotion.com/videos?search=${encodeURIComponent(query)}&fields=id,title&limit=1`);
+                const data = await res.json();
+                
+                if (data.list && data.list.length > 0) {
+                    const topVideo = data.list[0];
+                    player.src = `https://www.dailymotion.com/embed/video/${topVideo.id}?autoplay=1`;
+                    title.innerText = "▶️ चल रहा है: " + topVideo.title;
+                } else {
+                    // Fallback to in-player search
+                    player.src = `https://www.dailymotion.com/embed/search?query=${encodeURIComponent(query)}&autoplay=1`;
+                    title.innerText = `🔍 परिणाम: "${query}" का वीडियो प्ले हो रहा है`;
+                }
+            } catch (err) {
+                // Direct fallback
                 player.src = `https://www.dailymotion.com/embed/search?query=${encodeURIComponent(query)}&autoplay=1`;
-                title.innerText = `🔍 परिणाम: "${query}" का वीडियो चल रहा है`;
+                title.innerText = `🔍 "${query}" सर्च किया गया`;
             }
         }
 
