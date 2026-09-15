@@ -8,7 +8,6 @@
     
     <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
@@ -32,7 +31,6 @@
             justify-content: center;
         }
 
-        /* --- Auth Cards (Login / Forgot) --- */
         .auth-card {
             width: 100%;
             max-width: 380px;
@@ -46,30 +44,11 @@
             text-align: center;
         }
 
-        .auth-icon {
-            font-size: 38px;
-            margin-bottom: 10px;
-        }
+        .auth-icon { font-size: 38px; margin-bottom: 10px; }
+        .auth-card h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; color: #ffffff; }
+        .auth-card p { font-size: 12px; color: #d1fae5; margin-bottom: 20px; opacity: 0.85; }
 
-        .auth-card h2 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: #ffffff;
-        }
-
-        .auth-card p {
-            font-size: 12px;
-            color: #d1fae5;
-            margin-bottom: 20px;
-            opacity: 0.85;
-        }
-
-        .input-group {
-            margin-bottom: 16px;
-            text-align: left;
-        }
-
+        .input-group { margin-bottom: 16px; text-align: left; }
         .input-group label {
             display: block;
             font-size: 11px;
@@ -89,12 +68,6 @@
             color: #ffffff;
             font-size: 14px;
             outline: none;
-            transition: 0.2s border;
-        }
-
-        .input-group input:focus {
-            border-color: #2ecc71;
-            box-shadow: 0 0 8px rgba(46, 204, 113, 0.3);
         }
 
         .btn-main {
@@ -107,18 +80,7 @@
             font-size: 14px;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 14px rgba(46, 204, 113, 0.4);
-            transition: 0.2s transform;
             margin-top: 6px;
-        }
-
-        .btn-main:active {
-            transform: scale(0.97);
-        }
-
-        .btn-main:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
         }
 
         .btn-secondary {
@@ -132,11 +94,6 @@
             font-weight: 600;
             cursor: pointer;
             margin-top: 10px;
-            transition: 0.2s all;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(46, 204, 113, 0.2);
         }
 
         .btn-link {
@@ -150,42 +107,28 @@
             display: inline-block;
         }
 
-        .status-msg {
-            font-size: 12px;
-            margin-top: 14px;
-            font-weight: 500;
-            display: none;
-        }
-
+        .status-msg { font-size: 12px; margin-top: 14px; font-weight: 500; display: none; }
         .error { color: #ff6b6b; }
         .success { color: #2ecc71; }
 
-        /* reCAPTCHA responsive container */
-        #recaptcha-container {
-            display: flex;
-            justify-content: center;
-            margin: 14px 0;
-        }
-
-        /* --- Store Content --- */
-        #store-content {
+        /* Blocked Card */
+        #blocked-box {
             display: none;
-            width: 100%;
-            max-width: 480px;
+            border-color: rgba(239, 68, 68, 0.6);
+            box-shadow: 0 15px 35px rgba(239, 68, 68, 0.2);
         }
 
+        /* Store Content */
+        #store-content { display: none; width: 100%; max-width: 480px; }
         .store-header {
             text-align: center;
             margin-bottom: 26px;
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border: 1.5px solid rgba(46, 204, 113, 0.35);
             padding: 30px 20px;
             border-radius: 24px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
         }
-
         .store-tag {
             display: inline-block;
             background: rgba(46, 204, 113, 0.18);
@@ -193,71 +136,36 @@
             color: #a7f3d0;
             font-size: 11px;
             font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
             padding: 4px 14px;
             border-radius: 20px;
             margin-bottom: 12px;
         }
-
-        .store-header h1 {
-            font-size: 25px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 6px;
-        }
-
-        .store-header p {
-            font-size: 13.5px;
-            color: #d1fae5;
-            opacity: 0.95;
-        }
-
         .section-title {
             font-size: 14px;
             font-weight: 700;
             color: #6ee7b7;
             margin-bottom: 14px;
-            padding-left: 6px;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-
         .section-title::after {
             content: '';
             flex: 1;
             height: 1px;
             background: rgba(110, 231, 183, 0.25);
         }
-
-        .items-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
+        .items-list { display: flex; flex-direction: column; gap: 15px; }
         .store-card {
             background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
             border: 1px solid rgba(46, 204, 113, 0.25);
             border-radius: 20px;
             padding: 16px 18px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
         }
-
-        .item-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
+        .item-info { display: flex; align-items: center; gap: 15px; }
         .item-icon {
             width: 58px;
             height: 58px;
@@ -267,44 +175,10 @@
             justify-content: center;
             font-size: 26px;
             font-weight: 700;
-            color: white;
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
-            flex-shrink: 0;
         }
-
         .icon-findhub { background: linear-gradient(135deg, #059669, #10b981); }
         .icon-linkedin { background: linear-gradient(135deg, #0284c7, #0369a1); }
         .icon-image { background: linear-gradient(135deg, #f59e0b, #d97706); }
-
-        .item-details h3 {
-            font-size: 16px;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 3px;
-        }
-
-        .item-details .subtitle {
-            font-size: 12px;
-            color: #a7f3d0;
-            margin-bottom: 5px;
-        }
-
-        .item-meta {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 11px;
-            color: #ecfdf5;
-        }
-
-        .item-meta span {
-            background: rgba(46, 204, 113, 0.18);
-            border: 1px solid rgba(46, 204, 113, 0.3);
-            padding: 2px 7px;
-            border-radius: 6px;
-            font-weight: 500;
-        }
-
         .btn-action {
             background: linear-gradient(135deg, #2ecc71, #27ae60);
             color: #032b18;
@@ -313,23 +187,20 @@
             border-radius: 22px;
             font-size: 13px;
             font-weight: 700;
-            box-shadow: 0 4px 14px rgba(46, 204, 113, 0.45);
         }
-
-        .btn-action:active {
-            transform: scale(0.93);
-        }
-
-        footer {
-            margin-top: 36px;
-            text-align: center;
-            font-size: 12px;
-            color: #6ee7b7;
-            opacity: 0.85;
-        }
+        footer { margin-top: 36px; text-align: center; font-size: 12px; color: #6ee7b7; }
     </style>
 </head>
 <body>
+
+    <!-- DEVICE BLOCKED SCREEN -->
+    <div id="blocked-box" class="auth-card">
+        <div class="auth-icon">🚫</div>
+        <h2 style="color: #ff6b6b;">Device Blocked</h2>
+        <p style="color: #fca5a5;">Suraksha karno se aapka access block kar diya gaya hai kyonki 5 baar galat password enter hua.</p>
+        <p style="font-size: 11px; opacity: 0.7;">Admin ko unlock link email par bhej diya gaya hai.</p>
+        <div id="device-tag" style="background: rgba(255,255,255,0.1); padding: 8px; border-radius: 8px; font-size: 11px; margin-top: 10px;"></div>
+    </div>
 
     <!-- 1. LOGIN SCREEN -->
     <div id="login-box" class="auth-card">
@@ -352,19 +223,17 @@
         <div id="login-error" class="status-msg error">Galat User ID ya Password!</div>
     </div>
 
-    <!-- 2. FORGOT PASSWORD SCREEN (CHOICE -> PHONE/EMAIL -> VERIFY) -->
+    <!-- 2. FORGOT PASSWORD SCREEN -->
     <div id="forgot-box" class="auth-card" style="display: none;">
         <div class="auth-icon" id="forgot-icon">🔑</div>
         <h2 id="forgot-title">Reset Password</h2>
         <p id="forgot-desc">OTP prapt karne ke liye madhyam chunein</p>
 
-        <!-- STEP 1: METHOD SELECTION -->
         <div id="step-choose-method">
             <button class="btn-main" onclick="chooseMethod('sms')">📱 Via Mobile SMS OTP</button>
             <button class="btn-secondary" onclick="chooseMethod('email')">✉️ Via Email (Gmail) OTP</button>
         </div>
 
-        <!-- STEP 2A: PHONE INPUT & RECAPTCHA (SMS) -->
         <div id="step-phone-input" style="display: none;">
             <div class="input-group">
                 <label>Mobile Number (+91 ke sath)</label>
@@ -375,7 +244,6 @@
             <button class="btn-link" onclick="backToMethodSelection()">← Dusra method chunein</button>
         </div>
 
-        <!-- STEP 2B: EMAIL SENDER (GMAIL) -->
         <div id="step-email-input" style="display: none;">
             <p style="font-size:13px; color:#a7f3d0; margin-bottom:15px;">
                 OTP aapki registered email <b>sp9291054@gmail.com</b> par bheja jayega.
@@ -384,7 +252,6 @@
             <button class="btn-link" onclick="backToMethodSelection()">← Dusra method chunein</button>
         </div>
 
-        <!-- STEP 3: OTP VERIFICATION & NEW PASSWORD -->
         <div id="step-verify-otp" style="display: none;">
             <div class="input-group">
                 <label id="otp-label">Enter OTP</label>
@@ -414,71 +281,51 @@
         <div class="section-title">Available Downloads</div>
 
         <div class="items-list">
-            <!-- App 1: Find Hub -->
             <div class="store-card">
                 <div class="item-info">
                     <div class="item-icon icon-findhub">🔍</div>
-                    <div class="item-details">
+                    <div>
                         <h3>Find Hub</h3>
-                        <div class="subtitle">Satyam Apps • Utility</div>
-                        <div class="item-meta">
-                            <span>4.8 ★</span>
-                            <span class="auto-size" data-file="FindHub.apk">...</span>
-                            <span>APK</span>
-                        </div>
+                        <p style="font-size:12px; color:#a7f3d0;">Satyam Apps • Utility</p>
                     </div>
                 </div>
                 <a href="FindHub.apk" download class="btn-action">Install</a>
             </div>
 
-            <!-- App 2: LinkedIn Android -->
             <div class="store-card">
                 <div class="item-info">
                     <div class="item-icon icon-linkedin">in</div>
-                    <div class="item-details">
+                    <div>
                         <h3>LinkedIn Android</h3>
-                        <div class="subtitle">Professional Network</div>
-                        <div class="item-meta">
-                            <span>4.5 ★</span>
-                            <span class="auto-size" data-file="Linkdinandroid.apk">...</span>
-                            <span>APK</span>
-                        </div>
+                        <p style="font-size:12px; color:#a7f3d0;">Professional Network</p>
                     </div>
                 </div>
                 <a href="Linkdinandroid.apk" download class="btn-action">Install</a>
             </div>
 
-            <!-- Item 3: Profile Image -->
             <div class="store-card">
                 <div class="item-info">
                     <div class="item-icon icon-image">🖼️</div>
-                    <div class="item-details">
+                    <div>
                         <h3>Image Download</h3>
-                        <div class="subtitle">Profile Asset • Media</div>
-                        <div class="item-meta">
-                            <span>HD</span>
-                            <span class="auto-size" data-file="Patel.jpg.png">...</span>
-                            <span>PNG</span>
-                        </div>
+                        <p style="font-size:12px; color:#a7f3d0;">Profile Asset • Media</p>
                     </div>
                 </div>
                 <a href="Patel.jpg.png" download="Profile_Image.png" class="btn-action">Download</a>
             </div>
         </div>
 
-        <footer>
-            © Satyam Store • All Rights Reserved
-        </footer>
+        <footer>© Satyam Store • All Rights Reserved</footer>
     </div>
 
     <script>
-        // --- EmailJS Setup ---
         const EMAILJS_PUBLIC_KEY = "vJYmBU6suMx_YVA1f";
         const EMAILJS_SERVICE_ID = "service_tbnax2k";
-        const EMAILJS_TEMPLATE_ID = "template_z1m23z7";
+        const EMAILJS_OTP_TEMPLATE = "template_z1m23z7";
+        const EMAILJS_ALERT_TEMPLATE = "template_w2uju39"; // Aapki nayi alert template ID
+
         emailjs.init(EMAILJS_PUBLIC_KEY);
 
-        // --- Firebase Setup ---
         const firebaseConfig = {
             apiKey: "AIzaSyAexoUO9KNzm0rEpoI0RNyN9yOFJ-BfvN0",
             authDomain: "satyam-store-4e40c.firebaseapp.com",
@@ -489,39 +336,106 @@
             measurementId: "G-G3P0PL014P"
         };
 
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
-        // Credentials
         const DEFAULT_USER_ID = "SAT93350";
         const DEFAULT_PASS = "PATEL@#";
-        
-        let currentMethod = null; // 'sms' or 'email'
-        let emailOtpGenerated = null;
-        let confirmationResult = null;
+        const MAX_ATTEMPTS = 5;
+
+        // Device Management
+        function getDeviceId() {
+            let devId = localStorage.getItem('satyam_device_id');
+            if (!devId) {
+                devId = 'DEV-' + Math.random().toString(36).substring(2, 9).toUpperCase();
+                localStorage.setItem('satyam_device_id', devId);
+            }
+            return devId;
+        }
+
+        // Check Unlock Query Parameter in URL
+        (function checkUnlockUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const unlockId = params.get('unlock');
+            if (unlockId) {
+                const currentId = getDeviceId();
+                if (unlockId === currentId || unlockId === 'ADMIN_ALL') {
+                    localStorage.removeItem('satyam_device_blocked');
+                    localStorage.setItem('satyam_login_attempts', '0');
+                    alert("Aapka device safaltapoorvak UNLOCK kar diya gaya hai!");
+                    window.location.href = window.location.pathname;
+                }
+            }
+        })();
+
+        // Check if device is already blocked
+        function verifyDeviceStatus() {
+            if (localStorage.getItem('satyam_device_blocked') === 'true') {
+                document.getElementById('login-box').style.display = 'none';
+                document.getElementById('forgot-box').style.display = 'none';
+                document.getElementById('blocked-box').style.display = 'block';
+                document.getElementById('device-tag').innerText = "Device ID: " + getDeviceId();
+                return false;
+            }
+            return true;
+        }
+
+        window.onload = verifyDeviceStatus;
 
         function getCurrentPassword() {
             return localStorage.getItem('satyam_store_pass') || DEFAULT_PASS;
         }
 
-        // --- LOGIN LOGIC ---
         function validateLogin() {
+            if (!verifyDeviceStatus()) return;
+
             const uId = document.getElementById('userid').value.trim();
             const pass = document.getElementById('password').value.trim();
             const err = document.getElementById('login-error');
 
             if (uId === DEFAULT_USER_ID && pass === getCurrentPassword()) {
+                localStorage.setItem('satyam_login_attempts', '0');
                 document.getElementById('login-box').style.display = 'none';
                 document.getElementById('store-content').style.display = 'block';
                 document.body.style.justifyContent = 'flex-start';
-                fetchFileSizes();
             } else {
-                err.style.display = 'block';
+                let attempts = parseInt(localStorage.getItem('satyam_login_attempts') || '0', 10) + 1;
+                localStorage.setItem('satyam_login_attempts', attempts.toString());
+
+                if (attempts >= MAX_ATTEMPTS) {
+                    lockDeviceAndNotify();
+                } else {
+                    const bacheHuye = MAX_ATTEMPTS - attempts;
+                    err.textContent = `Galat credentials! (${bacheHuye} koshishein bachi hain)`;
+                    err.style.display = 'block';
+                }
             }
         }
 
+        function lockDeviceAndNotify() {
+            localStorage.setItem('satyam_device_blocked', 'true');
+            verifyDeviceStatus();
+
+            const devId = getDeviceId();
+            const unlockUrl = window.location.origin + window.location.pathname + "?unlock=" + devId;
+
+            const alertParams = {
+                device_id: devId,
+                attempt_time: new Date().toLocaleString(),
+                unlock_link: unlockUrl,
+                email: "sp9291054@gmail.com"
+            };
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ALERT_TEMPLATE, alertParams)
+                .catch(err => console.log("Alert sending failed: ", err));
+        }
+
+        // Forgot Password Logic
+        let currentMethod = null;
+        let emailOtpGenerated = null;
+        let confirmationResult = null;
+
         function showForgotBox() {
+            if (!verifyDeviceStatus()) return;
             document.getElementById('login-box').style.display = 'none';
             document.getElementById('forgot-box').style.display = 'block';
             backToMethodSelection();
@@ -529,14 +443,12 @@
 
         function showLoginBox() {
             document.getElementById('forgot-box').style.display = 'none';
-            document.getElementById('login-box').style.display = 'block';
+            if (verifyDeviceStatus()) {
+                document.getElementById('login-box').style.display = 'block';
+            }
         }
 
         function backToMethodSelection() {
-            document.getElementById('forgot-icon').textContent = "🔑";
-            document.getElementById('forgot-title').textContent = "Reset Password";
-            document.getElementById('forgot-desc').textContent = "OTP prapt karne ke liye madhyam chunein";
-
             document.getElementById('step-choose-method').style.display = 'block';
             document.getElementById('step-phone-input').style.display = 'none';
             document.getElementById('step-email-input').style.display = 'none';
@@ -547,212 +459,105 @@
         function chooseMethod(method) {
             currentMethod = method;
             document.getElementById('step-choose-method').style.display = 'none';
-            document.getElementById('forgot-status').style.display = 'none';
-
             if (method === 'sms') {
-                document.getElementById('forgot-icon').textContent = "📱";
-                document.getElementById('forgot-title').textContent = "SMS Verification";
-                document.getElementById('forgot-desc').textContent = "Mobile number enter karein";
                 document.getElementById('step-phone-input').style.display = 'block';
-                initRecaptcha();
-            } else if (method === 'email') {
-                document.getElementById('forgot-icon').textContent = "✉️";
-                document.getElementById('forgot-title').textContent = "Email Verification";
-                document.getElementById('forgot-desc').textContent = "Gmail par OTP mangwayein";
+                if (!window.recaptchaVerifier) {
+                    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'normal' });
+                    window.recaptchaVerifier.render();
+                }
+            } else {
                 document.getElementById('step-email-input').style.display = 'block';
             }
         }
 
-        // --- FIREBASE reCAPTCHA ---
-        function initRecaptcha() {
-            if (!window.recaptchaVerifier) {
-                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-                    'size': 'normal'
-                });
-                window.recaptchaVerifier.render();
-            }
-        }
-
-        // --- SEND OTP VIA SMS ---
         function sendOtpToPhone() {
             const phoneInput = document.getElementById('userPhone').value.trim();
             const status = document.getElementById('forgot-status');
             const btn = document.getElementById('btn-send-phone');
 
-            if (!phoneInput.startsWith('+91') || phoneInput.length < 13) {
-                status.className = "status-msg error";
-                status.textContent = "Kripya sahi number (+91 ke sath 10 digit) dalein!";
-                status.style.display = "block";
-                return;
-            }
-
             btn.disabled = true;
-            btn.textContent = "Sending OTP...";
             status.className = "status-msg";
             status.style.color = "#a7f3d0";
-            status.textContent = "SMS OTP bheja ja raha hai...";
+            status.textContent = "OTP bheja ja raha hai...";
             status.style.display = "block";
 
-            const appVerifier = window.recaptchaVerifier;
-
-            firebase.auth().signInWithPhoneNumber(phoneInput, appVerifier)
-                .then(function(result) {
+            firebase.auth().signInWithPhoneNumber(phoneInput, window.recaptchaVerifier)
+                .then(result => {
                     confirmationResult = result;
                     status.className = "status-msg success";
-                    status.textContent = "OTP aapke phone par SMS dwara bhej diya gaya hai!";
-                    
+                    status.textContent = "OTP sent!";
                     document.getElementById('step-phone-input').style.display = 'none';
                     document.getElementById('step-verify-otp').style.display = 'block';
-                    document.getElementById('otp-label').textContent = "6-Digit SMS OTP";
-                    document.getElementById('otp-input').placeholder = "Enter 6-digit OTP";
                 })
-                .catch(function(error) {
+                .catch(err => {
                     btn.disabled = false;
-                    btn.textContent = "Send SMS OTP";
                     status.className = "status-msg error";
-                    status.textContent = "Error: " + error.message;
-                    if (window.grecaptcha) {
-                        grecaptcha.reset();
-                    }
+                    status.textContent = err.message;
                 });
         }
 
-        // --- SEND OTP VIA EMAIL ---
         function sendOtpToEmail() {
             const status = document.getElementById('forgot-status');
             const btn = document.getElementById('btn-send-email');
             emailOtpGenerated = Math.floor(1000 + Math.random() * 9000).toString();
 
             btn.disabled = true;
-            btn.textContent = "Sending OTP...";
             status.className = "status-msg";
             status.style.color = "#a7f3d0";
-            status.textContent = "OTP sp9291054@gmail.com par bheja ja raha hai...";
+            status.textContent = "Email par OTP bheja ja raha hai...";
             status.style.display = "block";
 
-            const templateParams = {
-                email: "sp9291054@gmail.com",
-                passcode: emailOtpGenerated
-            };
-
-            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-                .then(function() {
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_OTP_TEMPLATE, { email: "sp9291054@gmail.com", passcode: emailOtpGenerated })
+                .then(() => {
                     status.className = "status-msg success";
-                    status.textContent = "OTP aapki Gmail par bhej diya gaya hai!";
+                    status.textContent = "OTP aapke Gmail par bhej diya gaya!";
                     document.getElementById('step-email-input').style.display = 'none';
                     document.getElementById('step-verify-otp').style.display = 'block';
-                    document.getElementById('otp-label').textContent = "4-Digit Email OTP";
-                    document.getElementById('otp-input').placeholder = "Enter 4-digit OTP";
-                }, function(error) {
+                })
+                .catch(err => {
                     btn.disabled = false;
-                    btn.textContent = "Send OTP Code";
                     status.className = "status-msg error";
-                    status.textContent = "OTP bhejne me error aayi. Please check karein.";
+                    status.textContent = "Error: " + err.text;
                 });
         }
 
-        // --- VERIFY & RESET PASSWORD ---
         function verifyAndResetPassword() {
             const inputOtp = document.getElementById('otp-input').value.trim();
             const newPass = document.getElementById('new-password').value.trim();
             const status = document.getElementById('forgot-status');
-            const verifyBtn = document.getElementById('btn-verify-submit');
 
             if (!newPass) {
                 status.className = "status-msg error";
-                status.textContent = "Naya password khali nahi ho sakta.";
+                status.textContent = "Password empty nahi ho sakta.";
                 status.style.display = "block";
                 return;
             }
 
             if (currentMethod === 'email') {
-                // Verify Email OTP
-                if (inputOtp !== emailOtpGenerated) {
+                if (inputOtp === emailOtpGenerated) {
+                    savePassword(newPass);
+                } else {
                     status.className = "status-msg error";
-                    status.textContent = "Galat OTP! Kripya sahi OTP enter karein.";
+                    status.textContent = "Galat OTP!";
                     status.style.display = "block";
-                    return;
                 }
-                savePasswordAndRedirect(newPass);
-
-            } else if (currentMethod === 'sms') {
-                // Verify Firebase SMS OTP
-                if (inputOtp.length !== 6) {
-                    status.className = "status-msg error";
-                    status.textContent = "Kripya 6-digit ka sahi OTP enter karein.";
-                    status.style.display = "block";
-                    return;
-                }
-
-                verifyBtn.disabled = true;
-                verifyBtn.textContent = "Verifying...";
-
+            } else {
                 confirmationResult.confirm(inputOtp)
-                    .then(function() {
-                        savePasswordAndRedirect(newPass);
-                    })
-                    .catch(function(error) {
-                        verifyBtn.disabled = false;
-                        verifyBtn.textContent = "Set New Password";
+                    .then(() => savePassword(newPass))
+                    .catch(err => {
                         status.className = "status-msg error";
-                        status.textContent = "Galat OTP ya expire ho chuka hai: " + error.message;
+                        status.textContent = "Invalid OTP: " + err.message;
                         status.style.display = "block";
                     });
             }
         }
 
-        function savePasswordAndRedirect(newPass) {
-            const status = document.getElementById('forgot-status');
+        function savePassword(newPass) {
             localStorage.setItem('satyam_store_pass', newPass);
-            status.className = "status-msg success";
-            status.textContent = "Password safaltapoorvak badal gaya! Login page khul raha hai...";
-            status.style.display = "block";
-
-            setTimeout(() => {
-                showLoginBox();
-                document.getElementById('password').value = "";
-                const verifyBtn = document.getElementById('btn-verify-submit');
-                if (verifyBtn) {
-                    verifyBtn.disabled = false;
-                    verifyBtn.textContent = "Set New Password";
-                }
-            }, 1800);
+            localStorage.setItem('satyam_login_attempts', '0');
+            alert("Password safalta se reset ho gaya!");
+            showLoginBox();
         }
-
-        // File Size Fetcher
-        function fetchFileSizes() {
-            document.querySelectorAll('.auto-size').forEach(elem => {
-                const fileName = elem.getAttribute('data-file');
-                if (fileName) {
-                    fetch(fileName, { method: 'HEAD' })
-                        .then(response => {
-                            const size = response.headers.get('content-length');
-                            if (size) {
-                                const bytes = parseInt(size, 10);
-                                if (bytes >= 1048576) {
-                                    elem.textContent = (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-                                } else {
-                                    elem.textContent = (bytes / 1024).toFixed(0) + ' KB';
-                                }
-                            } else {
-                                elem.textContent = 'APK';
-                            }
-                        })
-                        .catch(() => {
-                            elem.textContent = 'APK';
-                        });
-                }
-            });
-        }
-
-        // Enter Key Listener
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                if (document.getElementById('login-box').style.display !== 'none') {
-                    validateLogin();
-                }
-            }
-        });
     </script>
 </body>
 </html>
