@@ -120,7 +120,7 @@
         #store-content {
             display: none;
             width: 100%;
-            max-width: 1050px;
+            max-width: 1100px;
         }
 
         .store-header {
@@ -145,20 +145,21 @@
             margin-bottom: 10px;
         }
 
+        /* 3-Column Layout */
         .store-grid-layout {
             display: grid;
-            grid-template-columns: 1.1fr 1fr;
-            gap: 24px;
+            grid-template-columns: 1fr 1fr 1.15fr;
+            gap: 20px;
             align-items: start;
         }
 
-        @media (max-width: 820px) {
+        @media (max-width: 950px) {
             .store-grid-layout {
                 grid-template-columns: 1fr;
             }
         }
 
-        /* 1. LEFT SIDE: APPS */
+        /* 1. LEFT: APPS */
         .section-apps {
             background: rgba(46, 204, 113, 0.05);
             border: 1px solid rgba(46, 204, 113, 0.3);
@@ -226,7 +227,7 @@
             font-weight: 700;
         }
 
-        /* 2. RIGHT SIDE: LIVE NEWS */
+        /* 2. MIDDLE: NEWS */
         .section-news {
             background: rgba(245, 158, 11, 0.06);
             border: 1px solid rgba(245, 158, 11, 0.35);
@@ -262,10 +263,6 @@
             gap: 4px;
         }
 
-        .btn-refresh:active {
-            transform: scale(0.95);
-        }
-
         .news-container {
             display: flex;
             flex-direction: column;
@@ -278,10 +275,6 @@
             border-radius: 14px;
             padding: 12px 14px;
             text-align: left;
-        }
-
-        .news-card:hover {
-            border-color: rgba(245, 158, 11, 0.45);
         }
 
         .news-card h4 {
@@ -299,8 +292,65 @@
             font-weight: 600;
         }
 
-        .news-card a:hover {
-            text-decoration: underline;
+        /* 3. RIGHT: WINZO STYLE INSTANT GAMES */
+        .section-games {
+            background: rgba(168, 85, 247, 0.06);
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            backdrop-filter: blur(14px);
+            border-radius: 22px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .games-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: #c084fc;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.25);
+            padding-bottom: 10px;
+        }
+
+        .game-chips {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .game-chip-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            color: #e9d5ff;
+            padding: 5px 11px;
+            border-radius: 12px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .game-chip-btn.active, .game-chip-btn:hover {
+            background: #a855f7;
+            color: #ffffff;
+        }
+
+        .game-arena {
+            width: 100%;
+            height: 360px;
+            background: #0f172a;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .game-arena iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         footer {
@@ -396,11 +446,11 @@
         <div class="store-header">
             <span class="store-tag">Official Portal</span>
             <h1>Welcome to Satyam Store</h1>
-            <p>Verified Apps Download & Dainik Taza Samachar</p>
+            <p>Verified Apps Download, Daily News & Instant Web Games</p>
         </div>
 
         <div class="store-grid-layout">
-            <!-- LEFT COLUMN: APPS -->
+            <!-- LEFT: APPS -->
             <div class="section-apps">
                 <div class="apps-header">
                     <span>📲 Apps & Downloads</span>
@@ -441,16 +491,37 @@
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: LIVE NEWS -->
+            <!-- MIDDLE: NEWS -->
             <div class="section-news">
                 <div class="news-header">
-                    <span>📰 दैनिक ताज़ा समाचार (Live)</span>
+                    <span>📰 ताज़ा समाचार (Live)</span>
                     <button class="btn-refresh" id="btn-refresh-news" onclick="fetchDailyNews(true)">🔄 ताज़ा करें</button>
                 </div>
                 <div id="news-list" class="news-container">
                     <div style="font-size:12px; color:#fef08a; text-align:center; padding: 12px;">
                         ख़बरें लोड हो रही हैं...
                     </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: WINZO STYLE WEB GAMES -->
+            <div class="section-games">
+                <div class="games-header">
+                    <span>🎮 WinZO Games Arena</span>
+                    <span id="game-active-tag" style="font-size:11px; color:#d8b4fe;">⚡ 2048</span>
+                </div>
+
+                <!-- Game Switch Buttons -->
+                <div class="game-chips">
+                    <button class="game-chip-btn active" onclick="loadGame('2048', this)">🎲 2048</button>
+                    <button class="game-chip-btn" onclick="loadGame('tictactoe', this)">❌ Tic-Tac-Toe</button>
+                    <button class="game-chip-btn" onclick="loadGame('flappy', this)">🐤 Flappy Bird</button>
+                    <button class="game-chip-btn" onclick="loadGame('snake', this)">🐍 Snake</button>
+                </div>
+
+                <!-- Game Container Frame -->
+                <div class="game-arena">
+                    <iframe id="game-frame" src="https://play2048.co/" allow="autoplay; fullscreen"></iframe>
                 </div>
             </div>
         </div>
@@ -567,7 +638,7 @@
                 .catch(err => console.log("Alert sending failed: ", err));
         }
 
-        // GOOGLE NEWS HINDI (WITH TOPIC ROTATION)
+        // GOOGLE NEWS HINDI
         const newsFeeds = [
             { topic: "प्रमुख खबरें", url: "https://news.google.com/rss?hl=hi&gl=IN&ceid=IN:hi" },
             { topic: "टेक न्यूज़", url: "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=hi&gl=IN&ceid=IN:hi" },
@@ -649,6 +720,28 @@
             } finally {
                 if (refBtn) refBtn.innerText = "🔄 ताज़ा करें";
             }
+        }
+
+        // ================= WINZO STYLE IN-PAGE GAMES LOGIC =================
+        const gameCatalog = {
+            '2048': { title: '🎲 2048 Puzzle', url: 'https://play2048.co/' },
+            'tictactoe': { title: '❌ Tic-Tac-Toe', url: 'https://playtictactoe.org/' },
+            'flappy': { title: '🐤 Flappy Bird', url: 'https://flappybird.ee/' },
+            'snake': { title: '🐍 Classic Snake', url: 'https://playsnake.org/' }
+        };
+
+        function loadGame(gameKey, btn) {
+            const frame = document.getElementById('game-frame');
+            const tag = document.getElementById('game-active-tag');
+            const targetGame = gameCatalog[gameKey];
+
+            if (targetGame) {
+                frame.src = targetGame.url;
+                tag.innerText = "⚡ " + targetGame.title;
+            }
+
+            document.querySelectorAll('.game-chip-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
         }
 
         // Forgot Password Logic
