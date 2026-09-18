@@ -292,7 +292,7 @@
             font-weight: 600;
         }
 
-        /* 3. RIGHT: WINZO STYLE INSTANT GAMES */
+        /* 3. RIGHT: IN-PAGE NATIVE GAMES */
         .section-games {
             background: rgba(168, 85, 247, 0.06);
             border: 1px solid rgba(168, 85, 247, 0.35);
@@ -325,32 +325,100 @@
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(168, 85, 247, 0.4);
             color: #e9d5ff;
-            padding: 5px 11px;
+            padding: 5px 12px;
             border-radius: 12px;
             font-size: 11px;
             cursor: pointer;
             font-weight: 600;
         }
 
-        .game-chip-btn.active, .game-chip-btn:hover {
+        .game-chip-btn.active {
             background: #a855f7;
             color: #ffffff;
         }
 
         .game-arena {
             width: 100%;
-            height: 360px;
+            height: 330px;
             background: #0f172a;
             border: 1px solid rgba(168, 85, 247, 0.3);
             border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            user-select: none;
         }
 
-        .game-arena iframe {
-            width: 100%;
-            height: 100%;
+        /* Tic Tac Toe Native UI */
+        #ttt-board {
+            display: grid;
+            grid-template-columns: repeat(3, 70px);
+            grid-template-rows: repeat(3, 70px);
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .ttt-cell {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .ttt-cell:hover { background: rgba(168, 85, 247, 0.25); }
+
+        /* Snake Game Canvas */
+        #snake-canvas {
+            background: #000;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .game-status-text {
+            font-size: 12px;
+            color: #e9d5ff;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .game-reset-btn {
+            background: #a855f7;
+            color: #fff;
             border: none;
+            padding: 5px 14px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Mobile controls for snake */
+        .mobile-dpad {
+            display: none;
+            grid-template-columns: repeat(3, 34px);
+            gap: 4px;
+            margin-top: 6px;
+        }
+
+        .dpad-btn {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid #a855f7;
+            color: white;
+            border-radius: 6px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
         }
 
         footer {
@@ -446,7 +514,7 @@
         <div class="store-header">
             <span class="store-tag">Official Portal</span>
             <h1>Welcome to Satyam Store</h1>
-            <p>Verified Apps Download, Daily News & Instant Web Games</p>
+            <p>Verified Apps Download, Daily News & In-Page Games</p>
         </div>
 
         <div class="store-grid-layout">
@@ -504,24 +572,54 @@
                 </div>
             </div>
 
-            <!-- RIGHT: WINZO STYLE WEB GAMES -->
+            <!-- RIGHT: IN-PAGE NATIVE GAMES (ZERO ERROR) -->
             <div class="section-games">
                 <div class="games-header">
                     <span>🎮 WinZO Games Arena</span>
-                    <span id="game-active-tag" style="font-size:11px; color:#d8b4fe;">⚡ 2048</span>
+                    <span id="game-active-tag" style="font-size:11px; color:#d8b4fe;">❌ Tic-Tac-Toe</span>
                 </div>
 
                 <!-- Game Switch Buttons -->
                 <div class="game-chips">
-                    <button class="game-chip-btn active" onclick="loadGame('2048', this)">🎲 2048</button>
-                    <button class="game-chip-btn" onclick="loadGame('tictactoe', this)">❌ Tic-Tac-Toe</button>
-                    <button class="game-chip-btn" onclick="loadGame('flappy', this)">🐤 Flappy Bird</button>
-                    <button class="game-chip-btn" onclick="loadGame('snake', this)">🐍 Snake</button>
+                    <button id="btn-ttt" class="game-chip-btn active" onclick="switchGame('ttt')">❌ Tic-Tac-Toe</button>
+                    <button id="btn-snake" class="game-chip-btn" onclick="switchGame('snake')">🐍 Classic Snake</button>
                 </div>
 
-                <!-- Game Container Frame -->
+                <!-- Game Arena Container -->
                 <div class="game-arena">
-                    <iframe id="game-frame" src="https://play2048.co/" allow="autoplay; fullscreen"></iframe>
+                    <!-- Tic Tac Toe UI -->
+                    <div id="ttt-container">
+                        <div id="ttt-status" class="game-status-text">Player X ki baari</div>
+                        <div id="ttt-board">
+                            <div class="ttt-cell" onclick="handleTttClick(0)"></div>
+                            <div class="ttt-cell" onclick="handleTttClick(1)"></div>
+                            <div class="ttt-cell" onclick="handleTttClick(2)"></div>
+                            <div class="ttt-cell" onclick="handleTttClick(3)"></div>
+                            <div class="ttt-cell" onclick="handleTttClick(4)"></div>
+                            <div class="ttt-cell" onclick="handleTttClick(5)"></div>
+                            <div class="ttt-cell" onclick="handleTttClick(6)"></div>
+                            <div class="ttt-cell" onclick="handleTttClick(7)"></div>
+                            <div class="ttt-cell" onclick="handleTttClick(8)"></div>
+                        </div>
+                        <div style="text-align:center;">
+                            <button class="game-reset-btn" onclick="resetTtt()">🔄 Restart Game</button>
+                        </div>
+                    </div>
+
+                    <!-- Snake Game UI -->
+                    <div id="snake-container" style="display:none; text-align:center;">
+                        <div id="snake-score" class="game-status-text">Score: 0</div>
+                        <canvas id="snake-canvas" width="220" height="200"></canvas>
+                        <div class="mobile-dpad" id="snake-dpad">
+                            <div></div><button class="dpad-btn" onclick="changeDir('UP')">⬆️</button><div></div>
+                            <button class="dpad-btn" onclick="changeDir('LEFT')">⬅️</button>
+                            <button class="dpad-btn" onclick="changeDir('DOWN')">⬇️</button>
+                            <button class="dpad-btn" onclick="changeDir('RIGHT')">➡️</button>
+                        </div>
+                        <div style="margin-top:6px;">
+                            <button class="game-reset-btn" onclick="resetSnake()">🔄 New Game</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -722,26 +820,156 @@
             }
         }
 
-        // ================= WINZO STYLE IN-PAGE GAMES LOGIC =================
-        const gameCatalog = {
-            '2048': { title: '🎲 2048 Puzzle', url: 'https://play2048.co/' },
-            'tictactoe': { title: '❌ Tic-Tac-Toe', url: 'https://playtictactoe.org/' },
-            'flappy': { title: '🐤 Flappy Bird', url: 'https://flappybird.ee/' },
-            'snake': { title: '🐍 Classic Snake', url: 'https://playsnake.org/' }
-        };
+        // ================= 100% NATIVE JAVASCRIPT IN-PAGE GAMES =================
+        function switchGame(game) {
+            document.getElementById('btn-ttt').classList.toggle('active', game === 'ttt');
+            document.getElementById('btn-snake').classList.toggle('active', game === 'snake');
 
-        function loadGame(gameKey, btn) {
-            const frame = document.getElementById('game-frame');
-            const tag = document.getElementById('game-active-tag');
-            const targetGame = gameCatalog[gameKey];
+            if (game === 'ttt') {
+                document.getElementById('ttt-container').style.display = 'block';
+                document.getElementById('snake-container').style.display = 'none';
+                document.getElementById('game-active-tag').innerText = "❌ Tic-Tac-Toe";
+                clearInterval(snakeInterval);
+            } else {
+                document.getElementById('ttt-container').style.display = 'none';
+                document.getElementById('snake-container').style.display = 'block';
+                document.getElementById('snake-canvas').style.display = 'block';
+                document.getElementById('snake-dpad').style.display = 'grid';
+                document.getElementById('game-active-tag').innerText = "🐍 Classic Snake";
+                resetSnake();
+            }
+        }
 
-            if (targetGame) {
-                frame.src = targetGame.url;
-                tag.innerText = "⚡ " + targetGame.title;
+        // TIC TAC TOE LOGIC
+        let tttBoard = ["", "", "", "", "", "", "", "", ""];
+        let tttTurn = "X";
+        let tttActive = true;
+
+        function handleTttClick(idx) {
+            if (tttBoard[idx] !== "" || !tttActive) return;
+            tttBoard[idx] = tttTurn;
+            document.querySelectorAll('.ttt-cell')[idx].innerText = tttTurn;
+
+            if (checkTttWin()) {
+                document.getElementById('ttt-status').innerText = `🎉 Player ${tttTurn} Jeet Gaya!`;
+                tttActive = false;
+                return;
             }
 
-            document.querySelectorAll('.game-chip-btn').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
+            if (!tttBoard.includes("")) {
+                document.getElementById('ttt-status').innerText = "Match Draw Ho Gaya!";
+                tttActive = false;
+                return;
+            }
+
+            tttTurn = tttTurn === "X" ? "O" : "X";
+            document.getElementById('ttt-status').innerText = `Player ${tttTurn} ki baari`;
+        }
+
+        function checkTttWin() {
+            const wins = [
+                [0,1,2],[3,4,5],[6,7,8],
+                [0,3,6],[1,4,7],[2,5,8],
+                [0,4,8],[2,4,6]
+            ];
+            return wins.some(cond => {
+                return cond.every(index => tttBoard[index] === tttTurn);
+            });
+        }
+
+        function resetTtt() {
+            tttBoard = ["", "", "", "", "", "", "", "", ""];
+            tttTurn = "X";
+            tttActive = true;
+            document.querySelectorAll('.ttt-cell').forEach(c => c.innerText = "");
+            document.getElementById('ttt-status').innerText = "Player X ki baari";
+        }
+
+        // SNAKE GAME LOGIC
+        const canvas = document.getElementById('snake-canvas');
+        const ctx = canvas.getContext('2d');
+        const box = 10;
+        let snake = [];
+        let food = {};
+        let score = 0;
+        let d = 'RIGHT';
+        let snakeInterval = null;
+
+        function resetSnake() {
+            clearInterval(snakeInterval);
+            snake = [{x: 5 * box, y: 5 * box}];
+            food = {
+                x: Math.floor(Math.random() * 20 + 1) * box,
+                y: Math.floor(Math.random() * 18 + 1) * box
+            };
+            score = 0;
+            d = 'RIGHT';
+            document.getElementById('snake-score').innerText = "Score: 0";
+            snakeInterval = setInterval(drawSnake, 120);
+        }
+
+        function changeDir(dir) {
+            if (dir === 'LEFT' && d !== 'RIGHT') d = 'LEFT';
+            else if (dir === 'UP' && d !== 'DOWN') d = 'UP';
+            else if (dir === 'RIGHT' && d !== 'LEFT') d = 'RIGHT';
+            else if (dir === 'DOWN' && d !== 'UP') d = 'DOWN';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.keyCode === 37 && d !== 'RIGHT') d = 'LEFT';
+            else if (e.keyCode === 38 && d !== 'DOWN') d = 'UP';
+            else if (e.keyCode === 39 && d !== 'LEFT') d = 'RIGHT';
+            else if (e.keyCode === 40 && d !== 'UP') d = 'DOWN';
+        });
+
+        function drawSnake() {
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < snake.length; i++) {
+                ctx.fillStyle = (i === 0) ? '#a855f7' : '#c084fc';
+                ctx.fillRect(snake[i].x, snake[i].y, box, box);
+            }
+
+            ctx.fillStyle = '#ef4444';
+            ctx.fillRect(food.x, food.y, box, box);
+
+            let snakeX = snake[0].x;
+            let snakeY = snake[0].y;
+
+            if (d === 'LEFT') snakeX -= box;
+            if (d === 'UP') snakeY -= box;
+            if (d === 'RIGHT') snakeX += box;
+            if (d === 'DOWN') snakeY += box;
+
+            if (snakeX === food.x && snakeY === food.y) {
+                score++;
+                document.getElementById('snake-score').innerText = "Score: " + score;
+                food = {
+                    x: Math.floor(Math.random() * 20 + 1) * box,
+                    y: Math.floor(Math.random() * 18 + 1) * box
+                };
+            } else {
+                snake.pop();
+            }
+
+            let newHead = { x: snakeX, y: snakeY };
+
+            // Collision check
+            if (snakeX < 0 || snakeX >= canvas.width || snakeY < 0 || snakeY >= canvas.height || collision(newHead, snake)) {
+                clearInterval(snakeInterval);
+                document.getElementById('snake-score').innerText = "💥 Game Over! Final Score: " + score;
+                return;
+            }
+
+            snake.unshift(newHead);
+        }
+
+        function collision(head, array) {
+            for (let i = 0; i < array.length; i++) {
+                if (head.x === array[i].x && head.y === array[i].y) return true;
+            }
+            return false;
         }
 
         // Forgot Password Logic
