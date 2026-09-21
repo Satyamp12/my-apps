@@ -291,7 +291,7 @@
             font-weight: 600;
         }
 
-        /* 3. OPENAI CHATBOT WIDGET */
+        /* 3. FREE AI CHATBOT (NO CREDIT / NO KEY) */
         .chat-toggle-btn {
             position: fixed;
             bottom: 24px;
@@ -375,6 +375,7 @@
             border-radius: 12px;
             line-height: 1.4;
             word-wrap: break-word;
+            white-space: pre-wrap;
         }
 
         .msg-user {
@@ -419,26 +420,6 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 12px;
-        }
-
-        .api-setup-banner {
-            background: rgba(16, 163, 127, 0.15);
-            padding: 8px 12px;
-            font-size: 11px;
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .api-setup-banner input {
-            flex: 1;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid #10a37f;
-            color: #fff;
-            padding: 4px 6px;
-            border-radius: 6px;
-            font-size: 10.5px;
-            outline: none;
         }
 
         footer {
@@ -534,7 +515,7 @@
         <div class="store-header">
             <span class="store-tag">Official Portal</span>
             <h1>Welcome to Satyam Store</h1>
-            <p>Verified Apps Download, Daily News & OpenAI Assistant</p>
+            <p>Verified Apps Download, Daily News & Free AI Assistant</p>
         </div>
 
         <div class="store-grid-layout">
@@ -593,23 +574,18 @@
             </div>
         </div>
 
-        <!-- 4. OPENAI FLOATING CHAT BUTTON & MODAL -->
+        <!-- 4. FREE AI FLOATING CHAT BUTTON & MODAL -->
         <div class="chat-toggle-btn" onclick="toggleChatBox()">🤖</div>
 
         <div class="chat-box-modal" id="chat-modal">
             <div class="chat-header">
-                <h3>⚡ OpenAI ChatGPT (GPT-4o)</h3>
+                <h3>⚡ Satyam Store AI (Free & Unlimited)</h3>
                 <button onclick="toggleChatBox()">✕</button>
-            </div>
-
-            <div class="api-setup-banner">
-                <span>🔑 Key:</span>
-                <input type="password" id="openai-key-input" placeholder="sk-... enter karein" onchange="saveApiKey()">
             </div>
 
             <div class="chat-messages" id="chat-msg-area">
                 <div class="msg-bubble msg-ai">
-                    Namaste Satyam! Main official OpenAI assistant hoon. Main coding, study aur store ke baare me har sawal ka jawab de sakta hoon.
+                    Namaste Satyam! Main aapka AI assistant hoon. Kisi bhi vishay par sawaal poochein, coding karwayein ya notes banwayein—bina kisi credit ya key ke!
                 </div>
             </div>
 
@@ -680,13 +656,7 @@
             return true;
         }
 
-        window.onload = function() {
-            verifyDeviceStatus();
-            const savedKey = localStorage.getItem('satyam_openai_key');
-            if (savedKey) {
-                document.getElementById('openai-key-input').value = savedKey;
-            }
-        };
+        window.onload = verifyDeviceStatus;
 
         function getCurrentPassword() {
             return localStorage.getItem('satyam_store_pass') || DEFAULT_PASS;
@@ -821,21 +791,14 @@
             }
         }
 
-        // ================= OPENAI OFFICIAL API ENGINE =================
+        // ================= 100% FREE AI ENGINE (NO CREDIT / NO KEY) =================
         let chatConversation = [
-            { role: "system", content: "You are Satyam Store AI, a helpful, intelligent assistant. Respond clearly in Hindi or Hinglish based on user preference." }
+            { role: "system", content: "You are Satyam Store AI assistant. Always reply clearly in Hindi or Hinglish." }
         ];
 
         function toggleChatBox() {
             const modal = document.getElementById('chat-modal');
             modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
-        }
-
-        function saveApiKey() {
-            const key = document.getElementById('openai-key-input').value.trim();
-            if (key) {
-                localStorage.setItem('satyam_openai_key', key);
-            }
         }
 
         function handleChatKey(e) {
@@ -847,10 +810,9 @@
             const query = input.value.trim();
             if (!query) return;
 
-            let apiKey = localStorage.getItem('satyam_openai_key') || document.getElementById('openai-key-input').value.trim();
             const msgArea = document.getElementById('chat-msg-area');
 
-            // Append User Message
+            // User message bubble
             const userBubble = document.createElement('div');
             userBubble.className = 'msg-bubble msg-user';
             userBubble.innerText = query;
@@ -858,49 +820,30 @@
             input.value = '';
             msgArea.scrollTop = msgArea.scrollHeight;
 
-            if (!apiKey) {
-                const warnBubble = document.createElement('div');
-                warnBubble.className = 'msg-bubble msg-ai';
-                warnBubble.innerText = "Kripya upar official OpenAI API Key (sk-...) dalein tabhi chat shuru hogi.";
-                msgArea.appendChild(warnBubble);
-                msgArea.scrollTop = msgArea.scrollHeight;
-                return;
-            }
-
             chatConversation.push({ role: "user", content: query });
 
-            // Thinking State
+            // AI loading bubble
             const aiBubble = document.createElement('div');
             aiBubble.className = 'msg-bubble msg-ai';
-            aiBubble.innerText = "Thinking...";
+            aiBubble.innerText = "Soch raha hoon...";
             msgArea.appendChild(aiBubble);
             msgArea.scrollTop = msgArea.scrollHeight;
 
             try {
-                const response = await fetch("https://api.openai.com/v1/chat/completions", {
+                const res = await fetch("https://text.pollinations.ai/", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${apiKey}`
-                    },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        model: "gpt-4o-mini",
                         messages: chatConversation,
-                        temperature: 0.7
+                        model: "openai"
                     })
                 });
 
-                const data = await response.json();
-
-                if (data.error) {
-                    aiBubble.innerText = "Error: " + data.error.message;
-                } else {
-                    const aiReply = data.choices[0].message.content;
-                    aiBubble.innerText = aiReply;
-                    chatConversation.push({ role: "assistant", content: aiReply });
-                }
+                const replyText = await res.text();
+                aiBubble.innerText = replyText;
+                chatConversation.push({ role: "assistant", content: replyText });
             } catch (err) {
-                aiBubble.innerText = "Network Error: OpenAI se connect nahi ho saka.";
+                aiBubble.innerText = "Khed hai, abhi connect nahi ho saka. Kripya punah prayas karein.";
             }
 
             msgArea.scrollTop = msgArea.scrollHeight;
