@@ -291,7 +291,7 @@
             font-weight: 600;
         }
 
-        /* 3. FREE AI CHATBOT (NO CREDIT / NO KEY) */
+        /* 3. GEMINI AI CHATBOT WIDGET */
         .chat-toggle-btn {
             position: fixed;
             bottom: 24px;
@@ -299,8 +299,8 @@
             width: 58px;
             height: 58px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #10a37f, #0d8a6b);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #1a73e8, #4285f4);
+            border: 2px solid rgba(255, 255, 255, 0.4);
             color: #fff;
             font-size: 26px;
             display: flex;
@@ -322,10 +322,10 @@
             bottom: 90px;
             right: 20px;
             width: calc(100% - 40px);
-            max-width: 360px;
-            height: 480px;
-            background: #1e1e24;
-            border: 1.5px solid #10a37f;
+            max-width: 380px;
+            height: 500px;
+            background: #111827;
+            border: 1.5px solid #4285f4;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
             flex-direction: column;
@@ -334,18 +334,18 @@
         }
 
         .chat-header {
-            background: #111827;
+            background: #0f172a;
             padding: 12px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid rgba(16, 163, 127, 0.3);
+            border-bottom: 1px solid rgba(66, 133, 244, 0.3);
         }
 
         .chat-header h3 {
             font-size: 14px;
             font-weight: 600;
-            color: #10a37f;
+            color: #8ab4f8;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -370,32 +370,34 @@
         }
 
         .msg-bubble {
-            max-width: 82%;
-            padding: 8px 12px;
-            border-radius: 12px;
-            line-height: 1.4;
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            line-height: 1.5;
             word-wrap: break-word;
             white-space: pre-wrap;
         }
 
         .msg-user {
-            background: #10a37f;
-            color: #fff;
+            background: #1a73e8;
+            color: #ffffff;
+            font-weight: 500;
             align-self: flex-end;
             border-bottom-right-radius: 2px;
         }
 
         .msg-ai {
-            background: #2d3748;
-            color: #e2e8f0;
+            background: #1e293b;
+            color: #f1f5f9;
             align-self: flex-start;
             border-bottom-left-radius: 2px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .chat-input-area {
             display: flex;
             padding: 10px;
-            background: #111827;
+            background: #0f172a;
             gap: 6px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
@@ -405,21 +407,21 @@
             background: #1f2937;
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: #fff;
-            padding: 8px 12px;
-            border-radius: 10px;
+            padding: 10px 14px;
+            border-radius: 12px;
             font-size: 13px;
             outline: none;
         }
 
         .chat-input-area button {
-            background: #10a37f;
-            color: #fff;
+            background: #1a73e8;
+            color: #ffffff;
             border: none;
-            padding: 8px 14px;
-            border-radius: 10px;
+            padding: 10px 16px;
+            border-radius: 12px;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 12px;
+            font-weight: 700;
+            font-size: 12.5px;
         }
 
         footer {
@@ -515,7 +517,7 @@
         <div class="store-header">
             <span class="store-tag">Official Portal</span>
             <h1>Welcome to Satyam Store</h1>
-            <p>Verified Apps Download, Daily News & Free AI Assistant</p>
+            <p>Verified Apps Download, Daily News & Official Google Gemini AI</p>
         </div>
 
         <div class="store-grid-layout">
@@ -574,23 +576,23 @@
             </div>
         </div>
 
-        <!-- 4. FREE AI FLOATING CHAT BUTTON & MODAL -->
-        <div class="chat-toggle-btn" onclick="toggleChatBox()">🤖</div>
+        <!-- 4. OFFICIAL GOOGLE GEMINI CHATBOT WIDGET -->
+        <div class="chat-toggle-btn" onclick="toggleChatBox()">✨</div>
 
         <div class="chat-box-modal" id="chat-modal">
             <div class="chat-header">
-                <h3>⚡ Satyam Store AI (Free & Unlimited)</h3>
+                <h3>✨ Google Gemini Pro AI</h3>
                 <button onclick="toggleChatBox()">✕</button>
             </div>
 
             <div class="chat-messages" id="chat-msg-area">
                 <div class="msg-bubble msg-ai">
-                    Namaste Satyam! Main aapka AI assistant hoon. Kisi bhi vishay par sawaal poochein, coding karwayein ya notes banwayein—bina kisi credit ya key ke!
+Namaste Satyam! Main Google Gemini Pro AI hoon. Mujhse English ya Hindi me coding, study ya koi bhi sawal poochein, main bilkul sateek aur detailed jawab dunga!
                 </div>
             </div>
 
             <div class="chat-input-area">
-                <input type="text" id="chat-user-msg" placeholder="Kuch bhi poochein..." onkeypress="handleChatKey(event)">
+                <input type="text" id="chat-user-msg" placeholder="Ask anything in English or Hindi..." onkeypress="handleChatKey(event)">
                 <button onclick="sendChatMessage()">Send</button>
             </div>
         </div>
@@ -599,6 +601,9 @@
     </div>
 
     <script>
+        // PERMANENT EMBEDDED GOOGLE GEMINI API KEY
+        const GEMINI_API_KEY = "AQ.Ab8RN6KbacouMOL8L-UENo4fjnIB-GoeL4sYsee88qlckWhD_Q";
+
         const EMAILJS_PUBLIC_KEY = "vJYmBU6suMx_YVA1f";
         const EMAILJS_SERVICE_ID = "service_tbnax2k";
         const EMAILJS_OTP_TEMPLATE = "template_z1m23z7";
@@ -791,10 +796,8 @@
             }
         }
 
-        // ================= 100% FREE AI ENGINE (NO CREDIT / NO KEY) =================
-        let chatConversation = [
-            { role: "system", content: "You are Satyam Store AI assistant. Always reply clearly in Hindi or Hinglish." }
-        ];
+        // ================= OFFICIAL GOOGLE GEMINI ENGINE =================
+        let geminiHistory = [];
 
         function toggleChatBox() {
             const modal = document.getElementById('chat-modal');
@@ -812,7 +815,7 @@
 
             const msgArea = document.getElementById('chat-msg-area');
 
-            // User message bubble
+            // User Bubble
             const userBubble = document.createElement('div');
             userBubble.className = 'msg-bubble msg-user';
             userBubble.innerText = query;
@@ -820,30 +823,45 @@
             input.value = '';
             msgArea.scrollTop = msgArea.scrollHeight;
 
-            chatConversation.push({ role: "user", content: query });
+            geminiHistory.push({ role: "user", parts: [{ text: query }] });
 
-            // AI loading bubble
+            // AI Loading Bubble
             const aiBubble = document.createElement('div');
             aiBubble.className = 'msg-bubble msg-ai';
-            aiBubble.innerText = "Soch raha hoon...";
+            aiBubble.innerText = "Thinking with Gemini...";
             msgArea.appendChild(aiBubble);
             msgArea.scrollTop = msgArea.scrollHeight;
 
             try {
-                const res = await fetch("https://text.pollinations.ai/", {
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+                const response = await fetch(apiUrl, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        messages: chatConversation,
-                        model: "openai"
+                        systemInstruction: {
+                            parts: [{ text: "You are Satyam Store AI powered by Google Gemini. Respond with high accuracy, clarity, and depth. If the user asks in English, reply in English. If the user asks in Hindi or Hinglish, reply accordingly. Provide structured explanations and code whenever asked." }]
+                        },
+                        contents: geminiHistory,
+                        generationConfig: {
+                            temperature: 0.7
+                        }
                     })
                 });
 
-                const replyText = await res.text();
-                aiBubble.innerText = replyText;
-                chatConversation.push({ role: "assistant", content: replyText });
+                const data = await response.json();
+
+                if (data.error) {
+                    aiBubble.innerText = "Gemini Error: " + data.error.message;
+                } else if (data.candidates && data.candidates[0].content) {
+                    const aiReply = data.candidates[0].content.parts[0].text;
+                    aiBubble.innerText = aiReply;
+                    geminiHistory.push({ role: "model", parts: [{ text: aiReply }] });
+                } else {
+                    aiBubble.innerText = "Khed hai, uttar prapt nahi ho saka. Punah prayas karein.";
+                }
             } catch (err) {
-                aiBubble.innerText = "Khed hai, abhi connect nahi ho saka. Kripya punah prayas karein.";
+                aiBubble.innerText = "Network Error: Google Gemini se connection sthapit nahi ho saka.";
             }
 
             msgArea.scrollTop = msgArea.scrollHeight;
