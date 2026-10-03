@@ -3,764 +3,782 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Satyam Store - All-in-One Portal & AI Assistant</title>
-    
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Firebase SDKs (v9 compat) -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <title>Satyam Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 
     <style>
-        :root {
-            --bg-color: #0d1117;
-            --surface-color: #161b22;
-            --surface-hover: #21262d;
-            --border-color: #30363d;
-            --primary: #38bdf8;
-            --primary-hover: #0284c7;
-            --text-main: #f0f6fc;
-            --text-muted: #8b949e;
-            --accent: #238636;
-            --accent-hover: #2ea043;
-            --danger: #f85149;
-            --card-radius: 14px;
-        }
-
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            background: radial-gradient(circle at 50% 10%, #1b5e3f 0%, #0d3824 50%, #061e13 100%);
             min-height: 100vh;
+            padding: 30px 16px 45px;
+            color: #ffffff;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
-        }
-
-        /* Header Navigation */
-        header {
-            background: rgba(22, 27, 34, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            padding: 0.9rem 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 800;
-            font-size: 1.25rem;
-            color: var(--text-main);
-            text-decoration: none;
-            letter-spacing: -0.5px;
-        }
-
-        .brand-logo i {
-            color: var(--primary);
-            font-size: 1.4rem;
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-header {
-            border: 1px solid var(--border-color);
-            background: var(--surface-color);
-            color: var(--text-main);
-            padding: 7px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-header:hover {
-            background: var(--surface-hover);
-            border-color: var(--primary);
-        }
-
-        /* Container & Layout */
-        .container {
-            max-width: 1150px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 1.5rem;
-            flex: 1;
-        }
-
-        .hero-banner {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(35, 134, 54, 0.05) 100%);
-            border: 1px solid var(--border-color);
-            border-radius: var(--card-radius);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-banner h1 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-            font-weight: 800;
-        }
-
-        .hero-banner p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            max-width: 650px;
-            line-height: 1.5;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.2rem;
-            margin-top: 1rem;
-        }
-
-        .section-header h2 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-header h2 i {
-            color: var(--primary);
-        }
-
-        /* App Grid Cards */
-        .app-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 16px;
-            margin-bottom: 2.5rem;
-        }
-
-        .app-card {
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: var(--card-radius);
-            padding: 18px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .app-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--primary);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-        }
-
-        .app-info {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            margin-bottom: 14px;
-        }
-
-        .app-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: var(--surface-hover);
-            display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.35rem;
-            color: var(--primary);
-            flex-shrink: 0;
-            border: 1px solid var(--border-color);
         }
 
-        .app-details h3 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .app-details p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
-
-        .btn-card-action {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 9px 14px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            display: block;
-            transition: background 0.2s;
+        .auth-card {
             width: 100%;
+            max-width: 380px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1.5px solid rgba(46, 204, 113, 0.35);
+            padding: 32px 24px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            text-align: center;
         }
 
-        .btn-card-action:hover {
-            background: var(--accent-hover);
-        }
+        .auth-icon { font-size: 38px; margin-bottom: 10px; }
+        .auth-card h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; color: #ffffff; }
+        .auth-card p { font-size: 12px; color: #d1fae5; margin-bottom: 20px; opacity: 0.85; }
 
-        /* News Section */
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 16px;
-            margin-bottom: 3rem;
-        }
-
-        .news-card {
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: var(--card-radius);
-            padding: 16px;
-            transition: border-color 0.2s;
-        }
-
-        .news-card:hover {
-            border-color: var(--primary);
-        }
-
-        .news-tag {
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: var(--primary);
+        .input-group { margin-bottom: 16px; text-align: left; }
+        .input-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #a7f3d0;
+            margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 6px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .btn-main {
+            width: 100%;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: #032b18;
+            padding: 12px;
+            border: none;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+            padding: 12px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-link {
+            background: none;
+            border: none;
+            color: #6ee7b7;
+            font-size: 12px;
+            margin-top: 14px;
+            cursor: pointer;
+            text-decoration: underline;
             display: inline-block;
         }
 
-        .news-title {
-            font-size: 0.95rem;
+        .status-msg { font-size: 12px; margin-top: 14px; font-weight: 500; display: none; }
+        .error { color: #ff6b6b; }
+        .success { color: #2ecc71; }
+
+        #blocked-box {
+            display: none;
+            border-color: rgba(239, 68, 68, 0.6);
+            box-shadow: 0 15px 35px rgba(239, 68, 68, 0.2);
+        }
+
+        #store-content {
+            display: none;
+            width: 100%;
+            max-width: 1050px;
+        }
+
+        .store-header {
+            text-align: center;
+            margin-bottom: 24px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            border: 1.5px solid rgba(46, 204, 113, 0.35);
+            padding: 24px 20px;
+            border-radius: 24px;
+        }
+
+        .store-tag {
+            display: inline-block;
+            background: rgba(46, 204, 113, 0.18);
+            border: 1px solid #2ecc71;
+            color: #a7f3d0;
+            font-size: 11px;
             font-weight: 600;
-            margin-bottom: 8px;
-            line-height: 1.4;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 10px;
         }
 
-        .news-desc {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            line-height: 1.45;
+        .store-grid-layout {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 24px;
+            align-items: start;
         }
 
-        /* Floating AI Toggle Button */
-        .chat-toggle-btn {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 58px;
-            height: 58px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: #041017;
-            border: none;
-            box-shadow: 0 6px 24px rgba(56, 189, 248, 0.45);
-            cursor: pointer;
+        @media (max-width: 820px) {
+            .store-grid-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 1. LEFT SIDE: APPS */
+        .section-apps {
+            background: rgba(46, 204, 113, 0.05);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            backdrop-filter: blur(14px);
+            border-radius: 22px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .apps-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: #2ecc71;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.55rem;
-            z-index: 1000;
-            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-bottom: 1px solid rgba(46, 204, 113, 0.25);
+            padding-bottom: 10px;
         }
 
-        .chat-toggle-btn:hover {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        /* AI Chat Window Modal */
-        .chat-window {
-            position: fixed;
-            bottom: 95px;
-            right: 24px;
-            width: 375px;
-            max-width: calc(100vw - 36px);
-            height: 530px;
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            display: none;
+        .items-list {
+            display: flex;
             flex-direction: column;
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
-            z-index: 1000;
-            overflow: hidden;
-            animation: slideUp 0.25s ease-out;
+            gap: 14px;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .chat-header {
-            padding: 14px 18px;
-            background: var(--surface-hover);
-            border-bottom: 1px solid var(--border-color);
+        .store-card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(46, 204, 113, 0.22);
+            border-radius: 18px;
+            padding: 14px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .chat-header h4 {
-            font-size: 0.95rem;
-            font-weight: 700;
+        .item-info {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 14px;
         }
 
-        .chat-header h4 i {
-            color: var(--primary);
+        .item-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
         }
 
-        .chat-close-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
+        .icon-findhub { background: linear-gradient(135deg, #059669, #10b981); }
+        .icon-linkedin { background: linear-gradient(135deg, #0284c7, #0369a1); }
+        .icon-image { background: linear-gradient(135deg, #f59e0b, #d97706); }
+
+        .btn-action {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: #032b18;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* 2. RIGHT SIDE: LIVE NEWS */
+        .section-news {
+            background: rgba(245, 158, 11, 0.06);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            backdrop-filter: blur(14px);
+            border-radius: 22px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .news-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(245, 158, 11, 0.25);
+            padding-bottom: 10px;
+        }
+
+        .btn-refresh {
+            background: rgba(245, 158, 11, 0.18);
+            border: 1px solid rgba(245, 158, 11, 0.5);
+            color: #fef08a;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 1.2rem;
-            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
-        .chat-close-btn:hover {
-            color: var(--danger);
+        .btn-refresh:active {
+            transform: scale(0.95);
         }
 
-        .chat-messages {
-            flex: 1;
-            padding: 16px;
-            overflow-y: auto;
+        .news-container {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            scroll-behavior: smooth;
         }
 
-        .msg-bubble {
-            max-width: 82%;
-            padding: 10px 14px;
+        .news-card {
+            background: rgba(245, 158, 11, 0.04);
+            border: 1px solid rgba(245, 158, 11, 0.2);
             border-radius: 14px;
-            font-size: 0.88rem;
-            line-height: 1.45;
-            word-wrap: break-word;
-        }
-
-        .msg-user {
-            align-self: flex-end;
-            background: var(--primary);
-            color: #041017;
-            font-weight: 600;
-            border-bottom-right-radius: 3px;
-        }
-
-        .msg-ai {
-            align-self: flex-start;
-            background: var(--surface-hover);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            border-bottom-left-radius: 3px;
-        }
-
-        .chat-input-area {
             padding: 12px 14px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            gap: 8px;
-            background: var(--surface-color);
+            text-align: left;
         }
 
-        .chat-input-area input {
-            flex: 1;
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 9px 14px;
-            color: var(--text-main);
-            font-size: 0.9rem;
-            outline: none;
+        .news-card:hover {
+            border-color: rgba(245, 158, 11, 0.45);
         }
 
-        .chat-input-area input:focus {
-            border-color: var(--primary);
-        }
-
-        .chat-input-area button {
-            background: var(--primary);
-            color: #041017;
-            border: none;
-            border-radius: 10px;
-            padding: 0 16px;
-            cursor: pointer;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Modal Auth UI (Login / Reset OTP) */
-        .auth-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(5px);
-            z-index: 2000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-        }
-
-        .auth-box {
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 24px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
-        }
-
-        .auth-box h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .auth-box p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 14px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.8rem;
+        .news-card h4 {
+            font-size: 13px;
             font-weight: 600;
-            margin-bottom: 6px;
-            color: var(--text-muted);
+            color: #fffbeb;
+            margin-bottom: 8px;
+            line-height: 1.45;
         }
 
-        .form-group input {
+        .news-card a {
+            font-size: 11px;
+            color: #fbbf24;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .news-card a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 35px;
+            text-align: center;
+            font-size: 12px;
+            color: #6ee7b7;
             width: 100%;
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 10px 12px;
-            color: var(--text-main);
-            font-size: 0.9rem;
-            outline: none;
-        }
-
-        .form-group input:focus {
-            border-color: var(--primary);
-        }
-
-        .auth-btn {
-            width: 100%;
-            background: var(--primary);
-            color: #041017;
-            font-weight: 700;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Main Navigation Bar -->
-    <header>
-        <a href="#" class="brand-logo">
-            <i class="fa-solid fa-layer-group"></i>
-            <span>Satyam Store</span>
-        </a>
-        <div class="nav-actions">
-            <button class="btn-header" onclick="openDeviceLockModal()">
-                <i class="fa-solid fa-shield-halved"></i>
-                <span id="auth-label">डिवाइस लॉक</span>
-            </button>
-        </div>
-    </header>
-
-    <!-- Main Content Container -->
-    <div class="container">
-        <!-- Hero Welcome -->
-        <div class="hero-banner">
-            <h1>Satyam Store पोर्टल में आपका स्वागत है</h1>
-            <p>यहाँ आपके सभी टूल्स, ऐप्स, रियल-टाइम सिक्योरिटी और डायरेक्ट जेमिनी 2.0 AI असिस्टेंट एक ही स्थान पर उपलब्ध हैं।</p>
-        </div>
-
-        <!-- Applications Section -->
-        <div class="section-header">
-            <h2><i class="fa-solid fa-shapes"></i> मुख्य ऐप्स व सुविधाएँ</h2>
-        </div>
-        <div class="app-grid">
-            <div class="app-card">
-                <div class="app-info">
-                    <div class="app-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
-                    <div class="app-details">
-                        <h3>Device Guard</h3>
-                        <p>हार्डवेयर डिवाइस लिंकिंग व ऑटो-लॉकिंग सुरक्षा प्रणाली।</p>
-                    </div>
-                </div>
-                <button class="btn-card-action" onclick="openDeviceLockModal()">सुरक्षा स्थिति देखें</button>
-            </div>
-
-            <div class="app-card">
-                <div class="app-info">
-                    <div class="app-icon"><i class="fa-solid fa-key"></i></div>
-                    <div class="app-details">
-                        <h3>OTP Recovery</h3>
-                        <p>ईमेल पर त्वरित 6-अंकीय OTP सत्यापन और पासवर्ड रीसेट।</p>
-                    </div>
-                </div>
-                <button class="btn-card-action" onclick="openOtpModal()">रिकवरी खोलें</button>
-            </div>
-
-            <div class="app-card">
-                <div class="app-info">
-                    <div class="app-icon"><i class="fa-solid fa-robot"></i></div>
-                    <div class="app-details">
-                        <h3>Gemini 2.0 AI</h3>
-                        <p>नवीनतम AI इंजन द्वारा संचालित व्यक्तिगत सहायक।</p>
-                    </div>
-                </div>
-                <button class="btn-card-action" onclick="toggleChatBox()">बातचीत शुरू करें</button>
-            </div>
-        </div>
-
-        <!-- Latest News Feed Section -->
-        <div class="section-header">
-            <h2><i class="fa-solid fa-bolt"></i> ताज़ा समाचार व अपडेट्स</h2>
-        </div>
-        <div class="news-grid">
-            <div class="news-card">
-                <span class="news-tag">सुरक्षा अपडेट</span>
-                <h4 class="news-title">डिवाइस ऑथेंटिकेशन और टोकन प्रोटेक्शन सक्रिय</h4>
-                <p class="news-desc">आपके खाते को अनधिकृत एक्सेस से बचाने के लिए फ़िंगरप्रिंट व यूनिक डिवाइस ID चेकिंग चालू है।</p>
-            </div>
-            <div class="news-card">
-                <span class="news-tag">AI इंजन 2.0</span>
-                <h4 class="news-title">Gemini 2.0 Flash इंटीग्रेशन सफल</h4>
-                <p class="news-desc">अब चैटबॉट बिना किसी लैग के तेज़ और सटीक हिंदी उत्तर प्रदान करता है।</p>
-            </div>
-            <div class="news-card">
-                <span class="news-tag">सिस्टम</span>
-                <h4 class="news-title">क्लाउड सिंक और डेटाबेस बैकअप</h4>
-                <p class="news-desc">सभी यूज़र सेटिंग्स Firebase Realtime Database के साथ सुरक्षित सिंक की जा रही हैं।</p>
-            </div>
-        </div>
+    <!-- DEVICE BLOCKED SCREEN -->
+    <div id="blocked-box" class="auth-card">
+        <div class="auth-icon">🚫</div>
+        <h2 style="color: #ff6b6b;">Device Blocked</h2>
+        <p style="color: #fca5a5;">Suraksha karno se aapka access block kar diya gaya hai kyonki 5 baar galat password enter hua.</p>
+        <p style="font-size: 11px; opacity: 0.7;">Admin ko unlock link email par bhej diya gaya hai.</p>
+        <div id="device-tag" style="background: rgba(255,255,255,0.1); padding: 8px; border-radius: 8px; font-size: 11px; margin-top: 10px;"></div>
     </div>
 
-    <!-- Floating AI Launcher Button -->
-    <button class="chat-toggle-btn" onclick="toggleChatBox()" title="Gemini AI खोलें">
-        <i class="fa-solid fa-wand-magic-sparkles"></i>
-    </button>
+    <!-- 1. LOGIN SCREEN -->
+    <div id="login-box" class="auth-card">
+        <div class="auth-icon">🔒</div>
+        <h2>Access Required</h2>
+        <p>Satyam Store me enter karne ke liye credentials dalein</p>
+        
+        <div class="input-group">
+            <label>User ID</label>
+            <input type="text" id="userid" placeholder="Enter User ID" autocomplete="off">
+        </div>
 
-    <!-- AI Chat Window Modal -->
-    <div class="chat-window" id="chat-modal">
-        <div class="chat-header">
-            <h4><i class="fa-solid fa-sparkles"></i> Satyam Store AI</h4>
-            <button class="chat-close-btn" onclick="toggleChatBox()"><i class="fa-solid fa-xmark"></i></button>
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="Enter Password">
         </div>
-        <div class="chat-messages" id="chat-msg-area">
-            <div class="msg-bubble msg-ai">
-                नमस्ते! मैं Satyam Store का Gemini AI असिस्टेंट हूँ। आज मैं आपकी क्या मदद कर सकता हूँ?
-            </div>
-        </div>
-        <div class="chat-input-area">
-            <input type="text" id="chat-user-msg" placeholder="अपना संदेश लिखें..." onkeypress="handleChatKey(event)">
-            <button onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-        </div>
+
+        <button class="btn-main" onclick="validateLogin()">Unlock Store</button>
+        <button class="btn-link" onclick="showForgotBox()">Forgot Password?</button>
+        <div id="login-error" class="status-msg error">Galat User ID ya Password!</div>
     </div>
 
-    <!-- Device Security Modal -->
-    <div class="auth-overlay" id="device-modal">
-        <div class="auth-box">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <h3>डिवाइस सुरक्षा स्थिति</h3>
-                <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeModal('device-modal')"></i>
-            </div>
-            <p>यह सत्र आपके अधिकृत डिवाइस पर सक्रिय रूप से सुरक्षित है।</p>
-            <div style="background:var(--bg-color); padding:12px; border-radius:8px; border:1px solid var(--border-color); font-size:0.8rem; margin-bottom:16px;">
-                <div><strong>प्रोजेक्ट ID:</strong> satyam-store-4e40c</div>
-                <div style="margin-top:4px;"><strong>स्थिति:</strong> <span style="color:var(--accent);">सक्रिय एवं सुरक्षित ✔</span></div>
-            </div>
-            <button class="auth-btn" onclick="closeModal('device-modal')">ठीक है</button>
+    <!-- 2. FORGOT PASSWORD SCREEN -->
+    <div id="forgot-box" class="auth-card" style="display: none;">
+        <div class="auth-icon" id="forgot-icon">🔑</div>
+        <h2 id="forgot-title">Reset Password</h2>
+        <p id="forgot-desc">OTP prapt karne ke liye madhyam chunein</p>
+
+        <div id="step-choose-method">
+            <button class="btn-main" onclick="chooseMethod('sms')">📱 Via Mobile SMS OTP</button>
+            <button class="btn-secondary" onclick="chooseMethod('email')">✉️ Via Email (Gmail) OTP</button>
         </div>
+
+        <div id="step-phone-input" style="display: none;">
+            <div class="input-group">
+                <label>Mobile Number (+91 ke sath)</label>
+                <input type="tel" id="userPhone" value="+91" placeholder="+919876543210">
+            </div>
+            <div id="recaptcha-container"></div>
+            <button class="btn-main" id="btn-send-phone" onclick="sendOtpToPhone()">Send SMS OTP</button>
+            <button class="btn-link" onclick="backToMethodSelection()">← Dusra method chunein</button>
+        </div>
+
+        <div id="step-email-input" style="display: none;">
+            <p style="font-size:13px; color:#a7f3d0; margin-bottom:15px;">
+                OTP aapki registered email <b>sp9291054@gmail.com</b> par bheja jayega.
+            </p>
+            <button class="btn-main" id="btn-send-email" onclick="sendOtpToEmail()">Send OTP Code</button>
+            <button class="btn-link" onclick="backToMethodSelection()">← Dusra method chunein</button>
+        </div>
+
+        <div id="step-verify-otp" style="display: none;">
+            <div class="input-group">
+                <label id="otp-label">Enter OTP</label>
+                <input type="text" id="otp-input" placeholder="OTP yahan enter karein">
+            </div>
+
+            <div class="input-group">
+                <label>New Password</label>
+                <input type="password" id="new-password" placeholder="Enter new password">
+            </div>
+
+            <button class="btn-main" id="btn-verify-submit" onclick="verifyAndResetPassword()">Set New Password</button>
+        </div>
+
+        <button class="btn-link" onclick="showLoginBox()">Back to Login</button>
+        <div id="forgot-status" class="status-msg"></div>
     </div>
 
-    <!-- OTP Reset Modal -->
-    <div class="auth-overlay" id="otp-modal">
-        <div class="auth-box">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <h3>पासवर्ड रिकवरी (OTP)</h3>
-                <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeModal('otp-modal')"></i>
-            </div>
-            <p>अपने पंजीकृत ईमेल पर 6-अंकीय सत्यापन कोड प्राप्त करें।</p>
-            <div class="form-group">
-                <label>ईमेल पता</label>
-                <input type="email" id="recovery-email" placeholder="example@gmail.com">
-            </div>
-            <button class="auth-btn" onclick="triggerOtpSimulation()">OTP भेजें</button>
+    <!-- 3. MAIN STORE CONTENT -->
+    <div id="store-content">
+        <div class="store-header">
+            <span class="store-tag">Official Portal</span>
+            <h1>Welcome to Satyam Store</h1>
+            <p>Verified Apps Download & Dainik Taza Samachar</p>
         </div>
+
+        <div class="store-grid-layout">
+            <!-- LEFT COLUMN: APPS -->
+            <div class="section-apps">
+                <div class="apps-header">
+                    <span>📲 Apps & Downloads</span>
+                </div>
+                <div class="items-list">
+                    <div class="store-card">
+                        <div class="item-info">
+                            <div class="item-icon icon-findhub">🔍</div>
+                            <div>
+                                <h3 style="font-size:15px;">Find Hub</h3>
+                                <p style="font-size:12px; color:#a7f3d0;">Satyam Apps • Utility</p>
+                            </div>
+                        </div>
+                        <a href="FindHub.apk" download class="btn-action">Install</a>
+                    </div>
+
+                    <div class="store-card">
+                        <div class="item-info">
+                            <div class="item-icon icon-linkedin">in</div>
+                            <div>
+                                <h3 style="font-size:15px;">LinkedIn Android</h3>
+                                <p style="font-size:12px; color:#a7f3d0;">Professional Network</p>
+                            </div>
+                        </div>
+                        <a href="Linkdinandroid.apk" download class="btn-action">Install</a>
+                    </div>
+
+                    <div class="store-card">
+                        <div class="item-info">
+                            <div class="item-icon icon-image">🖼️</div>
+                            <div>
+                                <h3 style="font-size:15px;">Image Download</h3>
+                                <p style="font-size:12px; color:#a7f3d0;">Profile Asset • Media</p>
+                            </div>
+                        </div>
+                        <a href="Patel.jpg.png" download="Profile_Image.png" class="btn-action">Download</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: LIVE NEWS -->
+            <div class="section-news">
+                <div class="news-header">
+                    <span>📰 दैनिक ताज़ा समाचार (Live)</span>
+                    <button class="btn-refresh" id="btn-refresh-news" onclick="fetchDailyNews(true)">🔄 ताज़ा करें</button>
+                </div>
+                <div id="news-list" class="news-container">
+                    <div style="font-size:12px; color:#fef08a; text-align:center; padding: 12px;">
+                        ख़बरें लोड हो रही हैं...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>© Satyam Store • All Rights Reserved</footer>
     </div>
 
     <script>
-        // ================= FIREBASE & EMAILJS CONFIG =================
+        const EMAILJS_PUBLIC_KEY = "vJYmBU6suMx_YVA1f";
+        const EMAILJS_SERVICE_ID = "service_tbnax2k";
+        const EMAILJS_OTP_TEMPLATE = "template_z1m23z7";
+        const EMAILJS_ALERT_TEMPLATE = "template_w2uju39";
+
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+
         const firebaseConfig = {
             apiKey: "AIzaSyAexoUO9KNzm0rEpoI0RNyN9yOFJ-BfvN0",
             authDomain: "satyam-store-4e40c.firebaseapp.com",
             projectId: "satyam-store-4e40c",
-            storageBucket: "satyam-store-4e40c.appspot.com",
+            storageBucket: "satyam-store-4e40c.firebasestorage.app",
             messagingSenderId: "969093441522",
-            appId: "1:969093441522:web:a616238daffb73715bfdd0"
+            appId: "1:969093441522:web:a093aac73a2850061d2d6b",
+            measurementId: "G-G3P0PL014P"
         };
 
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+
+        const DEFAULT_USER_ID = "SAT93350";
+        const DEFAULT_PASS = "PATEL@#";
+        const MAX_ATTEMPTS = 5;
+
+        function getDeviceId() {
+            let devId = localStorage.getItem('satyam_device_id');
+            if (!devId) {
+                devId = 'DEV-' + Math.random().toString(36).substring(2, 9).toUpperCase();
+                localStorage.setItem('satyam_device_id', devId);
+            }
+            return devId;
         }
 
-        // ================= GEMINI AI ENGINE (DIRECT INTEGRATION) =================
-        const GEMINI_API_KEY = "AQ.Ab8RN6JLHcKwl0Akn64UK34U6JqshNA9KIHGuMXig8YQqgJiQw";
+        (function checkUnlockUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const unlockId = params.get('unlock');
+            if (unlockId) {
+                const currentId = getDeviceId();
+                if (unlockId === currentId || unlockId === 'ADMIN_ALL') {
+                    localStorage.removeItem('satyam_device_blocked');
+                    localStorage.setItem('satyam_login_attempts', '0');
+                    alert("Aapka device safaltapoorvak UNLOCK kar diya gaya hai!");
+                    window.location.href = window.location.pathname;
+                }
+            }
+        })();
 
-        function toggleChatBox() {
-            const modal = document.getElementById('chat-modal');
-            const isOpened = (modal.style.display === 'flex');
-            modal.style.display = isOpened ? 'none' : 'flex';
-            if (!isOpened) {
-                document.getElementById('chat-user-msg').focus();
+        function verifyDeviceStatus() {
+            if (localStorage.getItem('satyam_device_blocked') === 'true') {
+                document.getElementById('login-box').style.display = 'none';
+                document.getElementById('forgot-box').style.display = 'none';
+                document.getElementById('blocked-box').style.display = 'block';
+                document.getElementById('device-tag').innerText = "Device ID: " + getDeviceId();
+                return false;
+            }
+            return true;
+        }
+
+        window.onload = verifyDeviceStatus;
+
+        function getCurrentPassword() {
+            return localStorage.getItem('satyam_store_pass') || DEFAULT_PASS;
+        }
+
+        function validateLogin() {
+            if (!verifyDeviceStatus()) return;
+
+            const uId = document.getElementById('userid').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            const err = document.getElementById('login-error');
+
+            if (uId === DEFAULT_USER_ID && pass === getCurrentPassword()) {
+                localStorage.setItem('satyam_login_attempts', '0');
+                document.getElementById('login-box').style.display = 'none';
+                document.getElementById('store-content').style.display = 'block';
+                document.body.style.justifyContent = 'flex-start';
+                fetchDailyNews(false);
+            } else {
+                let attempts = parseInt(localStorage.getItem('satyam_login_attempts') || '0', 10) + 1;
+                localStorage.setItem('satyam_login_attempts', attempts.toString());
+
+                if (attempts >= MAX_ATTEMPTS) {
+                    lockDeviceAndNotify();
+                } else {
+                    const bacheHuye = MAX_ATTEMPTS - attempts;
+                    err.textContent = `Galat credentials! (${bacheHuye} koshishein bachi hain)`;
+                    err.style.display = 'block';
+                }
             }
         }
 
-        function handleChatKey(e) {
-            if (e.key === 'Enter') {
-                sendChatMessage();
-            }
+        function lockDeviceAndNotify() {
+            localStorage.setItem('satyam_device_blocked', 'true');
+            verifyDeviceStatus();
+
+            const devId = getDeviceId();
+            const unlockUrl = window.location.origin + window.location.pathname + "?unlock=" + devId;
+
+            const alertParams = {
+                device_id: devId,
+                attempt_time: new Date().toLocaleString(),
+                unlock_link: unlockUrl,
+                email: "sp9291054@gmail.com"
+            };
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ALERT_TEMPLATE, alertParams)
+                .catch(err => console.log("Alert sending failed: ", err));
         }
 
-        async function sendChatMessage() {
-            const input = document.getElementById('chat-user-msg');
-            const query = input.value.trim();
-            if (!query) return;
+        // GOOGLE NEWS HINDI (WITH TOPIC ROTATION)
+        const newsFeeds = [
+            { topic: "प्रमुख खबरें", url: "https://news.google.com/rss?hl=hi&gl=IN&ceid=IN:hi" },
+            { topic: "टेक न्यूज़", url: "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=hi&gl=IN&ceid=IN:hi" },
+            { topic: "क्रिकेट / खेल", url: "https://news.google.com/rss/headlines/section/topic/SPORTS?hl=hi&gl=IN&ceid=IN:hi" },
+            { topic: "मनोरंजन / देश", url: "https://news.google.com/rss/headlines/section/topic/ENTERTAINMENT?hl=hi&gl=IN&ceid=IN:hi" }
+        ];
+        let currentFeedIndex = 0;
 
-            const msgArea = document.getElementById('chat-msg-area');
+        async function fetchDailyNews(isManual = false) {
+            const container = document.getElementById('news-list');
+            const refBtn = document.getElementById('btn-refresh-news');
+            if (!container) return;
 
-            // 1. Render User Message Bubble
-            const userBubble = document.createElement('div');
-            userBubble.className = 'msg-bubble msg-user';
-            userBubble.innerText = query;
-            msgArea.appendChild(userBubble);
-            input.value = '';
-            msgArea.scrollTop = msgArea.scrollHeight;
+            if (refBtn) refBtn.innerText = "⏳ लोड हो रहा...";
+            container.innerHTML = '<div style="font-size:12px; color:#fef08a; text-align:center; padding: 12px;">ताज़ा ख़बरें लोड हो रही हैं...</div>';
 
-            // 2. Render Temporary AI Thinking Bubble
-            const aiBubble = document.createElement('div');
-            aiBubble.className = 'msg-bubble msg-ai';
-            aiBubble.innerText = "सोच रहा हूँ...";
-            msgArea.appendChild(aiBubble);
-            msgArea.scrollTop = msgArea.scrollHeight;
+            if (isManual) {
+                currentFeedIndex = (currentFeedIndex + 1) % newsFeeds.length;
+            }
+
+            const currentFeed = newsFeeds[currentFeedIndex];
 
             try {
-                // Calling Gemini 2.0 Flash with official endpoint and encoded key
-                const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`;
-                
-                const response = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `You are the helpful official AI assistant of Satyam Store. Reply politely, accurately and helpfully in Hindi or Hinglish. User message: ${query}`
-                            }]
-                        }]
-                    })
-                });
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(currentFeed.url + '&nocache=' + Date.now())}`;
+                const response = await fetch(proxyUrl);
+                const xmlText = await response.text();
 
-                const data = await response.json();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+                const items = Array.from(xmlDoc.querySelectorAll("item"));
 
-                if (data.error) {
-                    aiBubble.innerText = "Error: " + data.error.message;
-                } else if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
-                    aiBubble.innerText = data.candidates[0].content.parts[0].text;
+                if (items.length > 0) {
+                    container.innerHTML = '';
+                    const shuffled = items.sort(() => 0.5 - Math.random()).slice(0, 4);
+
+                    shuffled.forEach(item => {
+                        const title = item.querySelector("title") ? item.querySelector("title").textContent : "ताज़ा समाचार";
+                        const link = item.querySelector("link") ? item.querySelector("link").textContent : "#";
+                        const pubDate = item.querySelector("pubDate") ? new Date(item.querySelector("pubDate").textContent).toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit' }) : "अभी";
+
+                        const card = document.createElement('div');
+                        card.className = 'news-card';
+                        card.innerHTML = `
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                                <span style="font-size:10px; color:#fbbf24; text-transform:uppercase; font-weight:700;">${currentFeed.topic}</span>
+                                <span style="font-size:10px; color:#fef08a;">🕒 ${pubDate}</span>
+                            </div>
+                            <h4>${title}</h4>
+                            <a href="${link}" target="_blank" rel="noopener noreferrer">पूरी ख़बर पढ़ें →</a>
+                        `;
+                        container.appendChild(card);
+                    });
                 } else {
-                    aiBubble.innerText = "माफ़ कीजिए, कोई उपयुक्त उत्तर प्राप्त नहीं हुआ।";
+                    throw new Error("No items");
                 }
             } catch (err) {
-                aiBubble.innerText = "कनेक्शन समस्या या नेटवर्क टाइमआउट। कृपया पुनः प्रयास करें।";
+                try {
+                    const fallbackRes = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(currentFeed.url)}`);
+                    const fbData = await fallbackRes.json();
+                    if (fbData.items && fbData.items.length > 0) {
+                        container.innerHTML = '';
+                        const shuffled = fbData.items.sort(() => 0.5 - Math.random()).slice(0, 4);
+                        shuffled.forEach(item => {
+                            const card = document.createElement('div');
+                            card.className = 'news-card';
+                            card.innerHTML = `
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                                    <span style="font-size:10px; color:#fbbf24; text-transform:uppercase; font-weight:700;">${currentFeed.topic}</span>
+                                </div>
+                                <h4>${item.title}</h4>
+                                <a href="${item.link}" target="_blank" rel="noopener noreferrer">पूरी ख़बर पढ़ें →</a>
+                            `;
+                            container.appendChild(card);
+                        });
+                    }
+                } catch (e) {
+                    container.innerHTML = '<div style="font-size:12px; color:#ff6b6b; text-align:center;">समाचार लोड नहीं हो सका। कृपया पुनः प्रयास करें।</div>';
+                }
+            } finally {
+                if (refBtn) refBtn.innerText = "🔄 ताज़ा करें";
             }
-
-            msgArea.scrollTop = msgArea.scrollHeight;
         }
 
-        // ================= MODAL CONTROLLERS =================
-        function openDeviceLockModal() {
-            document.getElementById('device-modal').style.display = 'flex';
+        // Forgot Password Logic
+        let currentMethod = null;
+        let emailOtpGenerated = null;
+        let confirmationResult = null;
+
+        function showForgotBox() {
+            if (!verifyDeviceStatus()) return;
+            document.getElementById('login-box').style.display = 'none';
+            document.getElementById('forgot-box').style.display = 'block';
+            backToMethodSelection();
         }
 
-        function openOtpModal() {
-            document.getElementById('otp-modal').style.display = 'flex';
+        function showLoginBox() {
+            document.getElementById('forgot-box').style.display = 'none';
+            if (verifyDeviceStatus()) {
+                document.getElementById('login-box').style.display = 'block';
+            }
         }
 
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
+        function backToMethodSelection() {
+            document.getElementById('step-choose-method').style.display = 'block';
+            document.getElementById('step-phone-input').style.display = 'none';
+            document.getElementById('step-email-input').style.display = 'none';
+            document.getElementById('step-verify-otp').style.display = 'none';
+            document.getElementById('forgot-status').style.display = 'none';
         }
 
-        function triggerOtpSimulation() {
-            const email = document.getElementById('recovery-email').value.trim();
-            if (!email) {
-                alert("कृपया वैध ईमेल दर्ज करें।");
+        function chooseMethod(method) {
+            currentMethod = method;
+            document.getElementById('step-choose-method').style.display = 'none';
+            if (method === 'sms') {
+                document.getElementById('step-phone-input').style.display = 'block';
+                if (!window.recaptchaVerifier) {
+                    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'normal' });
+                    window.recaptchaVerifier.render();
+                }
+            } else {
+                document.getElementById('step-email-input').style.display = 'block';
+            }
+        }
+
+        function sendOtpToPhone() {
+            const phoneInput = document.getElementById('userPhone').value.trim();
+            const status = document.getElementById('forgot-status');
+            const btn = document.getElementById('btn-send-phone');
+
+            btn.disabled = true;
+            status.className = "status-msg";
+            status.style.color = "#a7f3d0";
+            status.textContent = "OTP bheja ja raha hai...";
+            status.style.display = "block";
+
+            firebase.auth().signInWithPhoneNumber(phoneInput, window.recaptchaVerifier)
+                .then(result => {
+                    confirmationResult = result;
+                    status.className = "status-msg success";
+                    status.textContent = "OTP sent!";
+                    document.getElementById('step-phone-input').style.display = 'none';
+                    document.getElementById('step-verify-otp').style.display = 'block';
+                })
+                .catch(err => {
+                    btn.disabled = false;
+                    status.className = "status-msg error";
+                    status.textContent = err.message;
+                });
+        }
+
+        function sendOtpToEmail() {
+            const status = document.getElementById('forgot-status');
+            const btn = document.getElementById('btn-send-email');
+            emailOtpGenerated = Math.floor(1000 + Math.random() * 9000).toString();
+
+            btn.disabled = true;
+            status.className = "status-msg";
+            status.style.color = "#a7f3d0";
+            status.textContent = "Email par OTP bheja ja raha hai...";
+            status.style.display = "block";
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_OTP_TEMPLATE, { email: "sp9291054@gmail.com", passcode: emailOtpGenerated })
+                .then(() => {
+                    status.className = "status-msg success";
+                    status.textContent = "OTP aapke Gmail par bhej diya gaya!";
+                    document.getElementById('step-email-input').style.display = 'none';
+                    document.getElementById('step-verify-otp').style.display = 'block';
+                })
+                .catch(err => {
+                    btn.disabled = false;
+                    status.className = "status-msg error";
+                    status.textContent = "Error: " + err.text;
+                });
+        }
+
+        function verifyAndResetPassword() {
+            const inputOtp = document.getElementById('otp-input').value.trim();
+            const newPass = document.getElementById('new-password').value.trim();
+            const status = document.getElementById('forgot-status');
+
+            if (!newPass) {
+                status.className = "status-msg error";
+                status.textContent = "Password empty nahi ho sakta.";
+                status.style.display = "block";
                 return;
             }
-            alert(`सत्यापन कोड (OTP) ${email} पर सफलतापूर्वक भेज दिया गया है।`);
-            closeModal('otp-modal');
+
+            if (currentMethod === 'email') {
+                if (inputOtp === emailOtpGenerated) {
+                    savePassword(newPass);
+                } else {
+                    status.className = "status-msg error";
+                    status.textContent = "Galat OTP!";
+                    status.style.display = "block";
+                }
+            } else {
+                confirmationResult.confirm(inputOtp)
+                    .then(() => savePassword(newPass))
+                    .catch(err => {
+                        status.className = "status-msg error";
+                        status.textContent = "Invalid OTP: " + err.message;
+                        status.style.display = "block";
+                    });
+            }
+        }
+
+        function savePassword(newPass) {
+            localStorage.setItem('satyam_store_pass', newPass);
+            localStorage.setItem('satyam_login_attempts', '0');
+            alert("Password safalta se reset ho gaya!");
+            showLoginBox();
         }
     </script>
 </body>
